@@ -1,7 +1,8 @@
 import { CoreDataTable, __IconTypes } from "@wrappid/core";
-import {nativeUseNavigate} from '@wrappid/styled-components';
-import {urls, __EntityStatus} from '../constants/constants';
+import { nativeUseNavigate } from "@wrappid/styled-components";
+
 import StatusChangeCommentHistory from "./StatusChangeCommentHistory";
+import { urls, __EntityStatus } from "../constants/constants";
 
 export default function PagesManager() {
   const navigate = nativeUseNavigate();

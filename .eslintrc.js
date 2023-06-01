@@ -51,7 +51,7 @@ module.exports = {
                 "pathGroupsExcludedImportTypes": ["react"],
             },
         ],
-        "indent"                  : ["error", 4, { "MemberExpression": 1, "SwitchCase": 1 }],
+        "indent"                  : ["error", 2, { "MemberExpression": 1, "SwitchCase": 1 }],
         "key-spacing"             : ["error", { "align": "colon" }],
         "linebreak-style"         : ["error", "unix"],
         "newline-after-var"       : ["error", "always"],

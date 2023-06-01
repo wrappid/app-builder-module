@@ -1,7 +1,8 @@
 import { CoreDataTable, __IconTypes } from "@wrappid/core";
 import { nativeUseNavigate } from "@wrappid/styled-components";
-import { urls, __EntityStatus } from "../constants/constants";
+
 import StatusChangeCommentHistory from "./StatusChangeCommentHistory";
+import { urls, __EntityStatus } from "../constants/constants";
 
 export default function BusinessEntityManager() {
   const navigate = nativeUseNavigate();
@@ -126,16 +127,15 @@ export default function BusinessEntityManager() {
           return true;
         }
       },
-      icon: { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
+      icon : { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
       label: "Publish",
-      type: "action",
+      type : "action",
     },
   ];
+
   return (
     <CoreDataTable
-      entity={"Routes"}
-      createFormID={"RouteForm"}
-      updateFormID={"RouteForm"}
+      entity={"BusinessEntitySchemas"}
       rowActions={tableRowActions}
       postRenderDetailsPaneComponent={StatusChangeCommentHistory}
     />

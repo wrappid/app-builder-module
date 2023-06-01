@@ -1,5 +1,26 @@
 import {
-  CoreClasses, CoreLink, CoreAvatar, CoreDivider, CoreIcon, CoreH1, CoreH2, CoreH3, CoreH4, CoreH5, CoreH6, CoreTypographyBody1, CoreTypographyBody2, CoreTypographyButton, CoreTypographyCaption, CoreTypographyOverline, CoreTypographySubtitle1, CoreTypographySubtitle2, CoreDataTable, CoreBox, CoreGrid, CoreStack
+  CoreClasses,
+  CoreLink,
+  CoreAvatar,
+  CoreDivider,
+  CoreIcon,
+  CoreH1,
+  CoreH2,
+  CoreH3,
+  CoreH4,
+  CoreH5,
+  CoreH6,
+  CoreTypographyBody1,
+  CoreTypographyBody2,
+  CoreTypographyButton,
+  CoreTypographyCaption,
+  CoreTypographyOverline,
+  CoreTypographySubtitle1,
+  CoreTypographySubtitle2,
+  CoreDataTable,
+  CoreBox,
+  CoreGrid,
+  CoreStack
 } from "@wrappid/core";
 
 export default function Components() {
@@ -99,7 +120,7 @@ const getLinkComponentSamples = () => {
         </CoreBox>
 
         <CoreBox gridProps={{ gridSize: 9 }}>
-          <pre>{"<CoreLink href=\"#\">Simple Link</CoreLink>"}</pre>
+          <pre>{'<CoreLink href="#">Simple Link</CoreLink>'}</pre>
         </CoreBox>
 
         <CoreDivider />
@@ -191,38 +212,31 @@ const getIconComponentSamples = () => {
         The CoreIcon component supports multiple Icon libraries. Presently
         supported libraries are:
         <pre>
-                    MATERIAL_ICON: &quot;MATERIAL_ICON&quot;, // Default support of MUI
+          MATERIAL_ICON: &quot;MATERIAL_ICON&quot;, // Default support of MUI
           <br />
-                    MATERIAL_OUTLINED_ICON: &quot;MATERIAL_OUTLINED_ICON&quot;,
-
+          MATERIAL_OUTLINED_ICON: &quot;MATERIAL_OUTLINED_ICON&quot;,
           <br />
-                    FONTAWESOME_V5_SOLID_ICON: &quot;FONTAWESOME_V5_SOLID_ICON&quot;,
-
+          FONTAWESOME_V5_SOLID_ICON: &quot;FONTAWESOME_V5_SOLID_ICON&quot;,
           <br />
-                    FONTAWESOME_V5_REGULAR_ICON: &quot;FONTAWESOME_V5_REGULAR_ICON&quot;,
-
+          FONTAWESOME_V5_REGULAR_ICON: &quot;FONTAWESOME_V5_REGULAR_ICON&quot;,
           <br />
-                    RXICON_V1_REGULAR_ICON: &quot;RXICON_V1_REGULAR_ICON&quot;
+          RXICON_V1_REGULAR_ICON: &quot;RXICON_V1_REGULAR_ICON&quot;
         </pre>
-
-        <b>Note:</b> In MATERIAL only DEFAULT and OUTLINED are supported.
-                In FONTAWESOME only V5 SOLID and REGULAR are supported.
-
-        <br /> Our own icon library RXICON_V1_REGULAR .
-          
-                The repo for building our own icons whenever necessary.{" "}
-
+        <b>Note:</b> In MATERIAL only DEFAULT and OUTLINED are supported. In
+        FONTAWESOME only V5 SOLID and REGULAR are supported.
+        <br /> Our own icon library RXICON_V1_REGULAR . The repo for building
+        our own icons whenever necessary.{" "}
         <CoreLink>https://github.com/Rxefy/rxefy-icons</CoreLink>
       </CoreTypographyBody1>
 
       <CoreGrid>
         <CoreBox
           gridProps={{
-            gridSize    : 2,
+            gridSize: 2,
             styleClasses: [CoreClasses.ALIGNMENT.JUSTIFY_CONTENT_CENTER],
           }}
         >
-                    Rendered Icon
+          Rendered Icon
         </CoreBox>
 
         <CoreBox gridProps={{ gridSize: 5 }}>Code for it</CoreBox>
@@ -233,42 +247,38 @@ const getIconComponentSamples = () => {
 
         <CoreIcon
           gridProps={{
-            gridSize    : 2,
+            gridSize: 2,
             styleClasses: [CoreClasses.ALIGNMENT.JUSTIFY_CONTENT_CENTER],
           }}
         >
-                    dashboard
+          dashboard
         </CoreIcon>
 
         <CoreBox gridProps={{ gridSize: 5 }}>
-          <code>
-                        &lt;CoreIcon&gt;dashboard&lt;/CoreIcon&gt;
-          </code>
+          <code>&lt;CoreIcon&gt;dashboard&lt;/CoreIcon&gt;</code>
         </CoreBox>
 
         <CoreBox gridProps={{ gridSize: 5 }}>
-                    Default MATERIAL_ICON is being used here.
+          Default MATERIAL_ICON is being used here.
         </CoreBox>
 
         <CoreDivider />
 
         <CoreIcon
           gridProps={{
-            gridSize    : 2,
+            gridSize: 2,
             styleClasses: [CoreClasses.ALIGNMENT.JUSTIFY_CONTENT_CENTER],
           }}
           icon="dashboard"
         />
 
         <CoreBox gridProps={{ gridSize: 5 }}>
-          <code>
-                        &lt;CoreIcon icon=&quot;dashboard&quot; /&gt;
-          </code>
+          <code>&lt;CoreIcon icon=&quot;dashboard&quot; /&gt;</code>
         </CoreBox>
 
         <CoreBox gridProps={{ gridSize: 5 }}>
-                    Default MATERIAL_ICON is being used here. The arguments are passed as
-                    properties <code>icon</code>.
+          Default MATERIAL_ICON is being used here. The arguments are passed as
+          properties <code>icon</code>.
         </CoreBox>
 
         <CoreDivider />
@@ -387,8 +397,8 @@ const getIconComponentSamples = () => {
                 </CoreBox> */}
 
         <CoreBox gridProps={{ gridSize: 5 }}>
-                    RXICON_V1_REGULAR_ICON is being used here. The arguments are passed as
-                    a JSON in a property called <code>options</code>.
+          RXICON_V1_REGULAR_ICON is being used here. The arguments are passed as
+          a JSON in a property called <code>options</code>.
         </CoreBox>
       </CoreGrid>
     </>
@@ -501,7 +511,11 @@ const getDataTableComponentSamples = () => {
   return (
     <>
       <CoreBox
-        styleClasses={[CoreClasses.BG.BG_WHITE, CoreClasses.PADDING.P2, CoreClasses.MARGIN.MB5]}
+        styleClasses={[
+          CoreClasses.BG.BG_WHITE,
+          CoreClasses.PADDING.P2,
+          CoreClasses.MARGIN.MB5,
+        ]}
       >
         <CoreH6
           styleClasses={[CoreClasses.MARGIN.MB1, CoreClasses.COLOR.TEXT_INFO]}
@@ -652,7 +666,11 @@ const getHeading = (headingText) => {
 const getSubHeading = (subHeadingText) => {
   return (
     <CoreH5
-      styleClasses={[CoreClasses.MARGIN.MY2, CoreClasses.COLOR.TEXT_SECONDARY, CoreClasses.TEXT.TEXT_UPPERCASE]}
+      styleClasses={[
+        CoreClasses.MARGIN.MY2,
+        CoreClasses.COLOR.TEXT_SECONDARY,
+        CoreClasses.TEXT.TEXT_UPPERCASE,
+      ]}
     >
       {subHeadingText}
     </CoreH5>

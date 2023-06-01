@@ -1,5 +1,6 @@
 import { CoreDataTable, FORM_IDS, __IconTypes } from "@wrappid/core";
 import { nativeUseNavigate } from "@wrappid/styled-components";
+
 import { urls, __EntityStatus } from "../constants/constants";
 
 function FormsManager() {
@@ -23,17 +24,17 @@ function FormsManager() {
           return false;
         }
       },
-      icon: { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
+      icon : { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
       label: "History",
-      type: "action",
+      type : "action",
     },
   ];
 
   return (
     <CoreDataTable
-      entity="Pages"
-      createFormID={FORM_IDS.__PAGES_FORM}
-      updateFormID={FORM_IDS.__PAGES_FORM}
+      entity="FormSchemas"
+      createFormID={"FormSchemas"}
+      updateFormID={"FormSchemas"}
       rowActions={tableRowActions}
     />
   );
