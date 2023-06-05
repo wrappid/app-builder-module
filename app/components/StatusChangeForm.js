@@ -1,19 +1,17 @@
 import { useEffect } from "react";
 
+import { coreUseLocation, coreUseNavigate, coreUseParams, CoreForm, FORM_IDS } from "@wrappid/core";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-// import swal from "sweetalert";
 
-import { RESET_STATUS_SUCCESS_DATA } from "../types/appBuilderTypes";
-import { CoreForm, FORM_IDS } from "@wrappid/core";
 import { urls } from "../constants/constants";
+import { RESET_STATUS_SUCCESS_DATA } from "../types/appBuilderTypes";
 
 export default function StatusChangeForm() {
-  const location = useLocation();
+  const location = coreUseLocation();
   const { state } = location;
-  const { id, model, status } = useParams();
+  const { id, model, status } = coreUseParams();
 
-  const navigate = useNavigate();
+  const navigate = coreUseNavigate();
   const dispatch = useDispatch();
 
   const statusUpdateSuccess = useSelector(
@@ -22,7 +20,7 @@ export default function StatusChangeForm() {
 
   const routes = {
     BusinessEntitySchemas: "BUSINESS_ENTITY",
-    Pages: "PAGE",
+    Pages                : "PAGE",
   };
 
   useEffect(() => {

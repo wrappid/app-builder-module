@@ -1,10 +1,9 @@
-import { CoreDataTable, FORM_IDS, __IconTypes } from "@wrappid/core";
-import { nativeUseNavigate } from "@wrappid/styled-components";
+import { CoreDataTable, __IconTypes, coreUseNavigate } from "@wrappid/core";
 
 import { urls, __EntityStatus } from "../constants/constants";
 
 function FormsManager() {
-  const navigate = nativeUseNavigate();
+  const navigate = coreUseNavigate();
   const tableRowActions = [
     {
       action: (data) => {
