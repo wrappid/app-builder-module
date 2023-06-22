@@ -1,17 +1,39 @@
-// const express = require("express");
+const express = require("express");
 
-// const testController = require("../controllers/test.controller");
+const appBuilderController = require("../controllers/appBuilder.controller");
 
-// const testMiddleware = require("../middlewares/test.middleware");
 
-// const testRouter = express.Router();
 
-// testRouter.get("/", testMiddleware, testController.testGetFunc);
-// testRouter.post("/", testMiddleware, testController.testPostFunc);
-// testRouter.put("/", testMiddleware, testController.testPutFunc);
-// testRouter.patch("/", testMiddleware, testController.testPatchFunc);
+const appBuilderRouter = express.Router();
 
-// module.exports = testRouter;
+appBuilderRouter.get("/business/tables/:database", appBuilderController.getTables);
+appBuilderRouter.get("/business/tables/attributes/:database/:table", appBuilderController.getAttributes);
+appBuilderRouter.get("/business/entities", appBuilderController.getBusinessEntities);
+appBuilderRouter.get("/business/count/:entity", appBuilderController.getEntityData);
+
+
+appBuilderRouter.get("/noauth/business/columns/:entity", appBuilderController.getBusinessEntityColumns);
+appBuilderRouter.get("/business/individual/:entity", appBuilderController.getIndividualEntityData);
+appBuilderRouter.get("/business/all/:entity", appBuilderController.getAllEntityData);
+appBuilderRouter.get("/noauth/business/all/:entity", appBuilderController.noAuthGetAllEntityData);
+
+appBuilderRouter.get("/noauth/formSchema/:formID", appBuilderController.getNoAuthFormSchema);
+
+appBuilderRouter.get("/formSchema/:formID", appBuilderController.getFormSchemaWithFormId);
+
+
+
+appBuilderRouter.get("/getFormSchema", appBuilderController.getFormSchema);
+appBuilderRouter.get("/getFormSchemas", appBuilderController.getFormSchemas);
+appBuilderRouter.get("/generateFormSchemas", appBuilderController.getGeneratedFormSchema);
+appBuilderRouter.get("/rx/formSchema", appBuilderController.getRxFormSchema);
+appBuilderRouter.get("/rx/formSchema/:formID", appBuilderController.getSpecificFormSchema);
+appBuilderRouter.post("/rx/formSchema", appBuilderController.createRxFormSchema);
+appBuilderRouter.put("/rx/formSchema/:id", appBuilderController.updateRxFormSchema);
+appBuilderRouter.patch("/rx/formSchema/:id", appBuilderController.deleteRxFormSchema);
+
+
+module.exports = appBuilderRouter;
 
 
 // -------------------------------------------------------
