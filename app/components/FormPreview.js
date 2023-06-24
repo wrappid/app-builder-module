@@ -5,30 +5,79 @@ import {
   CoreTypographyBody1,
   CoreForm,
   CoreJSONInput,
-  CoreBox,
   CoreGrid,
-  CoreTab,
-  CoreTabPanel,
-  CoreTabs,
-  CorePaper,
+  CoreDivider,
+  CoreCustomTabs,
 } from "@wrappid/core";
 
-import AppClasses from "../../../styles/AppClasses";
+const FORM_EDIT_MODE = "edit";
+const FORM_VIEW_MODE = "view";
+
+const FormTab = ({ schema, initData }) => {
+  return (
+    <>
+      <CoreTypographyBody1>
+        <pre>{JSON.stringify(schema, null, 4)}</pre>
+      </CoreTypographyBody1>
+
+      {/* -- <CoreForm
+        mode={FORM_VIEW_MODE}
+        formId="FormSchemas"
+        initData={initData}
+      /> */}
+    </>
+  );
+};
+
+const FormPreviewViewTab = ({ formID }) => {
+  return (
+    <>
+      <CoreForm mode={FORM_VIEW_MODE} formId={`${formID}`} preview={true} />
+    </>
+  );
+};
+
+const FormPreviewEditTab = ({ formID }) => {
+  return (
+    <>
+      <CoreForm mode={FORM_EDIT_MODE} formId={`${formID}`} preview={true} />
+    </>
+  );
+};
 
 export default function FormPreview(props) {
-  const FORM_EDIT_MODE = "edit";
-  const FORM_VIEW_MODE = "view";
   const { initData } = props;
   const { name, formID, authRequired, _status, schema, extraInfo } = initData;
-  const [value, setValue] = React.useState(0);
+  /* -- const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
-  };
+  }; */
+
+  const formTabContents = [
+    {
+      comp : FormTab,
+      id   : "formTab",
+      label: "Form",
+      props: { initData, schema },
+    },
+    {
+      comp : FormPreviewViewTab,
+      id   : "formPreviewViewTab",
+      label: "Preview View Mode",
+      props: { formID },
+    },
+    {
+      comp : FormPreviewEditTab,
+      id   : "formPreviewEditTab",
+      label: "Preview Edit Mode",
+      props: { formID },
+    },
+  ];
 
   return (
     <>
-      <CoreGrid>
+      {/* <CoreGrid>
         <CoreInput
           gridProps={{ gridSize: { sm: 3 } }}
           label="Name"
@@ -61,7 +110,11 @@ export default function FormPreview(props) {
         />
       </CoreGrid>
 
-      <CoreBox sx={{ width: "100%" }}>
+      <CoreDivider />
+
+      <CoreCustomTabs tabContent={formTabContents} /> */}
+
+      {/* -- <CoreBox sx={{ width: "100%" }}>
         <CoreBox sx={{ borderBottom: 1, borderColor: "divider" }}>
           <CoreTabs
             value={value}
@@ -81,15 +134,13 @@ export default function FormPreview(props) {
             <pre>{JSON.stringify(schema, null, 4)}</pre>
           </CoreTypographyBody1>
 
-          {/* -- <CoreForm mode={FORM_VIEW_MODE} formId="FormSchemas" initData={initData} /> */}
         </CoreTabPanel>
 
         <CoreTabPanel value={value} index={1}>
           <CorePaper
-            styleClasses={[AppClasses.CORE.PADDING.P1]}
+            styleClasses={[CoreClasses.PADDING.P1]}
             gridProps={{ gridSize: { sm: 6 } }}
           >
-            {" "}
             <CoreForm
               mode={FORM_VIEW_MODE}
               formId={`${formID}`}
@@ -100,10 +151,9 @@ export default function FormPreview(props) {
 
         <CoreTabPanel value={value} index={2}>
           <CorePaper
-            styleClasses={[AppClasses.CORE.PADDING.P1]}
+            styleClasses={[CoreClasses.PADDING.P1]}
             gridProps={{ gridSize: { sm: 6 } }}
           >
-            {" "}
             <CoreForm
               mode={FORM_EDIT_MODE}
               formId={`${formID}`}
@@ -111,7 +161,7 @@ export default function FormPreview(props) {
             />
           </CorePaper>
         </CoreTabPanel>
-      </CoreBox>
+      </CoreBox> */}
     </>
   );
 }

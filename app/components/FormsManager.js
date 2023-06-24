@@ -32,8 +32,8 @@ function FormsManager() {
   return (
     <CoreDataTable
       entity="FormSchemas"
-      createFormID={"FormSchemas"}
-      updateFormID={"FormSchemas"}
+      // createFormID={"FormSchemas"}
+      // updateFormID={"FormSchemas"}
       rowActions={tableRowActions}
     />
   );
