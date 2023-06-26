@@ -120,7 +120,7 @@ const getLinkComponentSamples = () => {
         </CoreBox>
 
         <CoreBox gridProps={{ gridSize: 9 }}>
-          <pre>{'<CoreLink href="#">Simple Link</CoreLink>'}</pre>
+          <pre>{"<CoreLink href=\"#\">Simple Link</CoreLink>"}</pre>
         </CoreBox>
 
         <CoreDivider />
@@ -215,24 +215,31 @@ const getIconComponentSamples = () => {
           MATERIAL_ICON: &quot;MATERIAL_ICON&quot;, // Default support of MUI
           <br />
           MATERIAL_OUTLINED_ICON: &quot;MATERIAL_OUTLINED_ICON&quot;,
+
           <br />
           FONTAWESOME_V5_SOLID_ICON: &quot;FONTAWESOME_V5_SOLID_ICON&quot;,
+
           <br />
           FONTAWESOME_V5_REGULAR_ICON: &quot;FONTAWESOME_V5_REGULAR_ICON&quot;,
+
           <br />
           RXICON_V1_REGULAR_ICON: &quot;RXICON_V1_REGULAR_ICON&quot;
         </pre>
+
         <b>Note:</b> In MATERIAL only DEFAULT and OUTLINED are supported. In
         FONTAWESOME only V5 SOLID and REGULAR are supported.
+
         <br /> Our own icon library RXICON_V1_REGULAR . The repo for building
+
         our own icons whenever necessary.{" "}
+
         <CoreLink>https://github.com/Rxefy/rxefy-icons</CoreLink>
       </CoreTypographyBody1>
 
       <CoreGrid>
         <CoreBox
           gridProps={{
-            gridSize: 2,
+            gridSize    : 2,
             styleClasses: [CoreClasses.ALIGNMENT.JUSTIFY_CONTENT_CENTER],
           }}
         >
@@ -247,7 +254,7 @@ const getIconComponentSamples = () => {
 
         <CoreIcon
           gridProps={{
-            gridSize: 2,
+            gridSize    : 2,
             styleClasses: [CoreClasses.ALIGNMENT.JUSTIFY_CONTENT_CENTER],
           }}
         >
@@ -266,7 +273,7 @@ const getIconComponentSamples = () => {
 
         <CoreIcon
           gridProps={{
-            gridSize: 2,
+            gridSize    : 2,
             styleClasses: [CoreClasses.ALIGNMENT.JUSTIFY_CONTENT_CENTER],
           }}
           icon="dashboard"
@@ -511,11 +518,7 @@ const getDataTableComponentSamples = () => {
   return (
     <>
       <CoreBox
-        styleClasses={[
-          CoreClasses.BG.BG_WHITE,
-          CoreClasses.PADDING.P2,
-          CoreClasses.MARGIN.MB5,
-        ]}
+        styleClasses={[CoreClasses.BG.BG_WHITE, CoreClasses.PADDING.P2, CoreClasses.MARGIN.MB5]}
       >
         <CoreH6
           styleClasses={[CoreClasses.MARGIN.MB1, CoreClasses.COLOR.TEXT_INFO]}
@@ -666,11 +669,7 @@ const getHeading = (headingText) => {
 const getSubHeading = (subHeadingText) => {
   return (
     <CoreH5
-      styleClasses={[
-        CoreClasses.MARGIN.MY2,
-        CoreClasses.COLOR.TEXT_SECONDARY,
-        CoreClasses.TEXT.TEXT_UPPERCASE,
-      ]}
+      styleClasses={[CoreClasses.MARGIN.MY2, CoreClasses.COLOR.TEXT_SECONDARY, CoreClasses.TEXT.TEXT_UPPERCASE]}
     >
       {subHeadingText}
     </CoreH5>

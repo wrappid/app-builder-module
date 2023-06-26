@@ -1,6 +1,4 @@
-export const urls = {
-  STATUS_CHANGE_FORM: "status/:model/:id/:status",
-};
+export const urls = { STATUS_CHANGE_FORM: "status/:model/:id/:status" };
 
 export const __EntityStatus = {
   ACTIVE: "active",

@@ -16,12 +16,12 @@ import {
   CoreGrid,
   CoreCard,
   CoreCardContent,
-  CoreClasses,
+  CoreClasses
 } from "@wrappid/core";
 
 import {
   __BusinessEntityIncFunc,
-  recurrsive_ModelFunc,
+  recurrsive_ModelFunc
 } from "./businessComponentUtil";
 import { DB_CONST } from "../constants/constants";
 import { getUUID } from "../utils/appUtils";
@@ -208,10 +208,7 @@ export default function BusinessEntityComp(props) {
         <CoreAsyncSelect
           id={"database"}
           label="Database"
-          optionsData={[
-            { label: DB_CONST.RXEFY_DB },
-            { label: DB_CONST.RXEFY_MEDICINE_DB },
-          ]}
+          optionsData={[{ label: DB_CONST.RXEFY_DB }, { label: DB_CONST.RXEFY_MEDICINE_DB }]}
           value={database}
           handleChange={(value) => {
             const tmpSchema = { database: value?.label };
@@ -240,7 +237,7 @@ export default function BusinessEntityComp(props) {
               handleChange={(value) => {
                 const tmpSchema = {
                   database: schema?.database,
-                  model: value?.id,
+                  model   : value?.id,
                 };
 
                 handleSchemaChange(tmpSchema);
@@ -333,10 +330,7 @@ export default function BusinessEntityComp(props) {
                 />
 
                 <CoreBox
-                  styleClasses={[
-                    CoreClasses.ALIGNMENT.ALIGN_ITEMS_CENTER,
-                    CoreClasses.ALIGNMENT.JUSTIFY_CONTENT_SPACE_BETWEEN,
-                  ]}
+                  styleClasses={[CoreClasses.ALIGNMENT.ALIGN_ITEMS_CENTER, CoreClasses.ALIGNMENT.JUSTIFY_CONTENT_SPACE_BETWEEN]}
                 >
                   <CoreTypographySubtitle2>
                     Included Models
@@ -402,10 +396,7 @@ export default function BusinessEntityComp(props) {
         styleClasses={[CoreClasses.BUSINESS_ENTITY.INCLUDED_MODEL_CARD]}
       >
         <CoreBox
-          styleClasses={[
-            CoreClasses.ALIGNMENT.ALIGN_ITEMS_CENTER,
-            CoreClasses.ALIGNMENT.JUSTIFY_CONTENT_SPACE_BETWEEN,
-          ]}
+          styleClasses={[CoreClasses.ALIGNMENT.ALIGN_ITEMS_CENTER, CoreClasses.ALIGNMENT.JUSTIFY_CONTENT_SPACE_BETWEEN]}
         >
           <CoreTypographyCaption limitChars={20} hideSeeMore={true}>{`ID: ${
             modelID || "Not selected any model"
@@ -503,10 +494,7 @@ export default function BusinessEntityComp(props) {
             />
 
             <CoreBox
-              styleClasses={[
-                CoreClasses.ALIGNMENT.ALIGN_ITEMS_CENTER,
-                CoreClasses.ALIGNMENT.JUSTIFY_CONTENT_SPACE_BETWEEN,
-              ]}
+              styleClasses={[CoreClasses.ALIGNMENT.ALIGN_ITEMS_CENTER, CoreClasses.ALIGNMENT.JUSTIFY_CONTENT_SPACE_BETWEEN]}
             >
               <CoreTypographySubtitle2>Included Models</CoreTypographySubtitle2>
 
@@ -581,9 +569,7 @@ export default function BusinessEntityComp(props) {
         )}
 
         <CoreCard
-          gridProps={{
-            gridSize: readOnly ? { md: 12, sm: 12, xs: 12 } : { sm: 5, xs: 12 },
-          }}
+          gridProps={{ gridSize: readOnly ? { md: 12, sm: 12, xs: 12 } : { sm: 5, xs: 12 } }}
         >
           <CoreCardContent>
             <CoreTypographyBody2 noWrap={false}>

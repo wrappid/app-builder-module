@@ -1,13 +1,7 @@
-import React from "react";
 
 import {
-  CoreInput,
   CoreTypographyBody1,
-  CoreForm,
-  CoreJSONInput,
-  CoreGrid,
-  CoreDivider,
-  CoreCustomTabs,
+  CoreForm
 } from "@wrappid/core";
 
 const FORM_EDIT_MODE = "edit";
@@ -47,7 +41,9 @@ const FormPreviewEditTab = ({ formID }) => {
 
 export default function FormPreview(props) {
   const { initData } = props;
-  const { name, formID, authRequired, _status, schema, extraInfo } = initData;
+  const {
+    name, formID, authRequired, _status, schema, extraInfo 
+  } = initData;
   /* -- const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
