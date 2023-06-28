@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 import React from "react";
 
 import {
@@ -10,7 +11,7 @@ import {
   CoreTab,
   CoreTabPanel,
   CoreTabs,
-  CorePaper,
+  CorePaper
 } from "@wrappid/core";
 
 import AppClasses from "../../../styles/AppClasses";
@@ -18,8 +19,10 @@ import AppClasses from "../../../styles/AppClasses";
 export default function FormPreview(props) {
   const FORM_EDIT_MODE = "edit";
   const FORM_VIEW_MODE = "view";
-  // const { initData } = props;
-  const { name, formID, authRequired, _status, schema, extraInfo } = props;
+  // -- const { initData } = props;
+  const {
+    name, formID, authRequired, _status, schema, extraInfo 
+  } = props;
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -90,6 +93,7 @@ export default function FormPreview(props) {
             gridProps={{ gridSize: { sm: 6 } }}
           >
             {" "}
+
             <CoreForm
               mode={FORM_VIEW_MODE}
               formId={`${formID}`}
@@ -104,6 +108,7 @@ export default function FormPreview(props) {
             gridProps={{ gridSize: { sm: 6 } }}
           >
             {" "}
+
             <CoreForm
               mode={FORM_EDIT_MODE}
               formId={`${formID}`}
