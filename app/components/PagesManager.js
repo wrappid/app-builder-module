@@ -1,10 +1,23 @@
-import { CoreDataTable, __IconTypes, coreUseNavigate } from "@wrappid/core";
+import { CoreDataTable, __IconTypes, coreUseNavigate, ComponentRegistryContext } from "@wrappid/core";
 
 import StatusChangeCommentHistory from "./StatusChangeCommentHistory";
 import { urls, __EntityStatus } from "../constants/constants";
+import { useDispatch } from "react-redux";
+import { useContext, useEffect } from "react";
 
 export default function PagesManager() {
   const navigate = coreUseNavigate();
+  const dispatch = useDispatch();
+  const componentRegistry = useContext(ComponentRegistryContext);
+  const options = componentRegistry? Object.keys(componentRegistry)?.map(com => {
+    return {label: com, id: com}
+  }):[]
+
+  useEffect(()=>{
+    dispatch({ payload: {data:options, key: 'ComponentRegistry'}, type: 'SELECT_OPTION_SUCCESS'})
+  },[options])
+
+
   const tableRowActions = [
     {
       action: (data) => {
