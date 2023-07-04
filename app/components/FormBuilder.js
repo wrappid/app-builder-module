@@ -7,7 +7,7 @@ export default function FormBuilder(props) {
         TODO: Form Builder Work In Progress
       </CoreTypographyBody1>
 
-      <CoreJSONInput props={props} />
+      <CoreJSONInput {...props} />
     </>
   );
 }
