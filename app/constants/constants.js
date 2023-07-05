@@ -1,4 +1,4 @@
-export const urls = { STATUS_CHANGE_FORM: "status/:model/:id/:status" };
+export const urls = { BUSINESS_ENTITY: "business_entity", HISTORY: "history/:model/:id", PAGE: "pages", STATUS_CHANGE_FORM: "status/:model/:id/:status" };
 
 export const __EntityStatus = {
   ACTIVE: "active",
@@ -7,17 +7,17 @@ export const __EntityStatus = {
 
   COMPLETED: "completed",
 
-  CURRENT : "current",
-  DEFAULT : "active",
-  DELETED : "deleted",
-  DRAFT   : "draft",
-  INACTIVE: "inactive",
-  NEW     : "new",
-  ONHOLD  : "on_hold",
-  REJECTED: "rejected",
-  REVIEW  : "review",
-  UNKNOWN : "unknown",
-  UPDATED : "updated",
+  CURRENT         : "current",
+  DEFAULT         : "active",
+  DELETED         : "deleted",
+  DRAFT           : "draft",
+  INACTIVE        : "inactive",
+  NEW             : "new",
+  ONHOLD          : "on_hold",
+  REJECTED        : "rejected",
+  REVIEW_REQUESTED: "review_requested",
+  UNKNOWN         : "unknown",
+  UPDATED         : "updated",
 };
 
 export const DB_CONST = {

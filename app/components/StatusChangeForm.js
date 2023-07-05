@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-import { coreUseLocation, coreUseNavigate, coreUseParams, CoreForm, FORM_IDS } from "@wrappid/core";
+import { coreUseLocation, coreUseNavigate, coreUseParams, CoreForm, FORM_EDIT_MODE } from "@wrappid/core";
 import { useDispatch, useSelector } from "react-redux";
 
 import { urls } from "../constants/constants";
@@ -36,7 +36,8 @@ export default function StatusChangeForm() {
   return (
     <CoreForm
       initData={{ currentStatus: state?._status, id: id, nextStatus: status }}
-      formId={FORM_IDS.__STATUS_UPDATE_FORM}
+      formId={"statusUpdateForm"}
+      mode={FORM_EDIT_MODE}
       _query={{ model: model }}
     />
   );

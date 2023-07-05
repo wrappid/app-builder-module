@@ -11,7 +11,7 @@ export default function BusinessEntityManager() {
       action: (data) => {
         navigate(
           "/" +
-            urls.HISTORY.replace(":model", "BusinessEntitySchemas").replace(
+            urls?.HISTORY?.replace(":model", "BusinessEntitySchemas")?.replace(
               ":id",
               data.ref
             ),
@@ -26,9 +26,9 @@ export default function BusinessEntityManager() {
       action: (data) => {
         navigate(
           "/" +
-            urls.STATUS_CHANGE_FORM.replace(":model", "BusinessEntitySchemas")
-              .replace(":id", data?.id)
-              .replace(":status", __EntityStatus.REVIEW_REQUESTED),
+            urls?.STATUS_CHANGE_FORM.replace(":model", "BusinessEntitySchemas")
+              ?.replace(":id", data?.id)
+              ?.replace(":status", __EntityStatus.REVIEW_REQUESTED),
           { state: data }
         );
       },
@@ -51,8 +51,8 @@ export default function BusinessEntityManager() {
         navigate(
           "/" +
             urls.STATUS_CHANGE_FORM.replace(":model", "BusinessEntitySchemas")
-              .replace(":id", data?.id)
-              .replace(":status", __EntityStatus.APPROVED),
+              ?.replace(":id", data?.id)
+              ?.replace(":status", __EntityStatus.APPROVED),
           { state: data }
         );
       },
@@ -72,8 +72,8 @@ export default function BusinessEntityManager() {
         navigate(
           "/" +
             urls.STATUS_CHANGE_FORM.replace(":model", "BusinessEntitySchemas")
-              .replace(":id", data?.id)
-              .replace(":status", __EntityStatus.CHANGE_REQUESTED),
+              ?.replace(":id", data?.id)
+              ?.replace(":status", __EntityStatus.CHANGE_REQUESTED),
           { state: data }
         );
       },
@@ -93,8 +93,8 @@ export default function BusinessEntityManager() {
         navigate(
           "/" +
             urls.STATUS_CHANGE_FORM.replace(":model", "BusinessEntitySchemas")
-              .replace(":id", data?.id)
-              .replace(":status", __EntityStatus.REJECTED),
+              ?.replace(":id", data?.id)
+              ?.replace(":status", __EntityStatus.REJECTED),
           { state: data }
         );
       },
@@ -114,8 +114,8 @@ export default function BusinessEntityManager() {
         navigate(
           "/" +
             urls.STATUS_CHANGE_FORM.replace(":model", "BusinessEntitySchemas")
-              .replace(":id", data?.id)
-              .replace(":status", __EntityStatus.PUBLISHED),
+              ?.replace(":id", data?.id)
+              ?.replace(":status", __EntityStatus.PUBLISHED),
           { state: data }
         );
       },
