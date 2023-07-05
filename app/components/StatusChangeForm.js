@@ -35,6 +35,7 @@ export default function StatusChangeForm() {
 
   return (
     <CoreForm
+      apiMode={FORM_EDIT_MODE}
       initData={{ currentStatus: state?._status, id: id, nextStatus: status }}
       formId={"statusUpdateForm"}
       mode={FORM_EDIT_MODE}

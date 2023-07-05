@@ -1,4 +1,3 @@
-/* eslint-disable etc/no-commented-out-code */
 import {
   CoreDataTable,
   __IconTypes,
