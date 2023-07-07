@@ -1,4 +1,4 @@
-export const urls = { BUSINESS_ENTITY: "business_entity", HISTORY: "history/:model/:id", PAGE: "pages", STATUS_CHANGE_FORM: "status/:model/:id/:status" };
+export const urls = { BUSINESS_ENTITY: "business_entity", HISTORY: "history/:model/:entityRef", PAGE: "pages", STATUS_CHANGE_FORM: "status/:model/:entityRef/:status" };
 
 export const __EntityStatus = {
   ACTIVE: "active",

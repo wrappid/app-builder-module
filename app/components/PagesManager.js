@@ -1,29 +1,29 @@
+import { useContext, useEffect } from "react";
+
 import { CoreDataTable, __IconTypes, coreUseNavigate, ComponentRegistryContext } from "@wrappid/core";
+import { useDispatch } from "react-redux";
 
 import StatusChangeCommentHistory from "./StatusChangeCommentHistory";
 import { urls, __EntityStatus } from "../constants/constants";
-import { useDispatch } from "react-redux";
-import { useContext, useEffect } from "react";
 
 export default function PagesManager() {
   const navigate = coreUseNavigate();
   const dispatch = useDispatch();
   const componentRegistry = useContext(ComponentRegistryContext);
-  const options = componentRegistry? Object.keys(componentRegistry)?.map(com => {
-    return {label: com, id: com}
-  }):[]
+  const options = componentRegistry ? Object.keys(componentRegistry)?.map(com => {
+    return { id: com, label: com };
+  }) : [];
 
   useEffect(()=>{
-    dispatch({ payload: {data:options, key: 'ComponentRegistry'}, type: 'SELECT_OPTION_SUCCESS'})
-  },[options])
-
+    dispatch({ payload: { data: options, key: "ComponentRegistry" }, type: "SELECT_OPTION_SUCCESS" });
+  }, [options]);
 
   const tableRowActions = [
     {
       action: (data) => {
         navigate(
           "/" +
-            urls.HISTORY.replace(":model", "Pages").replace(":id", data.ref),
+            urls.HISTORY.replace(":model", "Pages").replace(":entityRef", data.entityRef),
           {}
         );
       },
@@ -36,7 +36,7 @@ export default function PagesManager() {
         navigate(
           "/" +
             urls.STATUS_CHANGE_FORM.replace(":model", "Pages")
-              .replace(":id", data?.id)
+              .replace(":entityRef", data?.entityRef)
               .replace(":status", __EntityStatus.REVIEW_REQUESTED),
           { state: data }
         );
@@ -60,7 +60,7 @@ export default function PagesManager() {
         navigate(
           "/" +
             urls.STATUS_CHANGE_FORM.replace(":model", "Pages")
-              .replace(":id", data?.id)
+              .replace(":entityRef", data?.entityRef)
               .replace(":status", __EntityStatus.APPROVED),
           { state: data }
         );
@@ -81,7 +81,7 @@ export default function PagesManager() {
         navigate(
           "/" +
             urls.STATUS_CHANGE_FORM.replace(":model", "Pages")
-              .replace(":id", data?.id)
+              .replace(":entityRef", data?.entityRef)
               .replace(":status", __EntityStatus.CHANGE_REQUESTED),
           { state: data }
         );
@@ -102,7 +102,7 @@ export default function PagesManager() {
         navigate(
           "/" +
             urls.STATUS_CHANGE_FORM.replace(":model", "Pages")
-              .replace(":id", data?.id)
+              .replace(":entityRef", data?.entityRef)
               .replace(":status", __EntityStatus.REJECTED),
           { state: data }
         );
@@ -123,7 +123,7 @@ export default function PagesManager() {
         navigate(
           "/" +
             urls.STATUS_CHANGE_FORM.replace(":model", "Pages")
-              .replace(":id", data?.id)
+              .replace(":entityRef", data?.entityRef)
               .replace(":status", __EntityStatus.PUBLISHED),
           { state: data }
         );

@@ -12,8 +12,8 @@ export default function BusinessEntityManager() {
         navigate(
           "/" +
             urls?.HISTORY?.replace(":model", "BusinessEntitySchemas")?.replace(
-              ":id",
-              data.ref
+              ":entityRef",
+              data.entityRef
             ),
           {}
         );
@@ -27,7 +27,7 @@ export default function BusinessEntityManager() {
         navigate(
           "/" +
             urls?.STATUS_CHANGE_FORM.replace(":model", "BusinessEntitySchemas")
-              ?.replace(":id", data?.id)
+              ?.replace(":entityRef", data?.entityRef)
               ?.replace(":status", __EntityStatus.REVIEW_REQUESTED),
           { state: data }
         );
@@ -51,7 +51,7 @@ export default function BusinessEntityManager() {
         navigate(
           "/" +
             urls.STATUS_CHANGE_FORM.replace(":model", "BusinessEntitySchemas")
-              ?.replace(":id", data?.id)
+              ?.replace(":entityRef", data?.entityRef)
               ?.replace(":status", __EntityStatus.APPROVED),
           { state: data }
         );
@@ -72,7 +72,7 @@ export default function BusinessEntityManager() {
         navigate(
           "/" +
             urls.STATUS_CHANGE_FORM.replace(":model", "BusinessEntitySchemas")
-              ?.replace(":id", data?.id)
+              ?.replace(":entityRef", data?.entityRef)
               ?.replace(":status", __EntityStatus.CHANGE_REQUESTED),
           { state: data }
         );
@@ -93,7 +93,7 @@ export default function BusinessEntityManager() {
         navigate(
           "/" +
             urls.STATUS_CHANGE_FORM.replace(":model", "BusinessEntitySchemas")
-              ?.replace(":id", data?.id)
+              ?.replace(":entityRef", data?.entityRef)
               ?.replace(":status", __EntityStatus.REJECTED),
           { state: data }
         );
@@ -114,7 +114,7 @@ export default function BusinessEntityManager() {
         navigate(
           "/" +
             urls.STATUS_CHANGE_FORM.replace(":model", "BusinessEntitySchemas")
-              ?.replace(":id", data?.id)
+              ?.replace(":entityRef", data?.entityRef)
               ?.replace(":status", __EntityStatus.PUBLISHED),
           { state: data }
         );
