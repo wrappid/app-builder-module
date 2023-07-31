@@ -7,6 +7,7 @@ import {
 } from "@wrappid/core";
 import { useDispatch } from "react-redux";
 
+import StatusChangeCommentHistory from "./StatusChangeCommentHistory";
 import { urls, __EntityStatus } from "../constants/constants";
 
 function FormsManager() {
@@ -50,7 +51,7 @@ function FormsManager() {
         navigate(
           "/" +
             urls?.STATUS_CHANGE_FORM.replace(":model", "FormSchemas")
-              ?.replace(":entityRef", data?.entityRef)
+              ?.replace(":id", data?.id)
               ?.replace(":status", __EntityStatus.REVIEW_REQUESTED),
           { state: data }
         );
@@ -74,7 +75,7 @@ function FormsManager() {
         navigate(
           "/" +
             urls.STATUS_CHANGE_FORM.replace(":model", "FormSchemas")
-              ?.replace(":entityRef", data?.entityRef)
+              ?.replace(":id", data?.id)
               ?.replace(":status", __EntityStatus.APPROVED),
           { state: data }
         );
@@ -95,7 +96,7 @@ function FormsManager() {
         navigate(
           "/" +
             urls.STATUS_CHANGE_FORM.replace(":model", "FormSchemas")
-              ?.replace(":entityRef", data?.entityRef)
+              ?.replace(":id", data?.id)
               ?.replace(":status", __EntityStatus.CHANGE_REQUESTED),
           { state: data }
         );
@@ -116,7 +117,7 @@ function FormsManager() {
         navigate(
           "/" +
             urls.STATUS_CHANGE_FORM.replace(":model", "FormSchemas")
-              ?.replace(":entityRef", data?.entityRef)
+              ?.replace(":id", data?.id)
               ?.replace(":status", __EntityStatus.REJECTED),
           { state: data }
         );
@@ -137,7 +138,7 @@ function FormsManager() {
         navigate(
           "/" +
             urls.STATUS_CHANGE_FORM.replace(":model", "FormSchemas")
-              ?.replace(":entityRef", data?.entityRef)
+              ?.replace(":id", data?.id)
               ?.replace(":status", __EntityStatus.PUBLISHED),
           { state: data }
         );
@@ -161,6 +162,7 @@ function FormsManager() {
       // createFormID={"FormSchemas"}
       // updateFormID={"FormSchemas"}
       rowActions={tableRowActions}
+      postRenderDetailsPaneComponent={StatusChangeCommentHistory}
     />
   );
 }

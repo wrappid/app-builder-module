@@ -1,5 +1,6 @@
 import { CoreDataTable, __IconTypes, coreUseNavigate } from "@wrappid/core";
 
+import StatusChangeCommentHistory from "./StatusChangeCommentHistory";
 import { urls, __EntityStatus } from "../constants/constants";
 
 export default function RoutesManager() {
@@ -23,7 +24,7 @@ export default function RoutesManager() {
         navigate(
           "/" +
             urls.STATUS_CHANGE_FORM.replace(":model", "Routes")
-              .replace(":entityRef", data?.entityRef)
+              .replace(":id", data?.id)
               .replace(":status", __EntityStatus.REVIEW_REQUESTED),
           { state: data }
         );
@@ -47,7 +48,7 @@ export default function RoutesManager() {
         navigate(
           "/" +
             urls.STATUS_CHANGE_FORM.replace(":model", "Routes")
-              .replace(":entityRef", data?.entityRef)
+              .replace(":id", data?.id)
               .replace(":status", __EntityStatus.APPROVED),
           { state: data }
         );
@@ -68,7 +69,7 @@ export default function RoutesManager() {
         navigate(
           "/" +
             urls.STATUS_CHANGE_FORM.replace(":model", "Routes")
-              .replace(":entityRef", data?.entityRef)
+              .replace(":id", data?.id)
               .replace(":status", __EntityStatus.CHANGE_REQUESTED),
           { state: data }
         );
@@ -89,7 +90,7 @@ export default function RoutesManager() {
         navigate(
           "/" +
             urls.STATUS_CHANGE_FORM.replace(":model", "Routes")
-              .replace(":entityRef", data?.entityRef)
+              .replace(":id", data?.id)
               .replace(":status", __EntityStatus.REJECTED),
           { state: data }
         );
@@ -110,7 +111,7 @@ export default function RoutesManager() {
         navigate(
           "/" +
             urls.STATUS_CHANGE_FORM.replace(":model", "Routes")
-              .replace(":entityRef", data?.entityRef)
+              .replace(":id", data?.id)
               .replace(":status", __EntityStatus.PUBLISHED),
           { state: data }
         );
@@ -134,6 +135,7 @@ export default function RoutesManager() {
       createFormID={"RouteForm"}
       updateFormID={"RouteForm"}
       rowActions={tableRowActions}
+      postRenderDetailsPaneComponent={StatusChangeCommentHistory}
     />
   );
 }
