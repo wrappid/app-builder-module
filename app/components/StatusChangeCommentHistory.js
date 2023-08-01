@@ -1,4 +1,6 @@
-import { CoreLabel, CoreBox, CoreGrid, CoreStack } from "@wrappid/core";
+import {
+  CoreLabel, CoreBox, CoreGrid, CoreStack, StatusText, UserChip 
+} from "@wrappid/core";
 
 export default function StatusChangeCommentHistory(props) {
   const { data } = props;
@@ -6,7 +8,7 @@ export default function StatusChangeCommentHistory(props) {
 
   return (
     <>
-      {comments && <CoreStack direction="column">
+      {props && <CoreStack direction="column">
         <CoreGrid>
           <CoreBox gridProps={{ gridSize: 2 }}>
             <CoreLabel>Current Status:</CoreLabel>
@@ -21,7 +23,7 @@ export default function StatusChangeCommentHistory(props) {
           </CoreBox>
 
           <CoreBox gridProps={{ gridSize: 2 }}>
-            <CoreLabel>User Id:</CoreLabel>
+            <CoreLabel>User:</CoreLabel>
           </CoreBox>
         </CoreGrid>
       </CoreStack>
@@ -31,19 +33,19 @@ export default function StatusChangeCommentHistory(props) {
         {comments?.map((comment, index) => (
           <CoreGrid key={index}>
             <CoreBox gridProps={{ gridSize: 2 }}>
-              <CoreLabel>{comment?.currentStatus}</CoreLabel>
+              <StatusText status={comment?.currentStatus} />
             </CoreBox>
 
             <CoreBox gridProps={{ gridSize: 2 }}>
-              <CoreLabel>{comment?.nextStatus}</CoreLabel>
+              <StatusText status={comment?.nextStatus} />
             </CoreBox>
 
             <CoreBox gridProps={{ gridSize: 6 }}>
-              <CoreLabel>{comment?.comment}</CoreLabel>
+              <StatusText status={comment?.comment} />
             </CoreBox>
 
             <CoreBox gridProps={{ gridSize: 2 }}>
-              <CoreLabel>{comment?.userId}</CoreLabel>
+              <UserChip userid={comment?.userId} />
             </CoreBox>
           </CoreGrid>
         ))}
