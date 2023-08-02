@@ -53,7 +53,7 @@ function FormsManager() {
             urls?.STATUS_CHANGE_FORM.replace(":model", "FormSchemas")
               ?.replace(":id", data?.id)
               ?.replace(":status", __EntityStatus.REVIEW_REQUESTED),
-          { state: data }
+          { pageUrl: "/forms", state: data }
         );
       },
       hide: (rowData) => {
@@ -77,7 +77,7 @@ function FormsManager() {
             urls.STATUS_CHANGE_FORM.replace(":model", "FormSchemas")
               ?.replace(":id", data?.id)
               ?.replace(":status", __EntityStatus.APPROVED),
-          { state: data }
+          { pageUrl: "/forms", state: data }
         );
       },
       hide: (rowData) => {
@@ -98,7 +98,7 @@ function FormsManager() {
             urls.STATUS_CHANGE_FORM.replace(":model", "FormSchemas")
               ?.replace(":id", data?.id)
               ?.replace(":status", __EntityStatus.CHANGE_REQUESTED),
-          { state: data }
+          { pageUrl: "/forms", state: data }
         );
       },
       hide: (rowData) => {
@@ -119,7 +119,7 @@ function FormsManager() {
             urls.STATUS_CHANGE_FORM.replace(":model", "FormSchemas")
               ?.replace(":id", data?.id)
               ?.replace(":status", __EntityStatus.REJECTED),
-          { state: data }
+          { pageUrl: "/forms", state: data }
         );
       },
       hide: (rowData) => {
@@ -140,7 +140,7 @@ function FormsManager() {
             urls.STATUS_CHANGE_FORM.replace(":model", "FormSchemas")
               ?.replace(":id", data?.id)
               ?.replace(":status", __EntityStatus.PUBLISHED),
-          { state: data }
+          { pageUrl: "/forms", state: data }
         );
       },
       hide: (rowData) => {
