@@ -541,10 +541,6 @@ export default function BusinessEntityComp(props) {
 
   return (
     <CoreBox>
-      <CoreTypographyBody2>
-        <b>@TODO:</b>&nbsp;WIP Business Entity
-      </CoreTypographyBody2>
-
       <CoreGrid>
         {!readOnly && (
           <CoreCard gridProps={{ gridSize: { sm: 7, xs: 12 } }}>
