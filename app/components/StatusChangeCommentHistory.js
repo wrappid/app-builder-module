@@ -1,5 +1,5 @@
 import {
-  CoreLabel, CoreBox, CoreGrid, CoreStack, StatusText, UserChip 
+  CoreLabel, CoreGrid, CoreStack, StatusText, UserChip, CoreTypographyCaption 
 } from "@wrappid/core";
 
 export default function StatusChangeCommentHistory(props) {
@@ -10,21 +10,17 @@ export default function StatusChangeCommentHistory(props) {
     <>
       {props && <CoreStack direction="column">
         <CoreGrid>
-          <CoreBox gridProps={{ gridSize: 2 }}>
-            <CoreLabel>Current Status:</CoreLabel>
-          </CoreBox>
           
-          <CoreBox gridProps={{ gridSize: 2 }}>
-            <CoreLabel>Next Status:</CoreLabel>
-          </CoreBox>
+          <CoreLabel gridProps={{ gridSize: 2 }}>From:</CoreLabel>
+          
+          <CoreLabel gridProps={{ gridSize: 2 }}>To:</CoreLabel>
 
-          <CoreBox gridProps={{ gridSize: 6 }}>
-            <CoreLabel>Comment:</CoreLabel>
-          </CoreBox>
+          <CoreLabel gridProps={{ gridSize: 4 }}>Comment:</CoreLabel>
 
-          <CoreBox gridProps={{ gridSize: 2 }}>
-            <CoreLabel>User:</CoreLabel>
-          </CoreBox>
+          <CoreLabel gridProps={{ gridSize: 2 }}>Request Time:</CoreLabel>
+          
+          <CoreLabel gridProps={{ gridSize: 2 }}>User:</CoreLabel>
+          
         </CoreGrid>
       </CoreStack>
       }
@@ -32,21 +28,15 @@ export default function StatusChangeCommentHistory(props) {
       <CoreStack direction="column">
         {comments?.map((comment, index) => (
           <CoreGrid key={index}>
-            <CoreBox gridProps={{ gridSize: 2 }}>
-              <StatusText status={comment?.currentStatus} />
-            </CoreBox>
+            <StatusText gridProps={{ gridSize: 2 }} status={comment?.currentStatus} />
 
-            <CoreBox gridProps={{ gridSize: 2 }}>
-              <StatusText status={comment?.nextStatus} />
-            </CoreBox>
+            <StatusText gridProps={{ gridSize: 2 }} status={comment?.nextStatus} />
 
-            <CoreBox gridProps={{ gridSize: 6 }}>
-              <StatusText status={comment?.comment} />
-            </CoreBox>
+            <CoreTypographyCaption gridProps={{ gridSize: 4 }}>{comment?.comment}</CoreTypographyCaption>
 
-            <CoreBox gridProps={{ gridSize: 2 }}>
-              <UserChip userid={comment?.userId} />
-            </CoreBox>
+            <CoreTypographyCaption gridProps={{ gridSize: 2 }}>{new Date(comment?.requestTime).toLocaleString()}</CoreTypographyCaption>
+
+            <UserChip gridProps={{ gridSize: 2 }} userid={comment?.userId} />
           </CoreGrid>
         ))}
       </CoreStack>

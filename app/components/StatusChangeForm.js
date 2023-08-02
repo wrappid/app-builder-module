@@ -8,7 +8,7 @@ import { RESET_STATUS_SUCCESS_DATA } from "../types/appBuilderTypes";
 
 export default function StatusChangeForm() {
   const location = coreUseLocation();
-  const { state } = location;
+  const { state, pageUrl } = location;
   const { id, model, status } = coreUseParams();
 
   const navigate = coreUseNavigate();
@@ -36,10 +36,13 @@ export default function StatusChangeForm() {
   return (
     <CoreForm
       apiMode={FORM_EDIT_MODE}
-      initData={{ currentStatus: state?._status, id: id, nextStatus: status }}
+      initData={{ currentStatus: state?._status, id: id, nextStatus: status, requestTime: new Date() }}
       formId={"statusUpdateForm"}
       mode={FORM_EDIT_MODE}
       _query={{ model: model }}
+      afterEditSuccess={() => {
+        navigate(pageUrl);
+      }}
     />
   );
 }
