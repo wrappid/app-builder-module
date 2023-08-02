@@ -1,10 +1,12 @@
-import { CoreDataTable, __IconTypes, coreUseNavigate } from "@wrappid/core";
+import { CoreDataTable, HTTP, __IconTypes, apiRequestAction, coreUseNavigate } from "@wrappid/core";
+import { useDispatch } from "react-redux";
 
 import StatusChangeCommentHistory from "./StatusChangeCommentHistory";
 import { urls, __EntityStatus } from "../constants/constants";
 
 export default function BusinessEntityManager() {
   const navigate = coreUseNavigate();
+  const dispatch = useDispatch();
 
   const tableRowActions = [
     {
@@ -20,6 +22,25 @@ export default function BusinessEntityManager() {
       },
       icon : { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
       label: "History",
+      type : "action",
+    },
+    {
+      action: (data) => {
+        // eslint-disable-next-line no-console
+        console.log("Clone button clicked");
+        // eslint-disable-next-line no-console
+        console.log(data);
+        dispatch(
+          apiRequestAction(
+            HTTP.POST,
+            `/businessEntity/clone/${data?.name}`,
+            true,
+            data
+          )
+        );
+      },
+      icon : { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
+      label: "Clone",
       type : "action",
     },
     {
