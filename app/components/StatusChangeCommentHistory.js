@@ -8,7 +8,7 @@ export default function StatusChangeCommentHistory(props) {
 
   return (
     <>
-      {props && <CoreStack direction="column">
+      {comments[0]?.comment && <CoreStack direction="column">
         <CoreGrid>
           
           <CoreLabel gridProps={{ gridSize: 2 }}>From:</CoreLabel>
