@@ -8,22 +8,23 @@ export default function StatusChangeCommentHistory(props) {
 
   return (
     <>
-      {comments[0]?.comment && <CoreStack direction="column">
-        <CoreGrid>
+      {/* {comments[0]?.comment && <CoreStack direction="column"> */}
+      <CoreGrid>
           
-          <CoreLabel gridProps={{ gridSize: 2 }}>From:</CoreLabel>
+        <CoreLabel gridProps={{ gridSize: 2 }}>From:</CoreLabel>
           
-          <CoreLabel gridProps={{ gridSize: 2 }}>To:</CoreLabel>
+        <CoreLabel gridProps={{ gridSize: 2 }}>To:</CoreLabel>
 
-          <CoreLabel gridProps={{ gridSize: 4 }}>Comment:</CoreLabel>
+        <CoreLabel gridProps={{ gridSize: 4 }}>Comment:</CoreLabel>
 
-          <CoreLabel gridProps={{ gridSize: 2 }}>Request Time:</CoreLabel>
+        <CoreLabel gridProps={{ gridSize: 2 }}>Request Time:</CoreLabel>
           
-          <CoreLabel gridProps={{ gridSize: 2 }}>User:</CoreLabel>
+        <CoreLabel gridProps={{ gridSize: 2 }}>User:</CoreLabel>
           
-        </CoreGrid>
-      </CoreStack>
-      }
+      </CoreGrid>
+
+      {/* </CoreStack>
+      } */}
       
       <CoreStack direction="column">
         {comments?.map((comment, index) => (
