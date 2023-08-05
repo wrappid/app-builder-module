@@ -8,7 +8,8 @@ import {
 import { useDispatch } from "react-redux";
 
 import StatusChangeCommentHistory from "./StatusChangeCommentHistory";
-import { urls, __EntityStatus } from "../constants/constants";
+import { __EntityStatus } from "../constants/constants";
+import { urls } from "../urls.registry";
 
 function FormsManager() {
   const navigate = coreUseNavigate();

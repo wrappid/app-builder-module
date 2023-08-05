@@ -1,10 +1,3 @@
-export const urls = { 
-  BUSINESS_ENTITY   : "business_entity", 
-  HISTORY           : "history/:model/:entityRef", 
-  PAGE              : "pages", 
-  STATUS_CHANGE_FORM: "status/:model/:id/:status"
-};
-
 export const __EntityStatus = {
   ACTIVE          : "active",
   APPROVED        : "approved",

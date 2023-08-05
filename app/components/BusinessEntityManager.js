@@ -2,8 +2,8 @@ import { CoreDataTable, HTTP, __IconTypes, apiRequestAction, coreUseNavigate } f
 import { useDispatch } from "react-redux";
 
 import StatusChangeCommentHistory from "./StatusChangeCommentHistory";
-import { urls, __EntityStatus } from "../constants/constants";
-
+import { __EntityStatus } from "../constants/constants";
+import { urls } from "../urls.registry";
 export default function BusinessEntityManager() {
   const navigate = coreUseNavigate();
   const dispatch = useDispatch();

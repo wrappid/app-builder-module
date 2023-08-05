@@ -1,7 +1,8 @@
 import { CoreDataTable, __IconTypes, coreUseNavigate } from "@wrappid/core";
 
 import StatusChangeCommentHistory from "./StatusChangeCommentHistory";
-import { urls, __EntityStatus } from "../constants/constants";
+import { __EntityStatus } from "../constants/constants";
+import { urls } from "../urls.registry";
 
 export default function RoutesManager() {
   const navigate = coreUseNavigate();

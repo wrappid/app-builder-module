@@ -4,7 +4,8 @@ import { CoreDataTable, __IconTypes, coreUseNavigate, ComponentRegistryContext }
 import { useDispatch } from "react-redux";
 
 import StatusChangeCommentHistory from "./StatusChangeCommentHistory";
-import { urls, __EntityStatus } from "../constants/constants";
+import { __EntityStatus } from "../constants/constants";
+import { urls } from "../urls.registry";
 
 export default function PagesManager() {
   const navigate = coreUseNavigate();
