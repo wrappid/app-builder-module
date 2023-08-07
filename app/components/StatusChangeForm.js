@@ -1,9 +1,10 @@
 import { useEffect } from "react";
 
-import { coreUseLocation, coreUseNavigate, coreUseParams, CoreForm, FORM_EDIT_MODE } from "@wrappid/core";
+import {
+  coreUseLocation, coreUseNavigate, coreUseParams, CoreForm, FORM_EDIT_MODE, urls 
+} from "@wrappid/core";
 import { useDispatch, useSelector } from "react-redux";
 
-import { urls } from "../constants/constants";
 import { RESET_STATUS_SUCCESS_DATA } from "../types/appBuilderTypes";
 
 export default function StatusChangeForm() {
