@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 
 import StatusChangeCommentHistory from "./StatusChangeCommentHistory";
 import { __EntityStatus } from "../constants/constants";
-import { urls } from "../urls.registry";
+import { RouteRegistry } from "../routes.registry";
 
 function FormsManager() {
   const navigate = coreUseNavigate();
@@ -19,7 +19,7 @@ function FormsManager() {
       action: (data) => {
         navigate(
           "/" +
-            urls.HISTORY.replace(":model", "FormSchemas").replace(
+            RouteRegistry.HISTORY.replace(":model", "FormSchemas").replace(
               ":entityRef",
               data.entityRef
             ),
@@ -51,7 +51,7 @@ function FormsManager() {
       action: (data) => {
         navigate(
           "/" +
-            urls?.STATUS_CHANGE_FORM.replace(":model", "FormSchemas")
+            RouteRegistry?.STATUS_CHANGE_FORM.replace(":model", "FormSchemas")
               ?.replace(":id", data?.id)
               ?.replace(":status", __EntityStatus.REVIEW_REQUESTED),
           { pageUrl: "/forms", state: data }
@@ -75,7 +75,7 @@ function FormsManager() {
       action: (data) => {
         navigate(
           "/" +
-            urls.STATUS_CHANGE_FORM.replace(":model", "FormSchemas")
+            RouteRegistry.STATUS_CHANGE_FORM.replace(":model", "FormSchemas")
               ?.replace(":id", data?.id)
               ?.replace(":status", __EntityStatus.APPROVED),
           { pageUrl: "/forms", state: data }
@@ -96,7 +96,7 @@ function FormsManager() {
       action: (data) => {
         navigate(
           "/" +
-            urls.STATUS_CHANGE_FORM.replace(":model", "FormSchemas")
+            RouteRegistry.STATUS_CHANGE_FORM.replace(":model", "FormSchemas")
               ?.replace(":id", data?.id)
               ?.replace(":status", __EntityStatus.CHANGE_REQUESTED),
           { pageUrl: "/forms", state: data }
@@ -117,7 +117,7 @@ function FormsManager() {
       action: (data) => {
         navigate(
           "/" +
-            urls.STATUS_CHANGE_FORM.replace(":model", "FormSchemas")
+            RouteRegistry.STATUS_CHANGE_FORM.replace(":model", "FormSchemas")
               ?.replace(":id", data?.id)
               ?.replace(":status", __EntityStatus.REJECTED),
           { pageUrl: "/forms", state: data }
@@ -138,7 +138,7 @@ function FormsManager() {
       action: (data) => {
         navigate(
           "/" +
-            urls.STATUS_CHANGE_FORM.replace(":model", "FormSchemas")
+            RouteRegistry.STATUS_CHANGE_FORM.replace(":model", "FormSchemas")
               ?.replace(":id", data?.id)
               ?.replace(":status", __EntityStatus.PUBLISHED),
           { pageUrl: "/forms", state: data }

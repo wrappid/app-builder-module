@@ -3,7 +3,8 @@ import { useDispatch } from "react-redux";
 
 import StatusChangeCommentHistory from "./StatusChangeCommentHistory";
 import { __EntityStatus } from "../constants/constants";
-import { urls } from "../urls.registry";
+import { RouteRegistry } from "../routes.registry";
+
 export default function BusinessEntityManager() {
   const navigate = coreUseNavigate();
   const dispatch = useDispatch();
@@ -13,7 +14,7 @@ export default function BusinessEntityManager() {
       action: (data) => {
         navigate(
           "/" +
-            urls?.HISTORY?.replace(":model", "BusinessEntitySchemas")?.replace(
+            RouteRegistry?.HISTORY?.replace(":model", "BusinessEntitySchemas")?.replace(
               ":entityRef",
               data.entityRef
             ),
@@ -47,7 +48,7 @@ export default function BusinessEntityManager() {
       action: (data) => {
         navigate(
           "/" +
-            urls?.STATUS_CHANGE_FORM.replace(":model", "BusinessEntitySchemas")
+            RouteRegistry?.STATUS_CHANGE_FORM.replace(":model", "BusinessEntitySchemas")
               ?.replace(":id", data?.id)
               ?.replace(":status", __EntityStatus.REVIEW_REQUESTED),
           { state: data }
@@ -71,7 +72,7 @@ export default function BusinessEntityManager() {
       action: (data) => {
         navigate(
           "/" +
-            urls.STATUS_CHANGE_FORM.replace(":model", "BusinessEntitySchemas")
+            RouteRegistry.STATUS_CHANGE_FORM.replace(":model", "BusinessEntitySchemas")
               ?.replace(":id", data?.id)
               ?.replace(":status", __EntityStatus.APPROVED),
           { state: data }
@@ -92,7 +93,7 @@ export default function BusinessEntityManager() {
       action: (data) => {
         navigate(
           "/" +
-            urls.STATUS_CHANGE_FORM.replace(":model", "BusinessEntitySchemas")
+            RouteRegistry.STATUS_CHANGE_FORM.replace(":model", "BusinessEntitySchemas")
               ?.replace(":id", data?.id)
               ?.replace(":status", __EntityStatus.CHANGE_REQUESTED),
           { state: data }
@@ -113,7 +114,7 @@ export default function BusinessEntityManager() {
       action: (data) => {
         navigate(
           "/" +
-            urls.STATUS_CHANGE_FORM.replace(":model", "BusinessEntitySchemas")
+            RouteRegistry.STATUS_CHANGE_FORM.replace(":model", "BusinessEntitySchemas")
               ?.replace(":id", data?.id)
               ?.replace(":status", __EntityStatus.REJECTED),
           { state: data }
@@ -134,7 +135,7 @@ export default function BusinessEntityManager() {
       action: (data) => {
         navigate(
           "/" +
-            urls.STATUS_CHANGE_FORM.replace(":model", "BusinessEntitySchemas")
+            RouteRegistry.STATUS_CHANGE_FORM.replace(":model", "BusinessEntitySchemas")
               ?.replace(":id", data?.id)
               ?.replace(":status", __EntityStatus.PUBLISHED),
           { state: data }

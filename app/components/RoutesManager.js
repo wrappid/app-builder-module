@@ -2,7 +2,7 @@ import { CoreDataTable, __IconTypes, coreUseNavigate } from "@wrappid/core";
 
 import StatusChangeCommentHistory from "./StatusChangeCommentHistory";
 import { __EntityStatus } from "../constants/constants";
-import { urls } from "../urls.registry";
+import { RouteRegistry } from "../routes.registry";
 
 export default function RoutesManager() {
   const navigate = coreUseNavigate();
@@ -12,7 +12,7 @@ export default function RoutesManager() {
       action: (data) => {
         navigate(
           "/" +
-            urls.HISTORY.replace(":model", "Routes").replace(":entityRef", data?.entityRef),
+            RouteRegistry.HISTORY.replace(":model", "Routes").replace(":entityRef", data?.entityRef),
           {}
         );
       },
@@ -24,7 +24,7 @@ export default function RoutesManager() {
       action: (data) => {
         navigate(
           "/" +
-            urls.STATUS_CHANGE_FORM.replace(":model", "Routes")
+            RouteRegistry.STATUS_CHANGE_FORM.replace(":model", "Routes")
               .replace(":id", data?.id)
               .replace(":status", __EntityStatus.REVIEW_REQUESTED),
           { state: data }
@@ -48,7 +48,7 @@ export default function RoutesManager() {
       action: (data) => {
         navigate(
           "/" +
-            urls.STATUS_CHANGE_FORM.replace(":model", "Routes")
+            RouteRegistry.STATUS_CHANGE_FORM.replace(":model", "Routes")
               .replace(":id", data?.id)
               .replace(":status", __EntityStatus.APPROVED),
           { state: data }
@@ -69,7 +69,7 @@ export default function RoutesManager() {
       action: (data) => {
         navigate(
           "/" +
-            urls.STATUS_CHANGE_FORM.replace(":model", "Routes")
+            RouteRegistry.STATUS_CHANGE_FORM.replace(":model", "Routes")
               .replace(":id", data?.id)
               .replace(":status", __EntityStatus.CHANGE_REQUESTED),
           { state: data }
@@ -90,7 +90,7 @@ export default function RoutesManager() {
       action: (data) => {
         navigate(
           "/" +
-            urls.STATUS_CHANGE_FORM.replace(":model", "Routes")
+            RouteRegistry.STATUS_CHANGE_FORM.replace(":model", "Routes")
               .replace(":id", data?.id)
               .replace(":status", __EntityStatus.REJECTED),
           { state: data }
@@ -111,7 +111,7 @@ export default function RoutesManager() {
       action: (data) => {
         navigate(
           "/" +
-            urls.STATUS_CHANGE_FORM.replace(":model", "Routes")
+            RouteRegistry.STATUS_CHANGE_FORM.replace(":model", "Routes")
               .replace(":id", data?.id)
               .replace(":status", __EntityStatus.PUBLISHED),
           { state: data }

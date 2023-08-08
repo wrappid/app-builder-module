@@ -1,4 +1,4 @@
-export const urls = {
+export const RouteRegistry = {
   BUSINESS_ENTITY   : "business_entity",
   FORMS             : "forms",
   HISTORY           : "history/:model/:entityRef",
