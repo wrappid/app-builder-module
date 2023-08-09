@@ -1,3 +1,4 @@
+import React from "react";
 import {
   CoreH3,
   CoreH4,
@@ -12,6 +13,16 @@ import {
 } from "@wrappid/core";
 
 export default function Components() {
+  const getPropsString = (propGroup) => {
+    let propString = "";
+
+    Object.keys(propGroup).forEach(propKey => {
+      propString += `\n\t${propKey}={"${propGroup[propKey]}"}`;
+    });
+
+    return propString;
+  }
+
   return (
     <CoreBox>
       {Object.keys(CoreComponentsRegistryDocs || {}).map((componentName) => {
@@ -36,22 +47,25 @@ export default function Components() {
                     CoreClasses.ALIGNMENT.JUSTIFY_CONTENT_CENTER,
                   ]}
                 >
-                  {category.propsGroups.map((propsGroup, innerIndex) => {
-                    return <CoreComponent key={innerIndex} componentName={componentName} {...propsGroup} />
-                  })}                 
+                  {category.propsGroups.map((propsGroup, innerIndex) => (
+                    <CoreComponent key={innerIndex} componentName={componentName} {...propsGroup} />
+                  ))}
                 </CoreStack>
                 <CoreStack
+                  direction="column"
                   borderRadius="10px"
                   styleClasses={[
                     CoreClasses.BORDER.BORDER,
                     CoreClasses.BORDER.BORDER_PRIMARY_LIGHT,
                     CoreClasses.PADDING.P3,
+                    CoreClasses.OVERFLOW.OVERFLOW_AUTO,
+                    // CoreClasses.WIDTH.MAX_W_25
                   ]}
                 >
                   <CoreTypographyBody1 code={true}>
-                  {category.propsGroups.map(( ) => {
-                    return  `<${componentName } />`;
-                  })}    
+                    {category.propsGroups.map((propsGroup) => {
+                      return <>{`<${componentName} ${getPropsString(propsGroup)} />\n`}</>;
+                    })}
                   </CoreTypographyBody1>
                 </CoreStack>
               </CoreBox>
