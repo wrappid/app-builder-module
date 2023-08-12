@@ -2,4 +2,4 @@
 
 import { SanStatusUpdate } from "./functions/sanity.functions";
 
-export const FunctionRegistry = { SanStatusUpdate: SanStatusUpdate };
+export const FunctionsRegistry = { SanStatusUpdate: SanStatusUpdate };

@@ -1,4 +1,3 @@
-/* eslint-disable import/no-unresolved */
 import testFunctions from "./functions/test.functions";
 
 const functionsRegistry = {

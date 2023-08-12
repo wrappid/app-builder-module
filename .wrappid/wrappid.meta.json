@@ -1,4 +1,16 @@
 {
     "projectType": "module",
-    "projectID": ""
+    "projectID": "",
+    "projectName": "app-builder",
+    "remote": true,
+    "repoProvider": "github.com",
+    "repoOwner": "wrappid",
+    "repoURL": "https://github.com/wrappid/app-builder-module.git",
+    "app": {
+        "renderType": [
+            "web"
+        ]
+    },
+    "service": {},
+    "modules": {}
 }

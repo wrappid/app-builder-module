@@ -1,5 +1,5 @@
 {
-  "name": "wm-app-module",
+  "name": "app-builder",
   "version": "0.0.1",
   "description": "This is a template repository for a Wrappid app module.",
   "main": "index.js",

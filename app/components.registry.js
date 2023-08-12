@@ -13,7 +13,7 @@ import StatusChangeCommentHistory from "./components/StatusChangeCommentHistory"
 import StatusChangeForm from "./components/StatusChangeForm";
 import StyleUtilities from "./components/StyleUtilities";
 
-export const ComponentRegistry = {
+export const ComponentsRegistry = {
   BusinessEntityComp        : { comp: BusinessEntityComp },
   BusinessEntityManager     : { comp: BusinessEntityManager },
   Components                : { comp: Components },
