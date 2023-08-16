@@ -1,78 +1,18 @@
+// eslint-disable-next-line no-unused-vars, unused-imports/no-unused-imports
 import React from "react";
-import {
-  CoreH3,
-  CoreH4,
-  CoreBox,
-  CoreComponentsRegistryDocs,
-  CoreStack,
-  CoreTypographyBody1,
-  CoreDivider,
-  CoreAvatar,
-  CoreClasses,
-  CoreComponent,
-} from "@wrappid/core";
+
+import { CoreH4 } from "@wrappid/core";
+
+import DocsRegistry from "./docs/DocsRegistry";
 
 export default function Components() {
-  const getPropsString = (propGroup) => {
-    let propString = "";
-
-    Object.keys(propGroup).forEach(propKey => {
-      propString += `\n\t${propKey}={"${propGroup[propKey]}"}`;
-    });
-
-    return propString;
-  }
-
   return (
-    <CoreBox>
-      {Object.keys(CoreComponentsRegistryDocs || {}).map((componentName) => {
-        const componentData =
-          CoreComponentsRegistryDocs[componentName]?.documentation;
-        return (
-          <CoreBox key={componentName}>
-            <CoreH3>{componentName}</CoreH3>
-            {componentData.categoryGroup.map((category, index) => (
-              <CoreBox key={index}>
-                <CoreH4>{category.title}</CoreH4>
-                <CoreTypographyBody1>
-                  {category.description}
-                </CoreTypographyBody1>
-                <CoreStack
-                  direction="row"
-                  borderRadius="10px"
-                  styleClasses={[
-                    CoreClasses.BORDER.BORDER,
-                    CoreClasses.BORDER.BORDER_PRIMARY_LIGHT,
-                    CoreClasses.PADDING.P3,
-                    CoreClasses.ALIGNMENT.JUSTIFY_CONTENT_CENTER,
-                  ]}
-                >
-                  {category.propsGroups.map((propsGroup, innerIndex) => (
-                    <CoreComponent key={innerIndex} componentName={componentName} {...propsGroup} />
-                  ))}
-                </CoreStack>
-                <CoreStack
-                  direction="column"
-                  borderRadius="10px"
-                  styleClasses={[
-                    CoreClasses.BORDER.BORDER,
-                    CoreClasses.BORDER.BORDER_PRIMARY_LIGHT,
-                    CoreClasses.PADDING.P3,
-                    CoreClasses.OVERFLOW.OVERFLOW_AUTO,
-                    // CoreClasses.WIDTH.MAX_W_25
-                  ]}
-                >
-                  <CoreTypographyBody1 code={true}>
-                    {category.propsGroups.map((propsGroup) => {
-                      return <>{`<${componentName} ${getPropsString(propsGroup)} />\n`}</>;
-                    })}
-                  </CoreTypographyBody1>
-                </CoreStack>
-              </CoreBox>
-            ))}
-          </CoreBox>
-        );
+    <>
+      <CoreH4>Component Samples</CoreH4>
+
+      {Object.keys(DocsRegistry).map(doc => {
+        return React.createElement(DocsRegistry[doc]);
       })}
-    </CoreBox>
+    </>
   );
 }
