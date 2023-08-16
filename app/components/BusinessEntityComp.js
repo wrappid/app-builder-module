@@ -19,12 +19,12 @@ import {
   CoreClasses
 } from "@wrappid/core";
 
+import { DB_CONST } from "../constants/constants";
+import { getUUID } from "../utils/appUtils";
 import {
   __BusinessEntityIncFunc,
   recurrsive_ModelFunc
-} from "./businessComponentUtil";
-import { DB_CONST } from "../constants/constants";
-import { getUUID } from "../utils/appUtils";
+} from "../utils/businessComponentUtil";
 import { getLabel } from "../utils/stringUtils";
 
 export default function BusinessEntityComp(props) {
