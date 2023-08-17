@@ -4,10 +4,10 @@ import {
   CoreTypographyBody2,
   CoreStack,
   CoreClasses,
-  CoreBox,
+  CoreBox
 } from "@wrappid/core";
 
-export default function PropsSection({propName, subtitle, types, defaultProp, defaultType}) {
+export default function PropsSection({ propName, subtitle, types, defaultProp, defaultType }) {
   return (
     <CoreBox styleClasses={[CoreClasses.MARGIN.MT1]}>
       <CoreChip
