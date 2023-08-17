@@ -10,7 +10,7 @@ import CoreH5Docs from "./heading/CoreH5.docs";
 import CoreH6Docs from "./heading/CoreH6.docs";
 import CoreTypographyBody1Docs from "./paragraph/CoreTypographyBody1.docs";
 import CoreTypographyButtonDocs from "./paragraph/CoreTypographyButton.docs";
-import CoreLabelDocs from "./paragraph/CoreLabel.docs";
+// import CoreLabelDocs from "./paragraph/CoreLabel.docs";
 import CoreTypographyBody2Docs from "./paragraph/CoreTypographyBody2.docs";
 import CoreTypographySubtitle1Docs from "./paragraph/CoreTypographySubtitle1.docs";
 import CoreTypographySubtitle2Docs from "./paragraph/CoreTypographySubtitle2.docs";
@@ -37,7 +37,7 @@ export default function DataDisplay() {
       <CoreTypographyOverlineDocs />
       <CoreTypographyCaptionDocs />
       <CoreTypographyButtonDocs />
-      <CoreLabelDocs />
+      {/* <CoreLabelDocs /> */}
 
 
       {/* <Typography /> */}
