@@ -4,7 +4,7 @@ import {
   CoreAccordion,
   CoreAccordionDetail,
   CoreAccordionSummary,
-  CoreH4,
+  CoreH5,
   CoreDivider,
   CoreClasses
 } from "@wrappid/core";
@@ -35,21 +35,15 @@ export default function CoreH2Docs() {
         <CoreAccordionDetail>{<pre>{summary}</pre>}</CoreAccordionDetail>
       </CoreAccordion>
 
-      <CoreH4 styleClasses={[CoreClasses.MARGIN.MY1]}>Props used exactly as in MUI</CoreH4>
-
-      <CoreDivider />
+      <CoreH5 styleClasses={[CoreClasses.MARGIN.MY1]}>Props used exactly as in MUI</CoreH5>
 
       <PropsSection propName={"children"} subtitle={"Override or extend the styles applied to the component."} types={"'object'"} />
       
-      <CoreDivider />
-
-      <CoreH4 styleClasses={[CoreClasses.MARGIN.MY1]}>Props used with different names than in MUI</CoreH4>
+      <CoreH5 styleClasses={[CoreClasses.MARGIN.MY1]}>Props used with different names than in MUI</CoreH5>
 
       <PropsSection propName={"styleClasses"} subtitle={"Set the text-align on the component."} types={"'center' | 'inherit' | 'justify' | 'left' | 'right'"} />
 
-      <CoreDivider />
-
-      <CoreH4 styleClasses={[CoreClasses.MARGIN.MY1]}>Props to be supported in future</CoreH4>
+      <CoreH5 styleClasses={[CoreClasses.MARGIN.MY1]}>Props to be supported in future</CoreH5>
 
       <PropsSection
         propName={"variant"}
@@ -65,9 +59,7 @@ export default function CoreH2Docs() {
         defaultProp={true}
         defaultType={"{ h1: 'h1', h2: 'h2', h3: 'h3', h4: 'h4', h5: 'h5', h6: 'h6', subtitle1: 'h6', subtitle2: 'h6', body1: 'p', body2: 'p', inherit: 'p', }"} />
 
-      <CoreDivider />
-
-      <CoreH4 styleClasses={[CoreClasses.MARGIN.MY1]}>Props never to be supported</CoreH4>
+      <CoreH5 styleClasses={[CoreClasses.MARGIN.MY1]}>Props never to be supported</CoreH5>
 
       <CoreTypographyBody1>{"sx"}</CoreTypographyBody1>
 

@@ -26,7 +26,7 @@ export default function DataDisplay() {
 
       <CoreTypographyBody1>Use typography to present your design and content as clearly and efficiently as possible.</CoreTypographyBody1>
 
-      {/* <CoreH1Docs />
+      <CoreH1Docs />
 
       <CoreH2Docs />
 
@@ -52,9 +52,9 @@ export default function DataDisplay() {
 
       <CoreTypographyButtonDocs />
 
-      <CoreLabelDocs /> */}
+      <CoreLabelDocs />
 
-      <CoreAvatarDocs />
+      {/* <CoreAvatarDocs /> */}
 
       {/* <CoreBadgeDocs />
 
