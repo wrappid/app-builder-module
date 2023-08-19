@@ -6,11 +6,13 @@ import {
   CoreListItem,
   CoreListItemText,
   CoreDivider,
-  CoreListItemIcon,
+  CoreListItemAvatar,
   CoreAvatar,
   CoreBox,
   CoreChip,
   CoreIcon,
+  CoreGrid,
+  CoreStack,
 } from "@wrappid/core";
 
 import CodeSample from "../CodeSample";
@@ -66,7 +68,7 @@ export default function CoreDividerDocs() {
       />
 
       {/* Inset Divider */}
-      {/* <CodeSample
+      <CodeSample
       title={"Inset dividers"}
       code={`<CoreList>
   <CoreListItem>
@@ -82,25 +84,25 @@ export default function CoreDividerDocs() {
   </CoreListItem>
 </CoreList>`}
         renderElement={
-          <CoreList styleClasses={[CoreClasses.WIDTH.W_25, CoreClasses.TEXT.TEXT_CENTER, CoreClasses.BG.BG_PRIMARY]}>
+          <CoreList styleClasses={[CoreClasses.WIDTH.W_25, CoreClasses.TEXT.TEXT_CENTER, CoreClasses.BG.BG_SECONDARY]}>
             <CoreListItem>
-              <CoreListItemIcon><CoreAvatar src="https://mui.com/static/images/avatar/1.jpg" /></CoreListItemIcon>
+              <CoreListItemAvatar><CoreAvatar src="https://mui.com/static/images/avatar/1.jpg" /></CoreListItemAvatar>
               <CoreListItemText primary="ListItem 1" secondary="Jan 9, 2014" />
             </CoreListItem>
-            <CoreDivider variant="inset" />
+            <CoreDivider variant="inset" component="li" />
             <CoreListItem>
-            <CoreListItemIcon><CoreAvatar src="https://mui.com/static/images/avatar/1.jpg" /></CoreListItemIcon>
+            <CoreListItemAvatar><CoreAvatar src="https://mui.com/static/images/avatar/1.jpg" /></CoreListItemAvatar>
               <CoreListItemText primary="ListItem 2" secondary="Jan 9, 2014" />
             </CoreListItem>
             <CoreDivider variant="inset"/>
             <CoreListItem>
-            <CoreListItemIcon><CoreAvatar src="https://mui.com/static/images/avatar/1.jpg" /></CoreListItemIcon>
+            <CoreListItemAvatar><CoreAvatar src="https://mui.com/static/images/avatar/1.jpg" /></CoreListItemAvatar>
               <CoreListItemText primary="ListItem 3" secondary="Jan 9, 2014" />
             </CoreListItem>
           </CoreList>
         }
       
-      /> */}
+      />
 
       {/* Dividers with text */}
       <CodeSample
@@ -126,7 +128,7 @@ export default function CoreDividerDocs() {
   </CoreListItem>
 </CoreList>`}
         renderElement={
-          <CoreList styleClasses={[CoreClasses.BG.BG_PRIMARY]}>
+          <CoreList styleClasses={[CoreClasses.BG.BG_SECONDARY_DARK]}>
             <CoreListItem>
               <CoreListItemText primary={sampleText} />
             </CoreListItem>
@@ -149,6 +151,7 @@ export default function CoreDividerDocs() {
           </CoreList>
         }
       />
+
 
       {/* Vertical Divider */}
       <CodeSample
@@ -177,7 +180,62 @@ export default function CoreDividerDocs() {
         }
       />
 
-      {/*  */}
+      {/* NOT WORKING...Vertical divider issue */}
+      {/* Vertical divider with middle variant */}
+      {/* <CodeSample
+        title={"Vertical divider with middle variant"}
+        description={
+          <>You can also render a vertical divider with variant="middle".</>
+        }
+        code={`<CoreBox styleClasses={[CoreClasses.DISPLAY.FLEX, CoreClasses.BORDER.BORDER,
+  CoreClasses.BORDER.BORDER_1, CoreClasses.BG.BG_PRIMARY, CoreClasses.PADDING.P1]}>
+  <CoreIcon>format_align_left</CoreIcon>
+  <CoreIcon>format_align_center</CoreIcon>
+  <CoreIcon>format_align_right</CoreIcon>
+  <CoreDivider orientation="vertical" variant="middle" flexItem/>
+  <CoreIcon>format_bold</CoreIcon>
+  <CoreIcon>format_italic</CoreIcon>
+</CoreBox>`}
+        renderElement={
+          <CoreBox styleClasses={[CoreClasses.DISPLAY.FLEX, CoreClasses.BORDER.BORDER, CoreClasses.BORDER.BORDER_1, CoreClasses.BG.BG_PRIMARY, CoreClasses.PADDING.P1]}>
+            <CoreIcon>format_align_left</CoreIcon>
+            <CoreIcon>format_align_center</CoreIcon>
+            <CoreIcon>format_align_right</CoreIcon>
+            <CoreDivider orientation="vertical" variant="middle" flexItem/>
+            <CoreIcon>format_bold</CoreIcon>
+            <CoreIcon>format_italic</CoreIcon>
+          </CoreBox>
+        }
+      /> */}
+
+      {/* NOT WORKING...Vertical divider issue */}
+      {/* Vertical divider with text */}
+      {/* <CodeSample
+        title={"Vertical divider with text"}
+        description={
+          <>You can also render a vertical divider with content.</>
+        }
+        code={`<CoreStack direction="row" spacing={1}>
+  <CoreBox styleClasses={[CoreClasses.DISPLAY.FLEX, CoreClasses.PADDING.P1]}>
+    <CoreTypographyBody1>{sampleText}</CoreTypographyBody1>
+  </CoreBox>
+  <CoreBox>
+    <CoreDivider orientation="vertical"flexItem>VERTICAL</CoreDivider>
+    <CoreTypographyBody1>{sampleText}</CoreTypographyBody1>
+  </CoreBox>
+</CoreStack>`}
+        renderElement={
+          <CoreStack direction="row" spacing={1}>
+            <CoreBox styleClasses={[CoreClasses.DISPLAY.FLEX, CoreClasses.PADDING.P1]}>
+              <CoreTypographyBody1>{sampleText}</CoreTypographyBody1>
+            </CoreBox>
+            <CoreBox>
+              <CoreDivider orientation="vertical"flexItem>VERTICAL</CoreDivider>
+              <CoreTypographyBody1>{sampleText}</CoreTypographyBody1>
+            </CoreBox>
+          </CoreStack>
+        }
+      /> */}
     </>
   );
 }
