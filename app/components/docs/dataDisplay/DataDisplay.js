@@ -54,13 +54,13 @@ export default function DataDisplay() {
 
       <CoreLabelDocs />
 
-      {/* <CoreAvatarDocs /> */}
+      <CoreAvatarDocs />
 
-      {/* <CoreBadgeDocs />
+      <CoreBadgeDocs />
 
       <CoreChipDocs />
 
-      <CoreDividerDocs /> */}
+      <CoreDividerDocs />
 
       {/* <Typography /> */}
     </>
