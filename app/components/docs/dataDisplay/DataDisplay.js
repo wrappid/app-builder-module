@@ -18,6 +18,7 @@ import CoreTypographyCaptionDocs from "./paragraph/CoreTypographyCaption.docs";
 import CoreTypographyOverlineDocs from "./paragraph/CoreTypographyOverline.docs";
 import CoreTypographySubtitle1Docs from "./paragraph/CoreTypographySubtitle1.docs";
 import CoreTypographySubtitle2Docs from "./paragraph/CoreTypographySubtitle2.docs";
+import CoreListDocs from "./CoreList.docs";
 
 export default function DataDisplay() {
   return (
@@ -26,7 +27,7 @@ export default function DataDisplay() {
 
       <CoreTypographyBody1>Use typography to present your design and content as clearly and efficiently as possible.</CoreTypographyBody1>
 
-      <CoreH1Docs />
+      {/* <CoreH1Docs />
 
       <CoreH2Docs />
 
@@ -60,9 +61,9 @@ export default function DataDisplay() {
 
       <CoreChipDocs />
 
-      <CoreDividerDocs />
+      <CoreDividerDocs />*/}
 
-      {/* <Typography /> */}
+      <CoreListDocs />
     </>
   );
 }
