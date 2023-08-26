@@ -1,7 +1,7 @@
-import { CoreH5, CoreTypographyBody1 } from "@wrappid/core";
+import { CoreClasses, CoreH4, CoreTypographyBody1 } from "@wrappid/core";
 
-// import CoreAvatarDocs from "./CoreAvatar.docs";
-// import CoreBadgeDocs from "./CoreBadge.docs";
+import CoreAvatarDocs from "./CoreAvatar.docs";
+import CoreBadgeDocs from "./CoreBadge.docs";
 // import CoreChipDocs from "./CoreChip.docs";
 // import CoreDividerDocs from "./CoreDivider.docs";
 // import CoreH1Docs from "./heading/CoreH1.docs";
@@ -20,16 +20,24 @@ import { CoreH5, CoreTypographyBody1 } from "@wrappid/core";
 // import CoreTypographySubtitle2Docs from "./paragraph/CoreTypographySubtitle2.docs";
 // import CoreListDocs from "./CoreList.docs";
 // import CoreTableDocs from "./CoreTable.docs";
-import CoreTooltipDocs from "./CoreTooltip.docs";
+// import CoreTooltipDocs from "./CoreTooltip.docs";
 
 export default function DataDisplay() {
   return (
     <>
-      <CoreH5>Data Display Components</CoreH5>
+      <CoreH4 styleClasses={[CoreClasses.MARGIN.MY2, CoreClasses.COLOR.TEXT_PRIMARY]}>
+        Data Display Components
+      </CoreH4>
 
-      {/* <CoreTypographyBody1>Use typography to present your design and content as clearly and efficiently as possible.</CoreTypographyBody1> */}
+      <CoreTypographyBody1>
+        Some description related to Data Display components must go here.
+      </CoreTypographyBody1>
 
-      {/* <CoreH1Docs />
+      <CoreAvatarDocs />
+
+      <CoreBadgeDocs />
+
+      {/* <CoreH1Docs />      
 
       <CoreH2Docs />
 
@@ -55,22 +63,17 @@ export default function DataDisplay() {
 
       <CoreTypographyButtonDocs />
 
-      <CoreLabelDocs />
-
-      <CoreAvatarDocs />
-
-      <CoreBadgeDocs />
-
+      <CoreLabelDocs /> 
+      
       <CoreChipDocs />
 
-      <CoreDividerDocs />*/}
+      <CoreDividerDocs />
 
-      {/* <CoreListDocs /> */}
+      <CoreListDocs />
 
-      {/* <CoreTableDocs /> */}
+      <CoreTableDocs />
 
-      <CoreTooltipDocs />
+      <CoreTooltipDocs /> */}
     </>
   );
 }
-

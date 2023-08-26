@@ -3,9 +3,9 @@ import {
   CoreClasses,
   CoreStack,
   CoreSpan,
-  CoreH5,
+  CoreH4,
   CoreTypographyBody1,
-  CoreIcon
+  CoreIcon,
 } from "@wrappid/core";
 
 import CodeSample from "../CodeSample";
@@ -13,13 +13,13 @@ import CodeSample from "../CodeSample";
 export default function CoreAvatarDocs() {
   return (
     <>
-      <CoreH5 styleClasses={[CoreClasses.COLOR.TEXT_PRIMARY]}>
+      <CoreH4 styleClasses={[CoreClasses.MARGIN.MY2, CoreClasses.COLOR.TEXT_PRIMARY]}>
         CoreAvatar
-      </CoreH5>
+      </CoreH4>
 
       <CoreTypographyBody1>
-        Avatars are found throughout material design with uses in everything
-        from tables to dialog menus.
+        Avatars are found throughout material design with uses in everything from tables to dialog
+        menus.
       </CoreTypographyBody1>
 
       <CodeSample
@@ -29,9 +29,7 @@ export default function CoreAvatarDocs() {
             Image avatars can be created by passing standard
             {/* eslint-disable-next-line react/jsx-newline */}
             <CoreSpan code={true}>{" img "}</CoreSpan>props
-
             <CoreSpan code={true}>{" src "}</CoreSpan>or
-
             <CoreSpan code={true}>{" srcSet "}</CoreSpan>to the component.
           </>
         }
@@ -53,21 +51,21 @@ export default function CoreAvatarDocs() {
         title={"Letter avatars"}
         description={
           <>
-           Avatars containing simple characters can be created by passing a string as
+            Avatars containing simple characters can be created by passing a string as
             {/* eslint-disable-next-line react/jsx-newline */}
             <CoreSpan code={true}>{" children "}</CoreSpan>
           </>
         }
-        code={`<CoreAvatar styleClasses={[CoreClasses.BG.BG_SECONDARY_DARK]}>H </CoreAvatar>
-<CoreAvatar styleClasses={[CoreClasses.BG.BG_PRIMARY_LIGHT]}>N </CoreAvatar>
-<CoreAvatar styleClasses={[CoreClasses.BG.BG_BLACK]}>OP </CoreAvatar>`}
+        code={`<CoreAvatar>W</CoreAvatar>
+<CoreAvatar>WD</CoreAvatar>
+<CoreAvatar styleClasses={[CoreClasses.BG.BG_PRIMARY]}>W</CoreAvatar>
+<CoreAvatar styleClasses={[CoreClasses.BG.BG_SECONDARY]}>WR</CoreAvatar>`}
         renderElement={
           <CoreStack spacing={2} direction="row">
-            <CoreAvatar styleClasses={[CoreClasses.BG.BG_SECONDARY_DARK]}>H </CoreAvatar>
-
-            <CoreAvatar styleClasses={[CoreClasses.BG.BG_PRIMARY_LIGHT]}>N </CoreAvatar>
-
-            <CoreAvatar styleClasses={[CoreClasses.BG.BG_BLACK]}>OP </CoreAvatar>
+            <CoreAvatar>W</CoreAvatar>
+            <CoreAvatar>WR</CoreAvatar>
+            <CoreAvatar styleClasses={[CoreClasses.BG.BG_PRIMARY]}>W</CoreAvatar>
+            <CoreAvatar styleClasses={[CoreClasses.BG.BG_SECONDARY]}>WR</CoreAvatar>
           </CoreStack>
         }
       />
@@ -76,10 +74,9 @@ export default function CoreAvatarDocs() {
         title={"Sizes"}
         description={
           <>
-            You can change the size of the avatar with the <CoreSpan code={true}>{" height "}</CoreSpan> and 
-
+            You can change the size of the avatar with the{" "}
+            <CoreSpan code={true}>{" height "}</CoreSpan> and
             <CoreSpan code={true}>{" width "}</CoreSpan> CSS properties.
-
             {/* eslint-disable-next-line react/jsx-newline */}
           </>
         }
@@ -105,27 +102,31 @@ export default function CoreAvatarDocs() {
   styleClasses={[CoreClasses.DATA_DISPLAY.AVATAR_XXLARGE]} />`}
         renderElement={
           <CoreStack direction="row">
-            <CoreAvatar 
+            <CoreAvatar
               src="https://mui.com/static/images/avatar/1.jpg"
-              styleClasses={[CoreClasses.DATA_DISPLAY.AVATAR_SMALL]} />
+              styleClasses={[CoreClasses.DATA_DISPLAY.AVATAR_SMALL]}
+            />
 
-            <CoreAvatar 
+            <CoreAvatar
               src="https://mui.com/static/images/avatar/2.jpg"
-              styleClasses={[CoreClasses.DATA_DISPLAY.AVATAR_MEDIUM]} />
+              styleClasses={[CoreClasses.DATA_DISPLAY.AVATAR_MEDIUM]}
+            />
 
-            <CoreAvatar 
+            <CoreAvatar
               src="https://mui.com/static/images/avatar/3.jpg"
-              styleClasses={[CoreClasses.DATA_DISPLAY.AVATAR_LARGE]} />
+              styleClasses={[CoreClasses.DATA_DISPLAY.AVATAR_LARGE]}
+            />
 
-            <CoreAvatar 
+            <CoreAvatar
               src="https://mui.com/static/images/avatar/1.jpg"
-              styleClasses={[CoreClasses.DATA_DISPLAY.AVATAR_XLARGE]} />
+              styleClasses={[CoreClasses.DATA_DISPLAY.AVATAR_XLARGE]}
+            />
 
-            <CoreAvatar 
+            <CoreAvatar
               src="https://mui.com/static/images/avatar/2.jpg"
-              styleClasses={[CoreClasses.DATA_DISPLAY.AVATAR_XXLARGE]} />
+              styleClasses={[CoreClasses.DATA_DISPLAY.AVATAR_XXLARGE]}
+            />
           </CoreStack>
-      
         }
       />
 
@@ -150,11 +151,17 @@ export default function CoreAvatarDocs() {
     <CoreIcon>assignment</CoreIcon></CoreAvatar>`}
         renderElement={
           <CoreStack spacing={2} direction="row">
-            <CoreAvatar styleClasses={[CoreClasses.BG.BG_SECONDARY_DARK]}><CoreIcon>folder</CoreIcon></CoreAvatar>
+            <CoreAvatar styleClasses={[CoreClasses.BG.BG_SECONDARY_DARK]}>
+              <CoreIcon>folder</CoreIcon>
+            </CoreAvatar>
 
-            <CoreAvatar styleClasses={[CoreClasses.BG.BG_PRIMARY_LIGHT]}><CoreIcon>pageview</CoreIcon></CoreAvatar>
+            <CoreAvatar styleClasses={[CoreClasses.BG.BG_PRIMARY_LIGHT]}>
+              <CoreIcon>pageview</CoreIcon>
+            </CoreAvatar>
 
-            <CoreAvatar styleClasses={[CoreClasses.BG.BG_SUCCESS_LIGHT]}><CoreIcon>assignment</CoreIcon></CoreAvatar>
+            <CoreAvatar styleClasses={[CoreClasses.BG.BG_SUCCESS_LIGHT]}>
+              <CoreIcon>assignment</CoreIcon>
+            </CoreAvatar>
           </CoreStack>
         }
       />
@@ -163,7 +170,8 @@ export default function CoreAvatarDocs() {
         title={"Variants"}
         description={
           <>
-            If you need square or rounded avatars, use the <CoreSpan code={true}>{" variant "}</CoreSpan> prop.
+            If you need square or rounded avatars, use the{" "}
+            <CoreSpan code={true}>{" variant "}</CoreSpan> prop.
           </>
         }
         code={`
@@ -175,22 +183,22 @@ export default function CoreAvatarDocs() {
     variant="round"><CoreIcon>assignment</CoreIcon></CoreAvatar>`}
         renderElement={
           <CoreStack spacing={2} direction="row">
-            <CoreAvatar styleClasses={[CoreClasses.BG.BG_PRIMARY_LIGHT]} variant="square">N</CoreAvatar>
+            <CoreAvatar styleClasses={[CoreClasses.BG.BG_PRIMARY_LIGHT]} variant="square">
+              N
+            </CoreAvatar>
 
-            <CoreAvatar styleClasses={[CoreClasses.BG.BG_SUCCESS_LIGHT]} variant="rounded"><CoreIcon>assignment</CoreIcon></CoreAvatar>
+            <CoreAvatar styleClasses={[CoreClasses.BG.BG_SUCCESS_LIGHT]} variant="rounded">
+              <CoreIcon>assignment</CoreIcon>
+            </CoreAvatar>
           </CoreStack>
         }
       />
 
-      <CodeSample
-        title="Fallbacks (NOT IMPLEMENTED)"/>
+      <CodeSample title="Fallbacks (NOT IMPLEMENTED)" />
 
-      <CodeSample
-        title="Total avatars (NOT IMPLEMENTED)"/>
+      <CodeSample title="Total avatars (NOT IMPLEMENTED)" />
 
-      <CodeSample
-        title="With badge (NOT IMPLEMENTED)"/>
-
+      <CodeSample title="With badge (NOT IMPLEMENTED)" />
     </>
   );
 }
