@@ -1,5 +1,3 @@
-const testRouter = require("./routes/test.routes");
-
-const routesRegistry = { "test": testRouter };
+const routesRegistry = {};
 
 exports.routesRegistry = routesRegistry;

@@ -1,7 +1,3 @@
-const testMiddleware = require("./middlewares/test.middleware");
+const middlewaresRegistry = {};
 
-const middlewaresRegistry = {
-    "testMiddleware": testMiddleware
- };
-
-module.exports = middlewaresRegistry;
+exports.middlewaresRegistry = middlewaresRegistry;
