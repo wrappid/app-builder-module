@@ -1,3 +1,5 @@
-const validationsRegistry = {};
+const validationsRegistry = {
+    ...testValidations
+};
 
 exports.validationsRegistry = validationsRegistry;
