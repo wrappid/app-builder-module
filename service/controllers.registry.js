@@ -1,23 +1,23 @@
 const databaseController = require("./controllers/database.controller");
-const appbuilderController = require("./controllers/appbuilder.controller");
+const businessController = require("./controllers/business.controller");
+const formsController = require("./controllers/forms.controller");
 
 const controllersRegistry = {
     //database
     getDatabaseTables: databaseController.getDatabaseTables,
-    getAttributes: appbuilderController.getAttributes,
-    getBusinessEntityColumns: appbuilderController.getBusinessEntityColumns,
+    getAttributes: databaseController.getAttributes,
+    getBusinessEntityColumns: databaseController.getBusinessEntityColumns,
     
     //business controller
-    getBusinessEntities: appbuilderController.getBusinessEntities,
-    getEntityData: appbuilderController.getEntityData,
-    getIndividualEntityData: appbuilderController.getIndividualEntityData,
-    getAllEntityData: appbuilderController.getAllEntityData,
-    getFormSchemaWithFormId: appbuilderController.getFormSchemaWithFormId,
+    getBusinessEntities: businessController.getBusinessEntities,
+    getEntityData: businessController.getEntityData,
+    getIndividualEntityData: businessController.getIndividualEntityData,
+    getAllEntityData: businessController.getAllEntityData,
+    noAuthGetAllEntityData: businessController.noAuthGetAllEntityData,
 
     // forms controller
-    getNoAuthFormSchema: appbuilderController.getNoAuthFormSchema,
-    getFormSchemaWithFormId: appbuilderController.getFormSchemaWithFormId,
-
+    getNoAuthFormSchema: formsController.getNoAuthFormSchema,
+    getFormSchema: formsController.getFormSchema,
 };
 
 exports.controllersRegistry = controllersRegistry;
