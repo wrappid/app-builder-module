@@ -1,3 +1,5 @@
+const { getFormSchema } = require("../functions/formSchema.helper");
+
 /**
  * 
  * @param {*} req 
@@ -12,7 +14,7 @@ module.exports.getNoAuthFormSchema = async (req, res) => {
       return res.status(500).json({ message: "formID is missing api path parameter" });
     }
 
-    let formSchema = await getFormSchema(db, formID, false);
+    let formSchema = await getFormSchema(formID, false);
 
     if (formSchema) {
       res.status(200).json({
@@ -45,7 +47,7 @@ module.exports.getFormSchema = async (req, res) => {
       return res.status(500).json({ message: "formID is missing api path parameter" });
     }
 
-    let formSchema = await getFormSchema(db, formID);
+    let formSchema = await getFormSchema(formID);
 
     if (formSchema) {
       res.status(200).json({

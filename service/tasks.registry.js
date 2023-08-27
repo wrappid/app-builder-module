@@ -1,5 +1,3 @@
-const tasksRegistry = {
-    "TestTask": TestTask
-};
+const tasksRegistry = {};
 
 exports.tasksRegistry = tasksRegistry;
