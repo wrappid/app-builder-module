@@ -39,7 +39,7 @@ const getEntitySchema = async (entityStr) => {
       : null;
 
   if (!EntitySchema) {
-    if (db[entityStr]) {
+    if (databaseProvider[db].models[entityStr]) {
       EntitySchema = { model: entityStr };
     }
   }
@@ -62,7 +62,7 @@ const getTotalCount = async (db, model, schemaOptions) => {
     // remove attributes
     delete options.attributes;
 
-    count = await db[model].count(options);
+    count = await databaseProvider[db].models[model].count(options);
   } catch (error) {
     console.error("-------businessEntityHelper>getTotalCount-------");
     console.error(error);
@@ -402,7 +402,7 @@ function prepareGeneralSearchWhereOB(
   let whereOB = {};
   _searchValue = decodeURIComponent(_searchValue).toString();
   if (_searchValue) {
-    let rawAttributes = db[model].rawAttributes;
+    let rawAttributes = databaseProvider[db].models[model].rawAttributes;
     let selectedAttributes = attributes || Object.keys(rawAttributes);
 
     selectedAttributes?.forEach((attr) => {
@@ -452,8 +452,8 @@ function nestedSearchWhereOB(
   if (incSchemas && Array.isArray(incSchemas) && incSchemas?.length > 0) {
     incSchemas.forEach((incSchema) => {
       let tempModelAs = incSchema?.as || "";
-      Object.keys(db[model].associations).forEach((_o) => {
-        if (db[model].associations[_o].target.tableName === incSchema.model) {
+      Object.keys(databaseProvider[db].models[model].associations).forEach((_o) => {
+        if (databaseProvider[db].models[model].associations[_o].target.tableName === incSchema.model) {
           tempModelAs = _o;
         }
       });
@@ -531,7 +531,7 @@ function prepareSearchWhereOB(db, _schema, _searchValue) {
 function prepareWhereOB(db, _schema, _filterQuery) {
   let whereOB = _schema?.where || {};
   if (_filterQuery) {
-    let modelAttr = Object.keys(db[_schema.model].rawAttributes);
+    let modelAttr = Object.keys(databaseProvider[db].models[_schema.model].rawAttributes);
     let filterQuery = JSON.parse(_filterQuery);
     if (filterQuery) {
       console.log("---------------filterQuery---------------");
@@ -668,7 +668,7 @@ const getEntityOption = (databaseName, schema, query) => {
 
     if (schema?.attributes && schema?.attributes?.length > 0) {
       let tempAuditAttributes = auditAttributes.filter((value) =>
-        Object.keys(databaseName[schema?.model]?.rawAttributes).includes(value)
+        Object.keys(databaseProvider[databaseName].models[schema?.model]?.rawAttributes).includes(value)
       );
       options["attributes"] = [...schema?.attributes, ...tempAuditAttributes];
     }

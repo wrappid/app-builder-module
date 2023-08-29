@@ -1,4 +1,4 @@
-const { databaseActions } = require("@wrappid/service-core");
+const { databaseActions, databaseProvider } = require("@wrappid/service-core");
 const {
   getEntitySchema,
   getEntityOption,
@@ -60,7 +60,7 @@ const getEntityDataCount = async (db, entityName, query) => {
 
     if (schema?.attributes && schema?.attributes?.length > 0) {
       let tempAuditAttributes = auditAttributes.filter((value) =>
-        Object.keys(db[schema?.model]?.rawAttributes).includes(value)
+        Object.keys(databaseProvider[db].models[schema?.model]?.rawAttributes).includes(value)
       );
       // if (schema?.model === "Users") {
       //   tempAuditAttributes = tempAuditAttributes.filter((auditAttribute) => {
@@ -110,6 +110,7 @@ const getEntityColumns = async (db, entityName) => {
  */
 const getEntityData = async (entityName, query) => {
   try {
+    let db = "application";
     let schema = await getEntitySchema(entityName);
     if (!schema) {
       throw new Error("Entity is missing");
@@ -151,7 +152,7 @@ const getEntityData = async (entityName, query) => {
 
     if (schema?.attributes && schema?.attributes?.length > 0) {
       let tempAuditAttributes = auditAttributes.filter((value) =>
-        Object.keys(db[schema?.model]?.rawAttributes).includes(value)
+        Object.keys(databaseProvider[db].models[schema?.model]?.rawAttributes).includes(value)
       );
       // if (schema?.model === "Users") {
       //   tempAuditAttributes = tempAuditAttributes.filter((auditAttribute) => {
