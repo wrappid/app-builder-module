@@ -17,9 +17,9 @@ const {
  * @param {*} query
  * @returns
  */
-const getEntityDataCount = async (db, entityName, query) => {
+const getEntityDataCount = async (databaseActions, entityName, query) => {
   try {
-    let schema = await getEntitySchema(db, entityName);
+    let schema = await getEntitySchema(databaseActions, entityName);
     if (!schema) {
       throw new Error("Entity is missing");
     }
@@ -191,7 +191,7 @@ const getEntityData = async (entityName, query) => {
  * @param {*} query
  */
 const getIndivEntityData = async (entityDatabaseName, entityName, query) => {
-  let schema = await getEntitySchema(entityDatabaseName, entityName);
+  let schema = await getEntitySchema( entityName);
   if (!schema) {
     throw new Error("Entity is missing");
   }

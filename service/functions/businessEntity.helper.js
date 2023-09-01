@@ -39,7 +39,7 @@ const getEntitySchema = async (entityStr) => {
       : null;
 
   if (!EntitySchema) {
-    if (databaseProvider[db].models[entityStr]) {
+    if (databaseProvider.application.models.entityStr) {
       EntitySchema = { model: entityStr };
     }
   }
@@ -642,10 +642,11 @@ const prepareOrderOB = (db, schema, orderQuery) => {
  */
 const getEntityOption = (databaseName, schema, query) => {
   try {
+    let model = schema?.model;
     if (!schema?.model) {
       throw new Error("Schema invalid model string");
     }
-    if (!databaseProvider[databaseName]?.models[schema?.model]) {
+    if (!databaseProvider.application.models[model]) {
       throw new Error("Schema invalid model");
     }
     let includeOB = [];
@@ -654,7 +655,7 @@ const getEntityOption = (databaseName, schema, query) => {
     });
 
     let options = {
-      model: databaseProvider[databaseName]?.models[schema?.model],
+      model: databaseProvider.application.models[model],
       as: schema?.as,
       include: includeOB || [],
     };
@@ -668,7 +669,7 @@ const getEntityOption = (databaseName, schema, query) => {
 
     if (schema?.attributes && schema?.attributes?.length > 0) {
       let tempAuditAttributes = auditAttributes.filter((value) =>
-        Object.keys(databaseProvider[databaseName].models[schema?.model]?.rawAttributes).includes(value)
+        Object.keys(databaseProvider.application.models[model].rawAttributes).includes(value)
       );
       options["attributes"] = [...schema?.attributes, ...tempAuditAttributes];
     }
@@ -698,6 +699,7 @@ const getEntityOption = (databaseName, schema, query) => {
     throw error;
   }
 };
+
 
 /**
  *

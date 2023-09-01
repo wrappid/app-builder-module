@@ -52,7 +52,7 @@ module.exports.getEntityData = async (req, res) => {
       return;
     }
 
-    let data = await getEntityDataCount(db, entity, req.query);
+    let data = await getEntityDataCount(databaseActions, entity, req.query);
 
     if (!data || data.length === 0) {
       res.status(204).json({ message: "Entity is missing" });
@@ -91,7 +91,7 @@ module.exports.getIndividualEntityData = async (req, res) => {
       return;
     }
 
-    let data = await getIndivEntityData(db, entity, req.query);
+    let data = await getIndivEntityData("application", entity, req.query);
 
     if (!data) {
       res.status(204).json({ message: "Entity[" + entity + "] data not found" });
