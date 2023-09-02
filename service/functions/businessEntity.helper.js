@@ -39,7 +39,7 @@ const getEntitySchema = async (entityStr) => {
       : null;
 
   if (!EntitySchema) {
-    if (databaseProvider.application.models.entityStr) {
+    if (databaseProvider.application.models[entityStr]) {
       EntitySchema = { model: entityStr };
     }
   }
