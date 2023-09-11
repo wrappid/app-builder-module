@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import {
   CoreH4,
   CoreH5,
@@ -6,15 +7,15 @@ import {
   CoreBox,
   CoreGrid,
   CoreDivider,
-  CoreClasses,
+  CoreClasses
 } from "@wrappid/core";
-import { UtilityClasses, StyledComponentsClasses } from "@wrappid/styles";
-import StyleSample from "./docs/StyleSample";
+import { UtilityClasses } from "@wrappid/styles";
+
 import CodeSample from "./docs/CodeSample";
 
 const CLASS_NAME_TO_EXCLUDE = [
-  // "DEV_BORDER",
-  // "ALIGNMENT",
+  // -- "DEV_BORDER",
+  // -- "ALIGNMENT",
   "INTERACTIONS",
   "POSITION",
   "WIDTH",
@@ -22,7 +23,13 @@ const CLASS_NAME_TO_EXCLUDE = [
   "VW_100",
   "MIN_VW_100",
 ];
-const CLASS_NAME_FOR_SCREEN_SIZES = ["SM", "MD", "LG", "XL", "XXL"];
+const CLASS_NAME_FOR_SCREEN_SIZES = [
+  "SM",
+  "MD",
+  "LG",
+  "XL",
+  "XXL"
+];
 
 export default function StyleUtilities() {
   return (
@@ -35,10 +42,13 @@ export default function StyleUtilities() {
         <CoreTypographyBody1>
           These are style utilities built using bootstrap flavour.
         </CoreTypographyBody1>
+
         {getStyleSamples(UtilityClasses)}
-        {/* {getStyleSamples(StyledComponentsClasses)} */}
-        {/* {getStyleSamples(CoreClasses)} */}
+
+        {/* -- {getStyleSamples(StyledComponentsClasses)} */}
+        {/* -- {getStyleSamples(CoreClasses)} */}
       </CoreBox>
+
       <CoreBox gridProps={{ gridSize: 3 }}>
         <CoreTypographyBody1>Table Of Contents</CoreTypographyBody1>
       </CoreBox>
@@ -95,9 +105,11 @@ const getStyleSamples = (classes) => {
                   <CoreH5 styleClasses={[CoreClasses.MARGIN.MY2, CoreClasses.COLOR.TEXT_PRIMARY]}>
                     {className}
                   </CoreH5>
+
                   <CoreTypographyBody1>
                     Some Group specific description text goes here...
                   </CoreTypographyBody1>
+
                   {getStyleSamples(classes[className])}
                 </>
               );
@@ -107,6 +119,7 @@ const getStyleSamples = (classes) => {
           }
         }
       })}
+
       <CoreDivider />
     </CoreBox>
   );
@@ -195,11 +208,7 @@ const getBackgroundColorUtilitySamples = () => {
             <CoreBox
               key={`bgClass-${index}`}
               gridProps={{ gridSize: 4 }}
-              styleClasses={[
-                CoreClasses.BG[bgClass],
-                CoreClasses.PADDING.P2,
-                CoreClasses.MARGIN.MB1,
-              ]}
+              styleClasses={[CoreClasses.BG[bgClass], CoreClasses.PADDING.P2, CoreClasses.MARGIN.MB1]}
             >
               {bgClass}
             </CoreBox>
@@ -257,11 +266,7 @@ const getColorUtilitySamples = () => {
             <CoreBox
               key={`colorClass-${index}`}
               gridProps={{ gridSize: 3 }}
-              styleClasses={[
-                CoreClasses.COLOR[colorClass],
-                CoreClasses.PADDING.PX2,
-                CoreClasses.MARGIN.MB1,
-              ]}
+              styleClasses={[CoreClasses.COLOR[colorClass], CoreClasses.PADDING.PX2, CoreClasses.MARGIN.MB1]}
             >
               {colorClass}
             </CoreBox>
@@ -284,11 +289,7 @@ const getTextUtilitySamples = () => {
             <CoreBox
               key={`textClass-${index}`}
               gridProps={{ gridSize: 3 }}
-              styleClasses={[
-                CoreClasses.TEXT[textClass],
-                CoreClasses.PADDING.PX2,
-                CoreClasses.MARGIN.MB1,
-              ]}
+              styleClasses={[CoreClasses.TEXT[textClass], CoreClasses.PADDING.PX2, CoreClasses.MARGIN.MB1]}
             >
               {textClass}
             </CoreBox>
@@ -309,6 +310,7 @@ const getOpacityUtilitySamples = () => {
         transparency level, where 100 is not transparent at all, 50 is 50% visible, and 0 is
         completely transparent.
       </CoreTypographyBody1>
+
       <CoreTypographyBody1>
         Set the opacity of an element using OPACITY_NN utilities.
       </CoreTypographyBody1>
@@ -319,12 +321,7 @@ const getOpacityUtilitySamples = () => {
             <CoreBox
               key={`opacityClass-${index}`}
               gridProps={{ gridSize: 3 }}
-              styleClasses={[
-                CoreClasses.OPACITY[opacityClass],
-                CoreClasses.PADDING.P2,
-                CoreClasses.MARGIN.MB1,
-                CoreClasses.BG.BG_PRIMARY,
-              ]}
+              styleClasses={[CoreClasses.OPACITY[opacityClass], CoreClasses.PADDING.P2, CoreClasses.MARGIN.MB1, CoreClasses.BG.BG_PRIMARY]}
             >
               {opacityClass}
             </CoreBox>
