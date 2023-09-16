@@ -18,6 +18,7 @@ const controllersRegistry = {
     // forms controller
     getNoAuthFormSchema: formsController.getNoAuthFormSchema,
     getFormSchema: formsController.getFormSchema,
+
 };
 
 exports.controllersRegistry = controllersRegistry;

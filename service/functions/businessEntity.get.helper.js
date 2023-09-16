@@ -19,7 +19,7 @@ const {
  */
 const getEntityDataCount = async (databaseActions, entityName, query) => {
   try {
-    let schema = await getEntitySchema(databaseActions, entityName);
+    let schema = await getEntitySchema( entityName);
     if (!schema) {
       throw new Error("Entity is missing");
     }
@@ -72,8 +72,8 @@ const getEntityDataCount = async (databaseActions, entityName, query) => {
       _options["attributes"] = [...schema?.attributes, ...tempAuditAttributes];
     }
 
-    let count = await entityDatabaseName[schema.model].count(_options);
-
+    let count = await databaseProvider[entityDatabaseName].models[schema.model].count(_options);
+    
     return count;
   } catch (error) {
     console.error("-------------------------------------");

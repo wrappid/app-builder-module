@@ -18,8 +18,9 @@ module.exports.getNoAuthFormSchema = async (req, res) => {
 
     if (formSchema) {
       res.status(200).json({
+        message: "Entity data found successfully",
         data  : formSchema,
-        formID: formID,
+        formID: formID
       });
     } else {
       res.status(204);
@@ -51,6 +52,7 @@ module.exports.getFormSchema = async (req, res) => {
 
     if (formSchema) {
       res.status(200).json({
+        message: "FormSchema data found successfully",
         data  : formSchema,
         formID: formID,
       });

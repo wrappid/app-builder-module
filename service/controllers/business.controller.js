@@ -99,11 +99,11 @@ module.exports.getIndividualEntityData = async (req, res) => {
     }
 
     res.status(200).json({
+      message: "Entity data found successfully",
       data: {
         data  : data,
         entity: entity,
       },
-      message: "Entity data found successfully",
     });
   } catch (error) {
     console.error(error);
@@ -138,11 +138,11 @@ module.exports.getAllEntityData = async (req, res) => {
     }
 
     res.status(200).json({
+      message: "Entity data found successfully",
       data: {
         entity: entity,
         ...data,
       },
-      message: "Entity data found successfully",
     });
   } catch (error) {
     console.error(error);
@@ -179,11 +179,11 @@ module.exports.noAuthGetAllEntityData = async (req, res) => {
     }
 
     res.status(200).json({
+      message: "Entity data found successfully",
       data: {
         entity: entity,
         ...data,
-      },
-      message: "Entity data found successfully",
+      }
     });
   } catch (error) {
     console.error(error);
