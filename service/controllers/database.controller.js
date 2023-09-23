@@ -8,7 +8,7 @@ const { databaseProvider } = require("@wrappid/service-core");
 module.exports.getDatabaseTables = (req, res) => {
     try {
         let database = req.params.database;
-        let requestedDBTables = databaseProvider[database].models;
+        let requestedDBTables = databaseProvider.application.models;
         let searchValue = req.query._searchValue;
 
         let searchedTables = Object.keys(requestedDBTables);

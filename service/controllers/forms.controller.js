@@ -1,5 +1,5 @@
 const { getFormSchema } = require("../functions/formSchema.helper");
-
+const {putFormSchemaFunc, postDataFunc, postCloneFormschemaFunc} = require("../functions/appbuilder.functions");
 /**
  * 
  * @param {*} req 
@@ -65,5 +65,40 @@ module.exports.getFormSchema = async (req, res) => {
       error  : error?.message || error,
       message: "Something went wrong",
     });
+  }
+};
+
+
+module.exports.putFormSchema = async (req, res) => {
+  try{
+    // res.status(200).json({message: "API call succecfully!!"});
+    let result = await putFormSchemaFunc(req, res);
+    let {status, ...resdata} = result;
+    res.status(status).json({...resdata});
+  }catch(err){
+    res.status(500).json({message: err});
+  }
+};
+
+module.exports.postData = async (req,res) => {
+  try{
+    // res.status(200).json({message: "API call succesfully!!"});
+    let result = await postDataFunc(req, res);
+    let {status, ...resdata} = result;
+    res.status(status).json({...resdata});
+  }catch(err){
+    res.status(500).json({message: err});
+  }
+};
+
+module.exports.postCloneFormschema = async (req, res) => {
+  try{ 
+    // res.status(200).json({message: "API call succesfully!!"});
+    let result = await postCloneFormschemaFunc(req, res);
+    let {status, ...resdata} = result;
+    res.status(status).json({...resdata});
+  }catch(err){
+    console.log(err);
+    res.status(500).json({message: err});
   }
 };

@@ -19,6 +19,10 @@ const controllersRegistry = {
     getNoAuthFormSchema: formsController.getNoAuthFormSchema,
     getFormSchema: formsController.getFormSchema,
 
+    putFormSchema: formsController.putFormSchema,
+    postData: formsController.postData,
+    postCloneFormschema: formsController.postCloneFormschema
+
 };
 
 exports.controllersRegistry = controllersRegistry;
