@@ -1,4 +1,8 @@
-const { coreConstant, databaseProvider, databaseActions } = require("@wrappid/service-core");
+const {
+  coreConstant,
+  databaseProvider,
+  databaseActions,
+} = require("@wrappid/service-core");
 const { httpMethod, entityStatus } = coreConstant;
 const {
   getEntitySchema,
@@ -184,4 +188,72 @@ const getFormSchema = async (formID, auth = true) => {
   }
 };
 
-module.exports = { getFormSchema };
+const updateStringValue = async (databaseProvider, req) => {
+  // var table = req.body.table;
+  // var whereOb = {};
+  // switch (table) {
+  //   case "MasterData":
+  //     whereOb = id ? { id } : { key: req.body.key, locale: req.body.locale };
+  //     break;
+  //   default:
+  //     break;
+  // }
+
+  const result = await databaseProvider.application.sequelize.transaction(
+    async (t) => {
+      let stringValue = await databaseActions.findOne(
+        "application",
+        "StringValues",
+        {
+          where: {
+            id: req.params.id,
+          },
+        },
+        { transaction: t }
+      );
+      let [nrows, rows] = await databaseActions.update(
+        "application",
+        "StringValues",
+        {
+          _status: "inactive",
+          updatedBy: req.user.userId,
+        },
+        {
+          where: {
+            id: req.params.id,
+          },
+        },
+        { transaction: t }
+      );
+      console.log("Old data deactivated");
+
+      let freshData = {
+        // key: req.body.key,
+        key: stringValue.key,
+        value: req.body.value,
+        locale: req.body.locale,
+      };
+      console.log("BODY", freshData);
+
+      let data = await databaseActions.create(
+        "application",
+        "StringValues",
+        {
+          ...freshData,
+          _status: "active",
+          createdBy: req.user.userId,
+          updatedBy: req.user.userId,
+        },
+        {
+          transaction: t,
+        }
+      );
+      console.log("New Data created");
+      return data.id;
+    }
+  );
+  console.log("Transaction commited");
+  return result;
+};
+
+module.exports = { getFormSchema, updateStringValue };

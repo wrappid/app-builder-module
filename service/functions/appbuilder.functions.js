@@ -7,7 +7,7 @@ const {
   databaseProvider,
 } = require("@wrappid/service-core");
 const { v4: uuidv4 } = require("uuid");
-const {getFormSchema} = require("./formSchema.helper");
+const {getFormSchema, updateStringValue}  = require("./formSchema.helper");
 
 
 const putFormSchemaFunc = async (req, res) => {
@@ -219,4 +219,21 @@ const postCloneFormschemaFunc = async (req, res) => {
   }
 };
 
-module.exports = { putFormSchemaFunc, postDataFunc, postCloneFormschemaFunc };
+const postUpdateStringValueFunc = async (req, res) => {
+  try {
+    var data = await updateStringValue(databaseProvider, req);
+    console.log("Local data updated");
+    return {status:200, message: "Local data updateed successfully" };
+    // res.status(200).json({
+    //   message: "Local data updateed successfully",
+    // });
+  } catch (err) {
+    console.error(err);
+    return {status:500, message: "Local data update error" };
+    // res.status(500).json({
+    //   message: "Local data update error",
+    // });
+  }
+};
+
+module.exports = { putFormSchemaFunc, postDataFunc, postCloneFormschemaFunc, postUpdateStringValueFunc };
