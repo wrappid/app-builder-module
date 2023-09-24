@@ -20,9 +20,6 @@ const controllersRegistry = {
     getFormSchema: formsController.getFormSchema,
 
     putFormSchema: formsController.putFormSchema,
-    postData: formsController.postData,
-    postCloneFormschema: formsController.postCloneFormschema,
-    postUpdateStringValue: formsController.postUpdateStringValue
 
 };
 
