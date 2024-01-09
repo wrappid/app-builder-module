@@ -1,22 +1,32 @@
 import { useContext, useEffect } from "react";
 
-import { CoreDataTable, __IconTypes, coreUseNavigate, ComponentRegistryContext } from "@wrappid/core";
+import {
+  CoreDataTable,
+  __IconTypes,
+  coreUseNavigate,
+  ComponentRegistryContext,
+} from "@wrappid/core";
 import { useDispatch } from "react-redux";
 
 import StatusChangeCommentHistory from "./StatusChangeCommentHistory";
 import { __EntityStatus } from "../constants/constants";
-import { RouteRegistry } from "../routes.registry";
+import { RoutesRegistry } from "../routes.registry";
 
 export default function PagesManager() {
   const navigate = coreUseNavigate();
   const dispatch = useDispatch();
   const componentRegistry = useContext(ComponentRegistryContext);
-  const options = componentRegistry ? Object.keys(componentRegistry)?.map(com => {
-    return { id: com, label: com };
-  }) : [];
+  const options = componentRegistry
+    ? Object.keys(componentRegistry)?.map((com) => {
+        return { id: com, label: com };
+      })
+    : [];
 
-  useEffect(()=>{
-    dispatch({ payload: { data: options, key: "ComponentRegistry" }, type: "SELECT_OPTION_SUCCESS" });
+  useEffect(() => {
+    dispatch({
+      payload: { data: options, key: "ComponentRegistry" },
+      type: "SELECT_OPTION_SUCCESS",
+    });
   }, [options]);
 
   const tableRowActions = [
@@ -24,19 +34,22 @@ export default function PagesManager() {
       action: (data) => {
         navigate(
           "/" +
-            RouteRegistry.HISTORY.replace(":model", "Pages").replace(":entityRef", data.entityRef),
+            RoutesRegistry.HISTORY.replace(":model", "Pages").replace(
+              ":entityRef",
+              data.entityRef
+            ),
           {}
         );
       },
-      icon : { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
+      icon: { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
       label: "History",
-      type : "action",
+      type: "action",
     },
     {
       action: (data) => {
         navigate(
           "/" +
-            RouteRegistry.STATUS_CHANGE_FORM.replace(":model", "Pages")
+            RoutesRegistry.STATUS_CHANGE_FORM.replace(":model", "Pages")
               .replace(":id", data?.id)
               .replace(":status", __EntityStatus.REVIEW_REQUESTED),
           { state: data }
@@ -52,15 +65,15 @@ export default function PagesManager() {
           return true;
         }
       },
-      icon : { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
+      icon: { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
       label: "Request for review",
-      type : "action",
+      type: "action",
     },
     {
       action: (data) => {
         navigate(
           "/" +
-            RouteRegistry.STATUS_CHANGE_FORM.replace(":model", "Pages")
+            RoutesRegistry.STATUS_CHANGE_FORM.replace(":model", "Pages")
               .replace(":id", data?.id)
               .replace(":status", __EntityStatus.APPROVED),
           { state: data }
@@ -73,15 +86,15 @@ export default function PagesManager() {
           return true;
         }
       },
-      icon : { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
+      icon: { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
       label: "Approve",
-      type : "action",
+      type: "action",
     },
     {
       action: (data) => {
         navigate(
           "/" +
-            RouteRegistry.STATUS_CHANGE_FORM.replace(":model", "Pages")
+            RoutesRegistry.STATUS_CHANGE_FORM.replace(":model", "Pages")
               .replace(":id", data?.id)
               .replace(":status", __EntityStatus.CHANGE_REQUESTED),
           { state: data }
@@ -94,15 +107,15 @@ export default function PagesManager() {
           return true;
         }
       },
-      icon : { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
+      icon: { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
       label: "Change request",
-      type : "action",
+      type: "action",
     },
     {
       action: (data) => {
         navigate(
           "/" +
-            RouteRegistry.STATUS_CHANGE_FORM.replace(":model", "Pages")
+            RoutesRegistry.STATUS_CHANGE_FORM.replace(":model", "Pages")
               .replace(":id", data?.id)
               .replace(":status", __EntityStatus.REJECTED),
           { state: data }
@@ -115,15 +128,15 @@ export default function PagesManager() {
           return true;
         }
       },
-      icon : { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
+      icon: { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
       label: "Reject",
-      type : "action",
+      type: "action",
     },
     {
       action: (data) => {
         navigate(
           "/" +
-            RouteRegistry.STATUS_CHANGE_FORM.replace(":model", "Pages")
+            RoutesRegistry.STATUS_CHANGE_FORM.replace(":model", "Pages")
               .replace(":id", data?.id)
               .replace(":status", __EntityStatus.PUBLISHED),
           { state: data }
@@ -136,9 +149,9 @@ export default function PagesManager() {
           return true;
         }
       },
-      icon : { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
+      icon: { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
       label: "Publish",
-      type : "action",
+      type: "action",
     },
   ];
 

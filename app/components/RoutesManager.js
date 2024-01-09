@@ -2,7 +2,7 @@ import { CoreDataTable, __IconTypes, coreUseNavigate } from "@wrappid/core";
 
 import StatusChangeCommentHistory from "./StatusChangeCommentHistory";
 import { __EntityStatus } from "../constants/constants";
-import { RouteRegistry } from "../routes.registry";
+import { RoutesRegistry } from "../routes.registry";
 
 export default function RoutesManager() {
   const navigate = coreUseNavigate();
@@ -12,19 +12,22 @@ export default function RoutesManager() {
       action: (data) => {
         navigate(
           "/" +
-            RouteRegistry.HISTORY.replace(":model", "Routes").replace(":entityRef", data?.entityRef),
+            RoutesRegistry.HISTORY.replace(":model", "Routes").replace(
+              ":entityRef",
+              data?.entityRef
+            ),
           {}
         );
       },
-      icon : { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
+      icon: { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
       label: "History",
-      type : "action",
+      type: "action",
     },
     {
       action: (data) => {
         navigate(
           "/" +
-            RouteRegistry.STATUS_CHANGE_FORM.replace(":model", "Routes")
+            RoutesRegistry.STATUS_CHANGE_FORM.replace(":model", "Routes")
               .replace(":id", data?.id)
               .replace(":status", __EntityStatus.REVIEW_REQUESTED),
           { state: data }
@@ -40,15 +43,15 @@ export default function RoutesManager() {
           return true;
         }
       },
-      icon : { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
+      icon: { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
       label: "Request for review",
-      type : "action",
+      type: "action",
     },
     {
       action: (data) => {
         navigate(
           "/" +
-            RouteRegistry.STATUS_CHANGE_FORM.replace(":model", "Routes")
+            RoutesRegistry.STATUS_CHANGE_FORM.replace(":model", "Routes")
               .replace(":id", data?.id)
               .replace(":status", __EntityStatus.APPROVED),
           { state: data }
@@ -61,15 +64,15 @@ export default function RoutesManager() {
           return true;
         }
       },
-      icon : { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
+      icon: { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
       label: "Approve",
-      type : "action",
+      type: "action",
     },
     {
       action: (data) => {
         navigate(
           "/" +
-            RouteRegistry.STATUS_CHANGE_FORM.replace(":model", "Routes")
+            RoutesRegistry.STATUS_CHANGE_FORM.replace(":model", "Routes")
               .replace(":id", data?.id)
               .replace(":status", __EntityStatus.CHANGE_REQUESTED),
           { state: data }
@@ -82,15 +85,15 @@ export default function RoutesManager() {
           return true;
         }
       },
-      icon : { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
+      icon: { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
       label: "Change request",
-      type : "action",
+      type: "action",
     },
     {
       action: (data) => {
         navigate(
           "/" +
-            RouteRegistry.STATUS_CHANGE_FORM.replace(":model", "Routes")
+            RoutesRegistry.STATUS_CHANGE_FORM.replace(":model", "Routes")
               .replace(":id", data?.id)
               .replace(":status", __EntityStatus.REJECTED),
           { state: data }
@@ -103,15 +106,15 @@ export default function RoutesManager() {
           return true;
         }
       },
-      icon : { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
+      icon: { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
       label: "Reject",
-      type : "action",
+      type: "action",
     },
     {
       action: (data) => {
         navigate(
           "/" +
-            RouteRegistry.STATUS_CHANGE_FORM.replace(":model", "Routes")
+            RoutesRegistry.STATUS_CHANGE_FORM.replace(":model", "Routes")
               .replace(":id", data?.id)
               .replace(":status", __EntityStatus.PUBLISHED),
           { state: data }
@@ -124,9 +127,9 @@ export default function RoutesManager() {
           return true;
         }
       },
-      icon : { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
+      icon: { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
       label: "Publish",
-      type : "action",
+      type: "action",
     },
   ];
 

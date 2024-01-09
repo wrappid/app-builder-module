@@ -1,9 +1,15 @@
-import { CoreDataTable, HTTP, __IconTypes, apiRequestAction, coreUseNavigate } from "@wrappid/core";
+import {
+  CoreDataTable,
+  HTTP,
+  __IconTypes,
+  apiRequestAction,
+  coreUseNavigate,
+} from "@wrappid/core";
 import { useDispatch } from "react-redux";
 
 import StatusChangeCommentHistory from "./StatusChangeCommentHistory";
 import { __EntityStatus } from "../constants/constants";
-import { RouteRegistry } from "../routes.registry";
+import { RoutesRegistry } from "../routes.registry";
 
 export default function BusinessEntityManager() {
   const navigate = coreUseNavigate();
@@ -14,16 +20,16 @@ export default function BusinessEntityManager() {
       action: (data) => {
         navigate(
           "/" +
-            RouteRegistry?.HISTORY?.replace(":model", "BusinessEntitySchemas")?.replace(
-              ":entityRef",
-              data.entityRef
-            ),
+            RoutesRegistry?.HISTORY?.replace(
+              ":model",
+              "BusinessEntitySchemas"
+            )?.replace(":entityRef", data.entityRef),
           {}
         );
       },
-      icon : { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
+      icon: { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
       label: "History",
-      type : "action",
+      type: "action",
     },
     {
       action: (data) => {
@@ -40,15 +46,18 @@ export default function BusinessEntityManager() {
           )
         );
       },
-      icon : { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
+      icon: { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
       label: "Clone",
-      type : "action",
+      type: "action",
     },
     {
       action: (data) => {
         navigate(
           "/" +
-            RouteRegistry?.STATUS_CHANGE_FORM.replace(":model", "BusinessEntitySchemas")
+            RoutesRegistry?.STATUS_CHANGE_FORM.replace(
+              ":model",
+              "BusinessEntitySchemas"
+            )
               ?.replace(":id", data?.id)
               ?.replace(":status", __EntityStatus.REVIEW_REQUESTED),
           { state: data }
@@ -64,15 +73,18 @@ export default function BusinessEntityManager() {
           return true;
         }
       },
-      icon : { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
+      icon: { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
       label: "Request for review",
-      type : "action",
+      type: "action",
     },
     {
       action: (data) => {
         navigate(
           "/" +
-            RouteRegistry.STATUS_CHANGE_FORM.replace(":model", "BusinessEntitySchemas")
+            RoutesRegistry.STATUS_CHANGE_FORM.replace(
+              ":model",
+              "BusinessEntitySchemas"
+            )
               ?.replace(":id", data?.id)
               ?.replace(":status", __EntityStatus.APPROVED),
           { state: data }
@@ -85,15 +97,18 @@ export default function BusinessEntityManager() {
           return true;
         }
       },
-      icon : { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
+      icon: { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
       label: "Approve",
-      type : "action",
+      type: "action",
     },
     {
       action: (data) => {
         navigate(
           "/" +
-            RouteRegistry.STATUS_CHANGE_FORM.replace(":model", "BusinessEntitySchemas")
+            RoutesRegistry.STATUS_CHANGE_FORM.replace(
+              ":model",
+              "BusinessEntitySchemas"
+            )
               ?.replace(":id", data?.id)
               ?.replace(":status", __EntityStatus.CHANGE_REQUESTED),
           { state: data }
@@ -106,15 +121,18 @@ export default function BusinessEntityManager() {
           return true;
         }
       },
-      icon : { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
+      icon: { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
       label: "Change request",
-      type : "action",
+      type: "action",
     },
     {
       action: (data) => {
         navigate(
           "/" +
-            RouteRegistry.STATUS_CHANGE_FORM.replace(":model", "BusinessEntitySchemas")
+            RoutesRegistry.STATUS_CHANGE_FORM.replace(
+              ":model",
+              "BusinessEntitySchemas"
+            )
               ?.replace(":id", data?.id)
               ?.replace(":status", __EntityStatus.REJECTED),
           { state: data }
@@ -127,15 +145,18 @@ export default function BusinessEntityManager() {
           return true;
         }
       },
-      icon : { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
+      icon: { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
       label: "Reject",
-      type : "action",
+      type: "action",
     },
     {
       action: (data) => {
         navigate(
           "/" +
-            RouteRegistry.STATUS_CHANGE_FORM.replace(":model", "BusinessEntitySchemas")
+            RoutesRegistry.STATUS_CHANGE_FORM.replace(
+              ":model",
+              "BusinessEntitySchemas"
+            )
               ?.replace(":id", data?.id)
               ?.replace(":status", __EntityStatus.PUBLISHED),
           { state: data }
@@ -148,9 +169,9 @@ export default function BusinessEntityManager() {
           return true;
         }
       },
-      icon : { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
+      icon: { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
       label: "Publish",
-      type : "action",
+      type: "action",
     },
   ];
 
