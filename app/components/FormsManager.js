@@ -3,13 +3,13 @@ import {
   __IconTypes,
   apiRequestAction,
   coreUseNavigate,
-  HTTP
+  HTTP,
 } from "@wrappid/core";
 import { useDispatch } from "react-redux";
 
 import StatusChangeCommentHistory from "./StatusChangeCommentHistory";
 import { __EntityStatus } from "../constants/constants";
-import { RouteRegistry } from "../routes.registry";
+import { RoutesRegistry } from "../routes.registry";
 
 function FormsManager() {
   const navigate = coreUseNavigate();
@@ -19,16 +19,16 @@ function FormsManager() {
       action: (data) => {
         navigate(
           "/" +
-            RouteRegistry.HISTORY.replace(":model", "FormSchemas").replace(
+            RoutesRegistry.HISTORY.replace(":model", "FormSchemas").replace(
               ":entityRef",
               data.entityRef
             ),
           {}
         );
       },
-      icon : { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
+      icon: { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
       label: "History",
-      type : "action",
+      type: "action",
     },
     {
       action: (data) => {
@@ -43,15 +43,15 @@ function FormsManager() {
           )
         );
       },
-      icon : { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
+      icon: { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
       label: "Clone",
-      type : "action",
+      type: "action",
     },
     {
       action: (data) => {
         navigate(
           "/" +
-            RouteRegistry?.STATUS_CHANGE_FORM.replace(":model", "FormSchemas")
+            RoutesRegistry?.STATUS_CHANGE_FORM.replace(":model", "FormSchemas")
               ?.replace(":id", data?.id)
               ?.replace(":status", __EntityStatus.REVIEW_REQUESTED),
           { pageUrl: "/forms", state: data }
@@ -67,15 +67,15 @@ function FormsManager() {
           return true;
         }
       },
-      icon : { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
+      icon: { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
       label: "Request for review",
-      type : "action",
+      type: "action",
     },
     {
       action: (data) => {
         navigate(
           "/" +
-            RouteRegistry.STATUS_CHANGE_FORM.replace(":model", "FormSchemas")
+            RoutesRegistry.STATUS_CHANGE_FORM.replace(":model", "FormSchemas")
               ?.replace(":id", data?.id)
               ?.replace(":status", __EntityStatus.APPROVED),
           { pageUrl: "/forms", state: data }
@@ -88,15 +88,15 @@ function FormsManager() {
           return true;
         }
       },
-      icon : { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
+      icon: { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
       label: "Approve",
-      type : "action",
+      type: "action",
     },
     {
       action: (data) => {
         navigate(
           "/" +
-            RouteRegistry.STATUS_CHANGE_FORM.replace(":model", "FormSchemas")
+            RoutesRegistry.STATUS_CHANGE_FORM.replace(":model", "FormSchemas")
               ?.replace(":id", data?.id)
               ?.replace(":status", __EntityStatus.CHANGE_REQUESTED),
           { pageUrl: "/forms", state: data }
@@ -109,15 +109,15 @@ function FormsManager() {
           return true;
         }
       },
-      icon : { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
+      icon: { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
       label: "Change request",
-      type : "action",
+      type: "action",
     },
     {
       action: (data) => {
         navigate(
           "/" +
-            RouteRegistry.STATUS_CHANGE_FORM.replace(":model", "FormSchemas")
+            RoutesRegistry.STATUS_CHANGE_FORM.replace(":model", "FormSchemas")
               ?.replace(":id", data?.id)
               ?.replace(":status", __EntityStatus.REJECTED),
           { pageUrl: "/forms", state: data }
@@ -130,15 +130,15 @@ function FormsManager() {
           return true;
         }
       },
-      icon : { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
+      icon: { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
       label: "Reject",
-      type : "action",
+      type: "action",
     },
     {
       action: (data) => {
         navigate(
           "/" +
-            RouteRegistry.STATUS_CHANGE_FORM.replace(":model", "FormSchemas")
+            RoutesRegistry.STATUS_CHANGE_FORM.replace(":model", "FormSchemas")
               ?.replace(":id", data?.id)
               ?.replace(":status", __EntityStatus.PUBLISHED),
           { pageUrl: "/forms", state: data }
@@ -151,9 +151,9 @@ function FormsManager() {
           return true;
         }
       },
-      icon : { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
+      icon: { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
       label: "Publish",
-      type : "action",
+      type: "action",
     },
   ];
 
