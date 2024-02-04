@@ -1,18 +1,22 @@
 /* eslint-disable no-console */
 const {
+  // eslint-disable-next-line no-unused-vars
   communicate,
+  // eslint-disable-next-line no-unused-vars
   configProvider,
   coreConstant,
   databaseActions,
   databaseProvider,
 } = require("@wrappid/service-core");
 const { v4: uuidv4 } = require("uuid");
+// eslint-disable-next-line no-unused-vars
 const {getFormSchema, updateStringValue}  = require("./formSchema.helper");
 
 
+// eslint-disable-next-line no-unused-vars
 const putFormSchemaFunc = async (req, res) => {
+  let model = req?.params?.model;
   try {
-    let model = req.params.model;
     console.log("model=" + model);
     let modelID = req.params.id;
     console.log("modelID=" + modelID);
@@ -34,7 +38,7 @@ const putFormSchemaFunc = async (req, res) => {
         databaseProvider.application.models[model].rawAttributes[rawAttribute].type
           .toString()
           .startsWith("JSON") &&
-        body.hasOwnProperty(rawAttribute) &&
+        Object.prototype.hasOwnProperty.call(body, rawAttribute) &&
         typeof body[rawAttribute] === "string" &&
         body[rawAttribute] !== ""
       ) {
@@ -44,7 +48,7 @@ const putFormSchemaFunc = async (req, res) => {
 
     // null if attribute value is empty
     Object.keys(body).forEach((_bodyKey) => {
-      if (!body.hasOwnProperty(_bodyKey) || body[_bodyKey] === "") {
+      if (!Object.prototype.hasOwnProperty.call(body, _bodyKey) || body[_bodyKey] === "") {
         body[_bodyKey] = null;
       }
     });
@@ -69,7 +73,7 @@ const putFormSchemaFunc = async (req, res) => {
       let createData = { ...body };
       delete createData["id"];
 
-      let newEntry = await databaseActions.create("application",model,{
+      /* let newEntry =  */await databaseActions.create("application",model,{
         ...createData,
         _status: coreConstant.entityStatus.DRAFT,
         updatedBy: req.user.userId,
@@ -89,7 +93,7 @@ const putFormSchemaFunc = async (req, res) => {
       console.log(result);
 
       if (result)
-      return {status:200,  entity: model, message: model + " updated successfully", }
+        return {status:200,  entity: model, message: model + " updated successfully", };
         // res.status(200).json({
         //   entity: model,
         //   message: model + " updated successfully",
@@ -98,7 +102,7 @@ const putFormSchemaFunc = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    return {status:200,   entity: model,  error: error, message: "Error to update " + model,}
+    return {status:200,   entity: model,  error: error, message: "Error to update " + model,};
     // res.status(500).json({
     //   entity: model,
     //   error: error,

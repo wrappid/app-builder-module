@@ -3,7 +3,7 @@ import {
   HTTP,
   __IconTypes,
   apiRequestAction,
-  coreUseNavigate,
+  coreUseNavigate
 } from "@wrappid/core";
 import { useDispatch } from "react-redux";
 
@@ -27,9 +27,9 @@ export default function BusinessEntityManager() {
           {}
         );
       },
-      icon: { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
+      icon : { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
       label: "History",
-      type: "action",
+      type : "action",
     },
     {
       action: (data) => {
@@ -46,9 +46,9 @@ export default function BusinessEntityManager() {
           )
         );
       },
-      icon: { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
+      icon : { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
       label: "Clone",
-      type: "action",
+      type : "action",
     },
     {
       action: (data) => {
@@ -73,9 +73,9 @@ export default function BusinessEntityManager() {
           return true;
         }
       },
-      icon: { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
+      icon : { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
       label: "Request for review",
-      type: "action",
+      type : "action",
     },
     {
       action: (data) => {
@@ -97,9 +97,9 @@ export default function BusinessEntityManager() {
           return true;
         }
       },
-      icon: { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
+      icon : { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
       label: "Approve",
-      type: "action",
+      type : "action",
     },
     {
       action: (data) => {
@@ -121,9 +121,9 @@ export default function BusinessEntityManager() {
           return true;
         }
       },
-      icon: { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
+      icon : { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
       label: "Change request",
-      type: "action",
+      type : "action",
     },
     {
       action: (data) => {
@@ -145,9 +145,9 @@ export default function BusinessEntityManager() {
           return true;
         }
       },
-      icon: { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
+      icon : { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
       label: "Reject",
-      type: "action",
+      type : "action",
     },
     {
       action: (data) => {
@@ -169,9 +169,9 @@ export default function BusinessEntityManager() {
           return true;
         }
       },
-      icon: { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
+      icon : { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
       label: "Publish",
-      type: "action",
+      type : "action",
     },
   ];
 
