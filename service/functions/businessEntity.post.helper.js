@@ -1,4 +1,5 @@
-const { getEntitySchema } = require("./businessEntity.helper");
+const { coreConstant } = require("@wrappid/service-core");
+const { getEntitySchema, auditAttributes } = require("./businessEntity.helper");
 
 /**
  *
@@ -9,7 +10,7 @@ const { getEntitySchema } = require("./businessEntity.helper");
  */
 const prepareCreateData = (db, modelName, attributes, request) => {
   if (!modelName) {
-    throw new Error(`model is undefined`);
+    throw new Error("model is undefined");
   }
   if (!db[modelName]) {
     throw new Error(`${modelName} is missing in DB`);
@@ -22,7 +23,7 @@ const prepareCreateData = (db, modelName, attributes, request) => {
       _createData[attr] = request.body[attr];
     }
   });
-  _createData["_status"] = entityStatus.DEFAULT;
+  _createData["_status"] = coreConstant.entityStatus.DEFAULT;
   _createData["createdBy"] = request?.user?.userId;
 
   return _createData;
@@ -54,7 +55,7 @@ const postBusinessEntityData = async (db, schemaName, request) => {
       throw new Error("Business entity is missing");
     }
     let schemaResult = {};
-    let result = await db.sequelize.transaction(async (t) => {
+    /* let result =  */await db.sequelize.transaction(async (t) => {
       schemaResult[schema?.model] = await createData(
         db,
         schema?.model,

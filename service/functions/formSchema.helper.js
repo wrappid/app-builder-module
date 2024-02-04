@@ -3,6 +3,7 @@ const {
   databaseProvider,
   databaseActions,
 } = require("@wrappid/service-core");
+
 const { httpMethod, entityStatus } = coreConstant;
 const {
   getEntitySchema,
@@ -225,6 +226,8 @@ const updateStringValue = async (databaseProvider, req) => {
         },
         { transaction: t }
       );
+      console.log(`nrows=${nrows}`);
+      console.log(`rows=${rows}`);
       console.log("Old data deactivated");
 
       let freshData = {
