@@ -1,5 +1,6 @@
-const sequelize = require("sequelize");
 const { databaseActions, databaseProvider, coreConstant } = require("@wrappid/service-core");
+const sequelize = require("sequelize");
+
 const { entityStatus } = coreConstant;
 const { whereConst } = require("../constants/whereConstants");
 const { getNormalCaseFromCamelCase } = require("../utils/strings.utils");
@@ -63,11 +64,11 @@ const getTotalCount = async (db, model, schemaOptions) => {
     delete options.attributes;
 
     count = await databaseProvider[db].models[model].count(options);
+    return count;
   } catch (error) {
     console.error("-------businessEntityHelper>getTotalCount-------");
     console.error(error);
     console.error("------------------------------------------------");
-  } finally {
     return count;
   }
 };
@@ -286,7 +287,10 @@ function processColumnFilter(_whereOB, _attribute, _filterOB) {
     switch (_filterOB?.whereOP) {
       case "OR":
         _whereOB[sequelize.Op.or] = _where;
+        break;
       case "AND":
+        _whereOB = { ..._whereOB, ..._where };
+        break;
       default:
         _whereOB = { ..._whereOB, ..._where };
         break;
@@ -315,10 +319,9 @@ function recurrsive_BusinessEntityWhere(dbName, schema, where) {
         return col.id;
       });
       if (
-        columns.filter((column) => {
+        columns && columns.filter((column) => {
           return whereKey.includes(column);
-        }).length > 0 ||
-        true
+        }).length > 0
       ) {
         // valid attribute
         let whereVal = whereSchema[whereKey];
@@ -528,6 +531,7 @@ function prepareSearchWhereOB(db, _schema, _searchValue) {
  * @param {*} _filterQuery
  * @returns
  */
+// eslint-disable-next-line no-unused-vars
 function prepareWhereOB(db, _schema, _filterQuery) {
   let whereOB = _schema?.where || {};
   if (_filterQuery) {
@@ -558,7 +562,14 @@ function prepareWhereOB(db, _schema, _filterQuery) {
   }
   return whereOB;
 }
-
+/**
+ * 
+ * @param {*} db 
+ * @param {*} parentModel 
+ * @param {*} _incSchema 
+ * @param {*} orderQuery 
+ */
+// eslint-disable-next-line no-unused-vars
 function processNestedModelOrder(db, parentModel, _incSchema, orderQuery) {
   Object.keys(orderQuery).forEach((_eachOrder) => {
     if (_eachOrder.includes(".")) {
@@ -613,6 +624,7 @@ const prepareOrderOB = (db, schema, orderQuery) => {
              * else check with the column names
              * 2.
              */
+            // eslint-disable-next-line no-constant-condition
             true
           ) {
             orderOB.push([
@@ -660,10 +672,10 @@ const getEntityOption = (databaseName, schema, query) => {
       include: includeOB || [],
     };
 
-    if (schema.hasOwnProperty("required")) {
+    if (Object.prototype.hasOwnProperty.call(schema, "required")) {
       options["required"] = schema.required;
     }
-    if (schema.hasOwnProperty("right")) {
+    if (Object.prototype.hasOwnProperty.call(schema, "right")) {
       options["right"] = schema.right;
     }
 
@@ -671,7 +683,7 @@ const getEntityOption = (databaseName, schema, query) => {
       let tempAuditAttributes = auditAttributes.filter((value) =>
         Object.keys(databaseProvider.application.models[model].rawAttributes).includes(value)
       );
-      options["attributes"] = [...schema?.attributes, ...tempAuditAttributes];
+      options["attributes"] = [...(schema?.attributes || []), ...tempAuditAttributes];
     }
 
     /**

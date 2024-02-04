@@ -2,11 +2,13 @@ const { databaseActions, databaseProvider } = require("@wrappid/service-core");
 const {
   getEntitySchema,
   getEntityOption,
+  // eslint-disable-next-line no-unused-vars
   getTotalCount,
   prepareOrderOB,
   getFinalWhereClause,
   getColumnsFromSchema,
   auditAttributes,
+  // eslint-disable-next-line no-unused-vars
   getRequiredDB,
 } = require("./businessEntity.helper");
 
@@ -26,6 +28,7 @@ const getEntityDataCount = async (databaseActions, entityName, query) => {
 
     let entityDatabaseName = "application"; // getRequiredDB(schema?.database || DB_CONST.RXEFY_DB);
 
+    // eslint-disable-next-line no-unused-vars
     let { where, ...schemaOptions } = getEntityOption(entityDatabaseName, schema, query);
     let finalWhereOB = {};
     finalWhereOB = getFinalWhereClause(
@@ -44,10 +47,10 @@ const getEntityDataCount = async (databaseActions, entityName, query) => {
       ...schemaOptions,
     };
 
-    if (schema.hasOwnProperty("raw")) {
+    if (Object.prototype.hasOwnProperty.call(schema, "raw")) {
       _options["raw"] = schema.raw;
     }
-    if (schema.hasOwnProperty("nest")) {
+    if (Object.prototype.hasOwnProperty.call(schema, "nest")) {
       _options["nest"] = schema.nest;
     }
 
@@ -60,7 +63,8 @@ const getEntityDataCount = async (databaseActions, entityName, query) => {
 
     if (schema?.attributes && schema?.attributes?.length > 0) {
       let tempAuditAttributes = auditAttributes.filter((value) =>
-        Object.keys(databaseProvider[db].models[schema?.model]?.rawAttributes).includes(value)
+        /** @todo hard-coded database name */
+        Object.keys(databaseProvider["application"].models[schema?.model]?.rawAttributes).includes(value)
       );
       // if (schema?.model === "Users") {
       //   tempAuditAttributes = tempAuditAttributes.filter((auditAttribute) => {
@@ -69,7 +73,7 @@ const getEntityDataCount = async (databaseActions, entityName, query) => {
       //     );
       //   });
       // }
-      _options["attributes"] = [...schema?.attributes, ...tempAuditAttributes];
+      _options["attributes"] = [...(schema?.attributes || []), ...tempAuditAttributes];
     }
 
     let count = await databaseProvider[entityDatabaseName].models[schema.model].count(_options);
@@ -118,6 +122,7 @@ const getEntityData = async (entityName, query) => {
 
     let entityDatabaseName = /* schema?.database ||  */"application";
 
+    // eslint-disable-next-line no-unused-vars
     let { where, ...schemaOptions } = getEntityOption(entityDatabaseName, schema, query);
     let finalWhereOB = {};
     finalWhereOB = getFinalWhereClause(
@@ -136,10 +141,10 @@ const getEntityData = async (entityName, query) => {
       ...schemaOptions,
     };
 
-    if (schema.hasOwnProperty("raw")) {
+    if (Object.prototype.hasOwnProperty.call(schema, "raw")) {
       _options["raw"] = schema.raw;
     }
-    if (schema.hasOwnProperty("nest")) {
+    if (Object.prototype.hasOwnProperty.call(schema, "nest")) {
       _options["nest"] = schema.nest;
     }
 
@@ -161,7 +166,7 @@ const getEntityData = async (entityName, query) => {
       //     );
       //   });
       // }
-      _options["attributes"] = [...schema?.attributes, ...tempAuditAttributes];
+      _options["attributes"] = [...(schema?.attributes || []), ...tempAuditAttributes];
     }
 
     if (query?.offset) {
@@ -196,6 +201,7 @@ const getIndivEntityData = async (entityDatabaseName, entityName, query) => {
     throw new Error("Entity is missing");
   }
 
+  // eslint-disable-next-line no-unused-vars
   let { where, ...schemaOptions } = getEntityOption(entityDatabaseName, schema, query);
   let finalWhereOB = {};
   finalWhereOB = getFinalWhereClause(
@@ -208,8 +214,8 @@ const getIndivEntityData = async (entityDatabaseName, entityName, query) => {
   let _options = {
     benchmark: true,
     logging: console.log,
-    raw: schema.hasOwnProperty("raw") ? schema.raw : true,
-    nest: schema.hasOwnProperty("nested") ? schema.nested : false,
+    raw: Object.prototype.hasOwnProperty.call(schema, "raw") ? schema.raw : true,
+    nest: Object.prototype.hasOwnProperty.call(schema, "nested") ? schema.nested : false,
     where: finalWhereOB,
     ...schemaOptions,
   };

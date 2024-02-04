@@ -12,16 +12,16 @@ import StatusChangeCommentHistory from "./components/StatusChangeCommentHistory"
 import StatusChangeForm from "./components/StatusChangeForm";
 
 export const ComponentsRegistry = {
-  BusinessEntityComp: { comp: BusinessEntityComp },
-  BusinessEntityManager: { comp: BusinessEntityManager },
-  DataCreator: { comp: DataCreator },
-  DataViewer: { comp: DataViewer },
-  FormBuilder: { comp: FormBuilder },
-  FormPreview: { comp: FormPreview },
-  FormsManager: { comp: FormsManager },
-  History: { comp: History },
-  PagesManager: { comp: PagesManager },
-  RoutesManager: { comp: RoutesManager },
+  BusinessEntityComp        : { comp: BusinessEntityComp },
+  BusinessEntityManager     : { comp: BusinessEntityManager },
+  DataCreator               : { comp: DataCreator },
+  DataViewer                : { comp: DataViewer },
+  FormBuilder               : { comp: FormBuilder },
+  FormPreview               : { comp: FormPreview },
+  FormsManager              : { comp: FormsManager },
+  History                   : { comp: History },
+  PagesManager              : { comp: PagesManager },
+  RoutesManager             : { comp: RoutesManager },
   StatusChangeCommentHistory: { comp: StatusChangeCommentHistory },
-  StatusChangeForm: { comp: StatusChangeForm },
+  StatusChangeForm          : { comp: StatusChangeForm },
 };

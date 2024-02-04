@@ -4,7 +4,7 @@ import {
   CoreDataTable,
   __IconTypes,
   coreUseNavigate,
-  ComponentRegistryContext,
+  ComponentRegistryContext
 } from "@wrappid/core";
 import { useDispatch } from "react-redux";
 
@@ -18,14 +18,14 @@ export default function PagesManager() {
   const componentRegistry = useContext(ComponentRegistryContext);
   const options = componentRegistry
     ? Object.keys(componentRegistry)?.map((com) => {
-        return { id: com, label: com };
-      })
+      return { id: com, label: com };
+    })
     : [];
 
   useEffect(() => {
     dispatch({
       payload: { data: options, key: "ComponentRegistry" },
-      type: "SELECT_OPTION_SUCCESS",
+      type   : "SELECT_OPTION_SUCCESS",
     });
   }, [options]);
 
@@ -41,9 +41,9 @@ export default function PagesManager() {
           {}
         );
       },
-      icon: { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
+      icon : { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
       label: "History",
-      type: "action",
+      type : "action",
     },
     {
       action: (data) => {
@@ -65,9 +65,9 @@ export default function PagesManager() {
           return true;
         }
       },
-      icon: { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
+      icon : { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
       label: "Request for review",
-      type: "action",
+      type : "action",
     },
     {
       action: (data) => {
@@ -86,9 +86,9 @@ export default function PagesManager() {
           return true;
         }
       },
-      icon: { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
+      icon : { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
       label: "Approve",
-      type: "action",
+      type : "action",
     },
     {
       action: (data) => {
@@ -107,9 +107,9 @@ export default function PagesManager() {
           return true;
         }
       },
-      icon: { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
+      icon : { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
       label: "Change request",
-      type: "action",
+      type : "action",
     },
     {
       action: (data) => {
@@ -128,9 +128,9 @@ export default function PagesManager() {
           return true;
         }
       },
-      icon: { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
+      icon : { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
       label: "Reject",
-      type: "action",
+      type : "action",
     },
     {
       action: (data) => {
@@ -149,9 +149,9 @@ export default function PagesManager() {
           return true;
         }
       },
-      icon: { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
+      icon : { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
       label: "Publish",
-      type: "action",
+      type : "action",
     },
   ];
 
