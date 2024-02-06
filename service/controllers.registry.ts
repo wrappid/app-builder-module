@@ -1,13 +1,13 @@
-const businessController = require("./controllers/business.controller");
-const databaseController = require("./controllers/database.controller");
-const formsController = require("./controllers/forms.controller");
+import businessController from "./controllers/business.controller";
+import databaseController from "./controllers/database.controller";
+import formsController from "./controllers/forms.controller";
 
-const controllersRegistry = {
+const ControllersRegistry = {
   //database
   getDatabaseTables: databaseController.getDatabaseTables,
   getAttributes: databaseController.getAttributes,
   getBusinessEntityColumns: databaseController.getBusinessEntityColumns,
-    
+
   //business controller
   getBusinessEntities: businessController.getBusinessEntities,
   getEntityData: businessController.getEntityData,
@@ -20,7 +20,5 @@ const controllersRegistry = {
   getFormSchema: formsController.getFormSchema,
 
   putFormSchema: formsController.putFormSchema,
-
 };
-
-exports.controllersRegistry = controllersRegistry;
+export default ControllersRegistry;

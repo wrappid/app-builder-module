@@ -2,19 +2,19 @@ const BusinessEntitySchemas = require("./models/BusinessEntitySchemas.model");
 const FormSchemas = require("./models/FormSchemas.model");
 const Pages = require("./models/Pages.model");
 
-const modelsRegistry = {
-  "BusinessEntitySchemas": {
+const ModelsRegistry = {
+  BusinessEntitySchemas: {
     database: "application",
-    model   : BusinessEntitySchemas
+    model: BusinessEntitySchemas,
   },
-  "FormSchemas": {
+  FormSchemas: {
     database: "application",
-    model   : FormSchemas
+    model: FormSchemas,
   },
-  "Pages": {
+  Pages: {
     database: "application",
-    model   : Pages
+    model: Pages,
   },
 };
 
-exports.modelsRegistry = modelsRegistry;
+export default ModelsRegistry;
