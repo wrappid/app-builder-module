@@ -1,6 +1,6 @@
-const BusinessEntitySchemas = require("./models/BusinessEntitySchemas.model");
-const FormSchemas = require("./models/FormSchemas.model");
-const Pages = require("./models/Pages.model");
+import { BusinessEntitySchemas } from "./models/BusinessEntitySchemas.model";
+import { FormSchemas } from "./models/FormSchemas.model";
+import { Pages } from "./models/Pages.model";
 
 const ModelsRegistry = {
   BusinessEntitySchemas: {

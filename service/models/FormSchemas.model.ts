@@ -1,19 +1,27 @@
-module.exports = (sequelize, DataTypes) => {
-  const businessEntitySchemas = sequelize.define("BusinessEntitySchemas", {
+export const FormSchemas = (sequelize: any, DataTypes: any) => {
+  const formSchema = sequelize.define("FormSchemas", {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    ref: {
-      type: DataTypes.STRING,
-      defaultValue: null,
-    },
+    /**
+     * @todo have to change column name ref is a keyword in
+     * react which causes problem
+     */
+    // ref: {
+    //   type: DataTypes.STRING,
+    //   defaultValue: null,
+    // },
     entityRef: {
       type: DataTypes.STRING,
       defaultValue: null,
     },
     name: {
+      type: DataTypes.STRING,
+      defaultValue: null,
+    },
+    formID: {
       // This field has to be deleted ASAP
       type: DataTypes.STRING,
       defaultValue: null,
@@ -25,6 +33,10 @@ module.exports = (sequelize, DataTypes) => {
     extraInfo: {
       type: DataTypes.JSONB,
       defaultValue: {},
+    },
+    authRequired: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true,
     },
     commitId: {
       type: DataTypes.UUID,
@@ -46,23 +58,23 @@ module.exports = (sequelize, DataTypes) => {
     },
   });
 
-  businessEntitySchemas.associate = (models) => {
-    businessEntitySchemas.belongsTo(models.Users, {
+  formSchema.associate = (models: any) => {
+    formSchema.belongsTo(models.Users, {
       foreignKey: "createdBy",
       as: "Owner",
       sourceKey: "id",
     });
-    businessEntitySchemas.belongsTo(models.Users, {
+    formSchema.belongsTo(models.Users, {
       foreignKey: "updatedBy",
       as: "Updater",
       sourceKey: "id",
     });
-    businessEntitySchemas.belongsTo(models.Users, {
+    formSchema.belongsTo(models.Users, {
       foreignKey: "deletedBy",
       as: "Destroyer",
       sourceKey: "id",
     });
   };
 
-  return businessEntitySchemas;
+  return formSchema;
 };

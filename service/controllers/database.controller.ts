@@ -1,11 +1,13 @@
-const { databaseProvider } = require("@wrappid/service-core");
+import { databaseProvider } from "@wrappid/service-core";
+import { getNormalCaseFromCamelCase } from "../utils/strings.utils";
+import { getEntityColumns } from "../functions/businessEntity.get.helper";
 
 /**
- * 
- * @param {*} req 
- * @param {*} res 
+ *
+ * @param {*} req
+ * @param {*} res
  */
-module.exports.getDatabaseTables = (req, res) => {
+const getDatabaseTables = (req: any, res: any) => {
   try {
     // eslint-disable-next-line no-unused-vars
     let database = req.params.database;
@@ -15,12 +17,11 @@ module.exports.getDatabaseTables = (req, res) => {
     let searchedTables = Object.keys(requestedDBTables);
 
     if (searchValue) {
-      searchedTables = Object.keys(requestedDBTables)
-        ?.filter((key) => {
-          return key
-            .toLocaleLowerCase()
-            .includes(searchValue?.toLocaleLowerCase());
-        });
+      searchedTables = Object.keys(requestedDBTables)?.filter((key) => {
+        return key
+          .toLocaleLowerCase()
+          .includes(searchValue?.toLocaleLowerCase());
+      });
     }
 
     let _data = {
@@ -34,31 +35,31 @@ module.exports.getDatabaseTables = (req, res) => {
       data: _data,
       message: "Tables fetched successfully",
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
     res.status(500).json({ message: "Error to fetch tables" });
   }
 };
 
 /**
- * 
- * @param {*} req 
- * @param {*} res 
- * @returns 
+ *
+ * @param {*} req
+ * @param {*} res
+ * @returns
  */
-module.exports.getAttributes = async (req, res) => {
+const getAttributes = async (req: any, res: any) => {
   try {
     let database = req.params.database;
     let table = req.params.table;
     // eslint-disable-next-line no-unused-vars
     let _searchValue = req.query._searchValue;
-      
-    let requestedDBTables = Object.keys(databaseProvider[database].models);
+
+    let requestedDBTables: any = Object.keys(databaseProvider[database].models);
     let rawAttributes = requestedDBTables[table]?.rawAttributes || {};
 
     let _data = {
       entity: table,
-      rows  : Object.keys(rawAttributes)
+      rows: Object.keys(rawAttributes)
         ?.filter((key) => {
           return key
             .toLocaleLowerCase()
@@ -72,22 +73,22 @@ module.exports.getAttributes = async (req, res) => {
     };
 
     res.status(200).json({
-      data   : _data,
+      data: _data,
       message: "Attributes fetched successfully",
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
     res.status(500).json({ message: "Error to fetch attributes" });
   }
 };
 
 /**
- * 
- * @param {*} req 
- * @param {*} res 
- * @returns 
+ *
+ * @param {*} req
+ * @param {*} res
+ * @returns
  */
-module.exports.getBusinessEntityColumns = async (req, res) => {
+const getBusinessEntityColumns = async (req: any, res: any) => {
   let entity = req.params.entity;
 
   console.log(`entity=${entity}`);
@@ -96,19 +97,21 @@ module.exports.getBusinessEntityColumns = async (req, res) => {
       res.status(204).json({ data: 0, message: "No entity found" });
       return;
     }
-
+    let db: any = "application";
     // eslint-disable-next-line no-undef
     let columns = await getEntityColumns(db, entity);
 
     res.status(200).json({
-      data   : columns,
+      data: columns,
       message: "Business entity columns found successfully",
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
     res.status(500).json({
-      error  : error?.message || error,
+      error: error?.message || error,
       message: "Something went wrong",
     });
   }
 };
+
+export { getDatabaseTables, getAttributes, getBusinessEntityColumns };

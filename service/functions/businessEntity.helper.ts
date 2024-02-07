@@ -1,10 +1,13 @@
-const { databaseActions, databaseProvider, coreConstant } = require("@wrappid/service-core");
-const sequelize = require("sequelize");
+import {
+  databaseActions,
+  databaseProvider,
+  coreConstant,
+} from "@wrappid/service-core";
+import sequelize from "sequelize";
 
 const { entityStatus } = coreConstant;
-const { whereConst } = require("../constants/whereConstants");
-const { getNormalCaseFromCamelCase } = require("../utils/strings.utils");
-
+import whereConst from "../constants/whereConstants";
+import { getNormalCaseFromCamelCase } from "../utils/strings.utils";
 const auditAttributes = [
   "id",
   "_status",
@@ -25,13 +28,17 @@ const auditAttributes = [
  * @param {*} entityStr
  * @returns
  */
-const getEntitySchema = async (entityStr) => {
-  let businessEntitySchema = await databaseActions.findOne("application", "BusinessEntitySchemas", {
-    where: {
-      name: entityStr,
-      _status: entityStatus.PUBLISHED,
-    },
-  });
+const getEntitySchema = async (entityStr: any) => {
+  let businessEntitySchema = await databaseActions.findOne(
+    "application",
+    "BusinessEntitySchemas",
+    {
+      where: {
+        name: entityStr,
+        _status: entityStatus.PUBLISHED,
+      },
+    }
+  );
   let EntitySchema =
     businessEntitySchema && businessEntitySchema.schema
       ? typeof businessEntitySchema.schema === "object"
@@ -56,7 +63,7 @@ const getEntitySchema = async (entityStr) => {
  * @param {*} schemaOptions
  * @returns
  */
-const getTotalCount = async (db, model, schemaOptions) => {
+const getTotalCount = async (db: any, model: any, schemaOptions: any) => {
   let count = 0;
   try {
     let options = schemaOptions;
@@ -76,14 +83,15 @@ const getTotalCount = async (db, model, schemaOptions) => {
 /**
  * recurrsive columns
  */
-function recurrsive_NestedColumns(dbName, schema, preffix = "") {
-  let columns = [];
+function recurrsive_NestedColumns(dbName: any, schema: any, preffix = "") {
+  let columns: any = [];
   if (schema?.include) {
-    schema?.include?.forEach((incSchema) => {
-      let incSchemaAttr = databaseProvider[dbName].models[incSchema.model].rawAttributes;
+    schema?.include?.forEach((incSchema: any) => {
+      let incSchemaAttr =
+        databaseProvider[dbName].models[incSchema.model].rawAttributes;
 
       if (incSchema?.attributes) {
-        incSchema?.attributes?.forEach((attr) => {
+        incSchema?.attributes?.forEach((attr: any) => {
           let tmpID =
             (preffix ? preffix + "." : "") +
             (incSchema?.as || incSchema?.model) +
@@ -142,12 +150,14 @@ function recurrsive_NestedColumns(dbName, schema, preffix = "") {
  * @param {*} schema
  * @returns
  */
-const getColumnsFromSchema = (dbName, schema) => {
-  let columns = [];
-  let schemaModelRawAttributes = databaseProvider[dbName].models[schema.model].rawAttributes;
+const getColumnsFromSchema = (dbName: any, schema: any) => {
+  let columns: any = [];
+
+  let schemaModelRawAttributes =
+    databaseProvider[dbName].models[schema.model].rawAttributes;
 
   if (schema?.attributes) {
-    schema?.attributes?.forEach((attr) => {
+    schema?.attributes?.forEach((attr: any) => {
       columns.push({
         id: attr,
         label: getNormalCaseFromCamelCase(attr),
@@ -174,7 +184,7 @@ const getColumnsFromSchema = (dbName, schema) => {
   return columns;
 };
 
-function processColumnFilter(_whereOB, _attribute, _filterOB) {
+function processColumnFilter(_whereOB: any, _attribute: any, _filterOB: any) {
   /**
      * 
       [Op.eq]: 3,                              // = 3 // Basics
@@ -207,7 +217,7 @@ function processColumnFilter(_whereOB, _attribute, _filterOB) {
       [Op.match]: Sequelize.fn('to_tsquery', 'fat & rat') // match text search for strings 'fat' and 'rat' (PG only)
       [Op.like]: { [Op.any]: ['cat', 'hat'] }  // LIKE ANY (ARRAY['cat', 'hat']) // In Postgres, Op.like/Op.iLike/Op.notLike can be combined to Op.any:
     */
-  let _where = {};
+  let _where: any = {};
   let _attr = _attribute.substring(
     _attribute.lastIndexOf(".") + 1,
     _attribute.length
@@ -302,24 +312,24 @@ function processColumnFilter(_whereOB, _attribute, _filterOB) {
   return _whereOB;
 }
 
-function recurrsive_BusinessEntityWhere(dbName, schema, where) {
-  let whereSchema = where || {};
-  let whereOB = {};
-  Object.keys(whereSchema).forEach((whereKey) => {
+function recurrsive_BusinessEntityWhere(dbName: any, schema: any, where: any) {
+  let whereSchema: any = where || {};
+  let whereOB: any = {};
+  Object.keys(whereSchema).forEach((whereKey: any) => {
     if (["and", "or"].includes(whereKey)) {
-      whereOB[sequelize.Op[whereKey]] = recurrsive_BusinessEntityWhere(
-        dbName,
-        schema,
-        whereSchema[whereKey]
-      );
+      whereOB[sequelize.Op[whereKey as keyof typeof sequelize.Op]] =
+        recurrsive_BusinessEntityWhere(dbName, schema, whereSchema[whereKey]);
     } else {
       // it's an attribute
       // check if it belongs to models
-      let columns = getColumnsFromSchema(dbName, schema).map((col) => {
-        return col.id;
-      });
+      let columns: any = getColumnsFromSchema(dbName, schema).map(
+        (col: any) => {
+          return col.id;
+        }
+      );
       if (
-        columns && columns.filter((column) => {
+        columns &&
+        columns.filter((column: any) => {
           return whereKey.includes(column);
         }).length > 0
       ) {
@@ -329,10 +339,12 @@ function recurrsive_BusinessEntityWhere(dbName, schema, where) {
           let opList = Object.keys(sequelize.Op).filter((opKey) => {
             return !["and", "or"].includes(opKey);
           });
-          let operator = Object.keys(whereVal)[0];
+          let operator: any = Object.keys(whereVal)[0];
           let value = whereVal[operator];
           if (opList.includes(operator)) {
-            whereOB[whereKey] = { [sequelize.Op[operator]]: value };
+            whereOB[whereKey] = {
+              [sequelize.Op[operator as keyof typeof sequelize.Op]]: value,
+            };
           }
         } else {
           if (whereKey.includes(".")) {
@@ -372,7 +384,7 @@ function recurrsive_BusinessEntityWhere(dbName, schema, where) {
  * @param {*} db
  * @param {*} schema
  */
-function prepareBusinessEntityWhere(db, schema) {
+function prepareBusinessEntityWhere(db: any, schema: any) {
   let whereSchema = schema?.where || {};
   let whereOB = {};
   let rootModel = schema?.model;
@@ -395,20 +407,20 @@ function prepareBusinessEntityWhere(db, schema) {
  * @returns
  */
 function prepareGeneralSearchWhereOB(
-  db,
-  model,
-  attributes,
-  whereKeys,
-  attributeSuffix,
-  _searchValue
+  db: any,
+  model: any,
+  attributes: any,
+  whereKeys: any,
+  attributeSuffix: any,
+  _searchValue: any
 ) {
-  let whereOB = {};
+  let whereOB: any = {};
   _searchValue = decodeURIComponent(_searchValue).toString();
   if (_searchValue) {
     let rawAttributes = databaseProvider[db].models[model].rawAttributes;
     let selectedAttributes = attributes || Object.keys(rawAttributes);
 
-    selectedAttributes?.forEach((attr) => {
+    selectedAttributes?.forEach((attr: any) => {
       if (whereKeys.includes(attr) && auditAttributes.includes(attr)) {
         return;
       }
@@ -445,21 +457,26 @@ function prepareGeneralSearchWhereOB(
  * @param {*} _searchValue
  */
 function nestedSearchWhereOB(
-  db,
-  model,
-  incSchemas,
-  attributeSuffix,
-  _searchValue
+  db: any,
+  model: any,
+  incSchemas: any,
+  attributeSuffix: any,
+  _searchValue: any
 ) {
   let whereOB = {};
   if (incSchemas && Array.isArray(incSchemas) && incSchemas?.length > 0) {
     incSchemas.forEach((incSchema) => {
       let tempModelAs = incSchema?.as || "";
-      Object.keys(databaseProvider[db].models[model].associations).forEach((_o) => {
-        if (databaseProvider[db].models[model].associations[_o].target.tableName === incSchema.model) {
-          tempModelAs = _o;
+      Object.keys(databaseProvider[db].models[model].associations).forEach(
+        (_o) => {
+          if (
+            databaseProvider[db].models[model].associations[_o].target
+              .tableName === incSchema.model
+          ) {
+            tempModelAs = _o;
+          }
         }
-      });
+      );
       attributeSuffix = /* attributeSuffix
         ? attributeSuffix + "." + tempModelAs
         :  */ tempModelAs;
@@ -492,7 +509,7 @@ function nestedSearchWhereOB(
  * @param {*} _schema
  * @param {*} _orderQuery
  */
-function prepareSearchWhereOB(db, _schema, _searchValue) {
+function prepareSearchWhereOB(db: any, _schema: any, _searchValue: any) {
   let whereOB = {};
   if (_searchValue) {
     // for root model
@@ -532,10 +549,12 @@ function prepareSearchWhereOB(db, _schema, _searchValue) {
  * @returns
  */
 // eslint-disable-next-line no-unused-vars
-function prepareWhereOB(db, _schema, _filterQuery) {
+function prepareWhereOB(db: any, _schema: any, _filterQuery: any) {
   let whereOB = _schema?.where || {};
   if (_filterQuery) {
-    let modelAttr = Object.keys(databaseProvider[db].models[_schema.model].rawAttributes);
+    let modelAttr = Object.keys(
+      databaseProvider[db].models[_schema.model].rawAttributes
+    );
     let filterQuery = JSON.parse(_filterQuery);
     if (filterQuery) {
       console.log("---------------filterQuery---------------");
@@ -563,14 +582,19 @@ function prepareWhereOB(db, _schema, _filterQuery) {
   return whereOB;
 }
 /**
- * 
- * @param {*} db 
- * @param {*} parentModel 
- * @param {*} _incSchema 
- * @param {*} orderQuery 
+ *
+ * @param {*} db
+ * @param {*} parentModel
+ * @param {*} _incSchema
+ * @param {*} orderQuery
  */
 // eslint-disable-next-line no-unused-vars
-function processNestedModelOrder(db, parentModel, _incSchema, orderQuery) {
+function processNestedModelOrder(
+  db: any,
+  parentModel: any,
+  _incSchema: any,
+  orderQuery: any
+) {
   Object.keys(orderQuery).forEach((_eachOrder) => {
     if (_eachOrder.includes(".")) {
       // if included model attribute
@@ -588,15 +612,15 @@ function processNestedModelOrder(db, parentModel, _incSchema, orderQuery) {
  * @param {*} orderQuery
  * @returns
  */
-const prepareOrderOB = (db, schema, orderQuery) => {
+const prepareOrderOB = (db: any, schema: any, orderQuery: any) => {
   try {
-    let orderOB = [];
+    let orderOB: any = [];
 
     /**
      * Schema based order
      */
     if (schema && schema?.order) {
-      schema?.order?.forEach((eachOrder) => {
+      schema?.order?.forEach((eachOrder: any) => {
         orderOB.push([sequelize.literal(`"${eachOrder[0]}"`), eachOrder[1]]);
       });
     }
@@ -652,7 +676,7 @@ const prepareOrderOB = (db, schema, orderQuery) => {
  * @param {*} query | holds query params
  * @returns
  */
-const getEntityOption = (databaseName, schema, query) => {
+const getEntityOption = (databaseName: any, schema: any, query: any) => {
   try {
     let model = schema?.model;
     if (!schema?.model) {
@@ -661,12 +685,12 @@ const getEntityOption = (databaseName, schema, query) => {
     if (!databaseProvider.application.models[model]) {
       throw new Error("Schema invalid model");
     }
-    let includeOB = [];
-    schema?.include?.forEach((schema) => {
+    let includeOB: any = [];
+    schema?.include?.forEach((schema: any) => {
       includeOB.push(getEntityOption(databaseName, schema, query));
     });
 
-    let options = {
+    let options: any = {
       model: databaseProvider.application.models[model],
       as: schema?.as,
       include: includeOB || [],
@@ -681,9 +705,14 @@ const getEntityOption = (databaseName, schema, query) => {
 
     if (schema?.attributes && schema?.attributes?.length > 0) {
       let tempAuditAttributes = auditAttributes.filter((value) =>
-        Object.keys(databaseProvider.application.models[model].rawAttributes).includes(value)
+        Object.keys(
+          databaseProvider.application.models[model].rawAttributes
+        ).includes(value)
       );
-      options["attributes"] = [...(schema?.attributes || []), ...tempAuditAttributes];
+      options["attributes"] = [
+        ...(schema?.attributes || []),
+        ...tempAuditAttributes,
+      ];
     }
 
     /**
@@ -712,12 +741,16 @@ const getEntityOption = (databaseName, schema, query) => {
   }
 };
 
-
 /**
  *
  */
-const getFinalWhereClause = (db, schema, defaultFilterQuery, searchValue) => {
-  let finalWhereOB = {};
+const getFinalWhereClause = (
+  db: any,
+  schema: any,
+  defaultFilterQuery: any,
+  searchValue: any
+) => {
+  let finalWhereOB: any = {};
 
   let defaultFilterOB = defaultFilterQuery
     ? JSON.parse(defaultFilterQuery)
@@ -776,7 +809,7 @@ const getFinalWhereClause = (db, schema, defaultFilterQuery, searchValue) => {
 
 // ---------------------------------------------------------------
 
-module.exports = {
+export {
   auditAttributes,
   getEntitySchema,
   getEntityOption,

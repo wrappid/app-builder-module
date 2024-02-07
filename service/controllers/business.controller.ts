@@ -1,19 +1,25 @@
-const { databaseActions } = require("@wrappid/service-core");
-const {
-  getEntityData,
+import { databaseActions } from "@wrappid/service-core";
+import {
+  getEntityDataName,
   getEntityDataCount,
   getIndivEntityData,
-} = require("../functions/businessEntity.get.helper");
+} from "../functions/businessEntity.get.helper";
 
 /**
- * 
- * @param {*} req 
- * @param {*} res 
- * @returns 
+ *
+ * @param {*} req
+ * @param {*} res
+ * @returns
  */
-module.exports.getBusinessEntities = async (req, res) => {
+const getBusinessEntities = async (req: any, res: any) => {
   try {
-    let data = databaseActions.findAll("application", "BusinessEntitySchemas", { where: { _status: "published" } });
+    let data: any = databaseActions.findAll(
+      "application",
+      "BusinessEntitySchemas",
+      {
+        where: { _status: "published" },
+      }
+    );
 
     if (!data || data.length === 0) {
       res.status(204).json({ message: "Business entities missing" });
@@ -22,27 +28,27 @@ module.exports.getBusinessEntities = async (req, res) => {
 
     res.status(200).json({
       data: {
-        rows        : data,
+        rows: data,
         totalRecords: data,
       },
       message: "Business entities found successfully",
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
     res.status(500).json({
-      error  : error?.message || error,
+      error: error?.message || error,
       message: "Something went wrong",
     });
   }
 };
 
 /**
- * 
- * @param {*} req 
- * @param {*} res 
- * @returns 
+ *
+ * @param {*} req
+ * @param {*} res
+ * @returns
  */
-module.exports.getEntityData = async (req, res) => {
+const getEntityData = async (req: any, res: any) => {
   let entity = req.params.entity;
 
   console.log(`entity=${entity}`);
@@ -61,27 +67,27 @@ module.exports.getEntityData = async (req, res) => {
 
     res.status(200).json({
       data: {
-        count : data,
+        count: data,
         entity: entity,
       },
       message: "Entity data found successfully",
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
     res.status(500).json({
-      error  : error?.message || error,
+      error: error?.message || error,
       message: "Something went wrong",
     });
   }
 };
 
 /**
- * 
- * @param {*} req 
- * @param {*} res 
- * @returns 
+ *
+ * @param {*} req
+ * @param {*} res
+ * @returns
  */
-module.exports.getIndividualEntityData = async (req, res) => {
+const getIndividualEntityData = async (req: any, res: any) => {
   let entity = req.params.entity;
 
   console.log(`entity=${entity}`);
@@ -94,43 +100,47 @@ module.exports.getIndividualEntityData = async (req, res) => {
     let data = await getIndivEntityData("application", entity, req.query);
 
     if (!data) {
-      res.status(204).json({ message: "Entity[" + entity + "] data not found" });
+      res
+        .status(204)
+        .json({ message: "Entity[" + entity + "] data not found" });
       return;
     }
 
     res.status(200).json({
       message: "Entity data found successfully",
       data: {
-        data  : data,
+        data: data,
         entity: entity,
       },
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
     res.status(500).json({
-      error  : error?.message || error,
+      error: error?.message || error,
       message: "Something went wrong",
     });
   }
 };
 
 /**
- * 
- * @param {*} req 
- * @param {*} res 
- * @returns 
+ *
+ * @param {*} req
+ * @param {*} res
+ * @returns
  */
-module.exports.getAllEntityData = async (req, res) => {
+const getAllEntityData = async (req: any, res: any) => {
   let entity = req.params.entity;
 
   console.log(`entity=${entity}`);
   try {
     if (!entity) {
-      res.status(204).json({ message: "You are requested for undefined business entity." });
+      res
+        .status(204)
+        .json({ message: "You are requested for undefined business entity." });
       return;
     }
 
-    let data = await getEntityData(entity, req.query);
+    let data: any = await getEntityDataName(entity, req.query);
 
     if (!data || data.length === 0) {
       res.status(204).json({ message: "Entity is missing" });
@@ -144,22 +154,22 @@ module.exports.getAllEntityData = async (req, res) => {
         ...data,
       },
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
     res.status(500).json({
-      error  : error?.message || error,
+      error: error?.message || error,
       message: "Something went wrong",
     });
   }
 };
 
 /**
- * 
- * @param {*} req 
- * @param {*} res 
- * @returns 
+ *
+ * @param {*} req
+ * @param {*} res
+ * @returns
  */
-module.exports.noAuthGetAllEntityData = async (req, res) => {
+const noAuthGetAllEntityData = async (req: any, res: any) => {
   let entity = req.params.entity;
 
   console.log(`entity=${entity}`);
@@ -171,7 +181,7 @@ module.exports.noAuthGetAllEntityData = async (req, res) => {
       return;
     }
 
-    let data = await getEntityData(entity, req.query);
+    let data: any = await getEntityDataName(entity, req.query);
 
     if (!data || data.length === 0) {
       res.status(204).json({ message: "No data found for entity" });
@@ -183,13 +193,21 @@ module.exports.noAuthGetAllEntityData = async (req, res) => {
       data: {
         entity: entity,
         ...data,
-      }
+      },
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
     res.status(500).json({
-      error  : error?.message || error,
+      error: error?.message || error,
       message: "Something went wrong",
     });
   }
+};
+
+export {
+  getBusinessEntities,
+  getEntityData,
+  getIndividualEntityData,
+  getAllEntityData,
+  noAuthGetAllEntityData,
 };

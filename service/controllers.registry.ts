@@ -1,6 +1,6 @@
-import businessController from "./controllers/business.controller";
-import databaseController from "./controllers/database.controller";
-import formsController from "./controllers/forms.controller";
+import * as businessController from "./controllers/business.controller";
+import * as databaseController from "./controllers/database.controller";
+import * as formsController from "./controllers/forms.controller";
 
 const ControllersRegistry = {
   //database

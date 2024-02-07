@@ -1,4 +1,4 @@
-module.exports = (sequelize, DataTypes) => {
+export const Pages = (sequelize: any, DataTypes: any) => {
   const pages = sequelize.define("Pages", {
     id: {
       type: DataTypes.INTEGER,
@@ -50,7 +50,7 @@ module.exports = (sequelize, DataTypes) => {
     },
   });
 
-  pages.associate = (models) => {
+  pages.associate = (models: any) => {
     pages.hasMany(models.Routes, {
       foreignKey: "pageRef",
       sourceKey: "entityRef",
