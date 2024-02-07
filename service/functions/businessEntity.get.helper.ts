@@ -1,5 +1,5 @@
-const { databaseActions, databaseProvider } = require("@wrappid/service-core");
-const {
+import { databaseActions, databaseProvider } from "@wrappid/service-core";
+import {
   getEntitySchema,
   getEntityOption,
   // eslint-disable-next-line no-unused-vars
@@ -8,9 +8,7 @@ const {
   getFinalWhereClause,
   getColumnsFromSchema,
   auditAttributes,
-  // eslint-disable-next-line no-unused-vars
-  getRequiredDB,
-} = require("./businessEntity.helper");
+} from "./businessEntity.helper";
 
 /**
  *
@@ -19,9 +17,13 @@ const {
  * @param {*} query
  * @returns
  */
-const getEntityDataCount = async (databaseActions, entityName, query) => {
+const getEntityDataCount = async (
+  databaseActions: any,
+  entityName: any,
+  query: any
+) => {
   try {
-    let schema = await getEntitySchema( entityName);
+    let schema = await getEntitySchema(entityName);
     if (!schema) {
       throw new Error("Entity is missing");
     }
@@ -29,7 +31,11 @@ const getEntityDataCount = async (databaseActions, entityName, query) => {
     let entityDatabaseName = "application"; // getRequiredDB(schema?.database || DB_CONST.RXEFY_DB);
 
     // eslint-disable-next-line no-unused-vars
-    let { where, ...schemaOptions } = getEntityOption(entityDatabaseName, schema, query);
+    let { where, ...schemaOptions }: any = getEntityOption(
+      entityDatabaseName,
+      schema,
+      query
+    );
     let finalWhereOB = {};
     finalWhereOB = getFinalWhereClause(
       entityDatabaseName,
@@ -64,7 +70,9 @@ const getEntityDataCount = async (databaseActions, entityName, query) => {
     if (schema?.attributes && schema?.attributes?.length > 0) {
       let tempAuditAttributes = auditAttributes.filter((value) =>
         /** @todo hard-coded database name */
-        Object.keys(databaseProvider["application"].models[schema?.model]?.rawAttributes).includes(value)
+        Object.keys(
+          databaseProvider["application"].models[schema?.model]?.rawAttributes
+        ).includes(value)
       );
       // if (schema?.model === "Users") {
       //   tempAuditAttributes = tempAuditAttributes.filter((auditAttribute) => {
@@ -73,13 +81,18 @@ const getEntityDataCount = async (databaseActions, entityName, query) => {
       //     );
       //   });
       // }
-      _options["attributes"] = [...(schema?.attributes || []), ...tempAuditAttributes];
+      _options["attributes"] = [
+        ...(schema?.attributes || []),
+        ...tempAuditAttributes,
+      ];
     }
 
-    let count = await databaseProvider[entityDatabaseName].models[schema.model].count(_options);
-    
+    let count = await databaseProvider[entityDatabaseName].models[
+      schema.model
+    ].count(_options);
+
     return count;
-  } catch (error) {
+  } catch (error: any) {
     console.error("-------------------------------------");
     console.error("getBusinessEntity.helper>getEntityData");
     console.error(error);
@@ -88,15 +101,15 @@ const getEntityDataCount = async (databaseActions, entityName, query) => {
   }
 };
 
-const getEntityColumns = async (db, entityName) => {
+const getEntityColumns = async (db: any, entityName: any) => {
   try {
-    let schema = await getEntitySchema(db, entityName);
+    let schema: any = await getEntitySchema(entityName);
     if (!schema) {
       throw new Error("Entity is missing");
     }
 
     return getColumnsFromSchema(db, schema);
-  } catch (error) {
+  } catch (error: any) {
     console.error("-------------------------------------");
     console.error("getBusinessEntity.helper>getEntityData");
     console.error(error);
@@ -112,7 +125,7 @@ const getEntityColumns = async (db, entityName) => {
  * @param {*} query
  * @returns
  */
-const getEntityData = async (entityName, query) => {
+const getEntityDataName = async (entityName: any, query: any) => {
   try {
     let db = "application";
     let schema = await getEntitySchema(entityName);
@@ -120,10 +133,14 @@ const getEntityData = async (entityName, query) => {
       throw new Error("Entity is missing");
     }
 
-    let entityDatabaseName = /* schema?.database ||  */"application";
+    let entityDatabaseName = /* schema?.database ||  */ "application";
 
     // eslint-disable-next-line no-unused-vars
-    let { where, ...schemaOptions } = getEntityOption(entityDatabaseName, schema, query);
+    let { where, ...schemaOptions }: any = getEntityOption(
+      entityDatabaseName,
+      schema,
+      query
+    );
     let finalWhereOB = {};
     finalWhereOB = getFinalWhereClause(
       entityDatabaseName,
@@ -157,7 +174,9 @@ const getEntityData = async (entityName, query) => {
 
     if (schema?.attributes && schema?.attributes?.length > 0) {
       let tempAuditAttributes = auditAttributes.filter((value) =>
-        Object.keys(databaseProvider[db].models[schema?.model]?.rawAttributes).includes(value)
+        Object.keys(
+          databaseProvider[db].models[schema?.model]?.rawAttributes
+        ).includes(value)
       );
       // if (schema?.model === "Users") {
       //   tempAuditAttributes = tempAuditAttributes.filter((auditAttribute) => {
@@ -166,7 +185,10 @@ const getEntityData = async (entityName, query) => {
       //     );
       //   });
       // }
-      _options["attributes"] = [...(schema?.attributes || []), ...tempAuditAttributes];
+      _options["attributes"] = [
+        ...(schema?.attributes || []),
+        ...tempAuditAttributes,
+      ];
     }
 
     if (query?.offset) {
@@ -177,10 +199,14 @@ const getEntityData = async (entityName, query) => {
     }
 
     let columns = getColumnsFromSchema(entityDatabaseName, schema);
-    let { count, rows } = await databaseActions.findAndCountAll(entityDatabaseName, schema?.model, _options);
+    let { count, rows } = await databaseActions.findAndCountAll(
+      entityDatabaseName,
+      schema?.model,
+      _options
+    );
 
     return { columns: columns, rows: rows, totalRecords: count };
-  } catch (error) {
+  } catch (error: any) {
     console.error("-------------------------------------");
     console.error("getBusinessEntity.helper>getEntityData");
     console.error(error);
@@ -195,14 +221,22 @@ const getEntityData = async (entityName, query) => {
  * @param {*} entity
  * @param {*} query
  */
-const getIndivEntityData = async (entityDatabaseName, entityName, query) => {
-  let schema = await getEntitySchema( entityName);
+const getIndivEntityData = async (
+  entityDatabaseName: any,
+  entityName: any,
+  query: any
+) => {
+  let schema = await getEntitySchema(entityName);
   if (!schema) {
     throw new Error("Entity is missing");
   }
 
   // eslint-disable-next-line no-unused-vars
-  let { where, ...schemaOptions } = getEntityOption(entityDatabaseName, schema, query);
+  let { where, ...schemaOptions }: any = getEntityOption(
+    entityDatabaseName,
+    schema,
+    query
+  );
   let finalWhereOB = {};
   finalWhereOB = getFinalWhereClause(
     entityDatabaseName,
@@ -214,21 +248,29 @@ const getIndivEntityData = async (entityDatabaseName, entityName, query) => {
   let _options = {
     benchmark: true,
     logging: console.log,
-    raw: Object.prototype.hasOwnProperty.call(schema, "raw") ? schema.raw : true,
-    nest: Object.prototype.hasOwnProperty.call(schema, "nested") ? schema.nested : false,
+    raw: Object.prototype.hasOwnProperty.call(schema, "raw")
+      ? schema.raw
+      : true,
+    nest: Object.prototype.hasOwnProperty.call(schema, "nested")
+      ? schema.nested
+      : false,
     where: finalWhereOB,
     ...schemaOptions,
   };
 
-  return await databaseActions.findOne(entityDatabaseName, schema?.model, _options);
+  return await databaseActions.findOne(
+    entityDatabaseName,
+    schema?.model,
+    _options
+  );
 };
 
 // ---------------------------------------------------------------
 
-module.exports = {
+export {
   getEntitySchema,
   getEntityDataCount,
   getEntityColumns,
-  getEntityData,
+  getEntityDataName,
   getIndivEntityData,
 };

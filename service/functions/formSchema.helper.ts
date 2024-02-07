@@ -1,14 +1,11 @@
-const {
+import {
   coreConstant,
   databaseProvider,
   databaseActions,
-} = require("@wrappid/service-core");
+} from "@wrappid/service-core";
 
 const { httpMethod, entityStatus } = coreConstant;
-const {
-  getEntitySchema,
-  getColumnsFromSchema,
-} = require("./businessEntity.helper");
+import { getEntitySchema, getColumnsFromSchema } from "./businessEntity.helper";
 
 const auditAttributes = [
   "id",
@@ -20,7 +17,7 @@ const auditAttributes = [
   "deletedBy",
 ];
 
-function getFieldType(attributeType) {
+function getFieldType(attributeType: any) {
   try {
     let type = "text";
     switch (attributeType) {
@@ -48,7 +45,7 @@ function getFieldType(attributeType) {
   }
 }
 
-async function generateFormSchema(modelName) {
+async function generateFormSchema(modelName: any) {
   try {
     /**
      * @todo check if present in business entity
@@ -58,15 +55,18 @@ async function generateFormSchema(modelName) {
     let fieldsData = [];
     if (schema && schema?.model) {
       let entityDB = "application" || schema?.database;
-      fieldsData = getColumnsFromSchema(entityDB, schema)?.filter((col) => {
-        return !auditAttributes.includes(col.id);
-      });
-      fieldsData?.forEach((fieldData) => {
+      fieldsData = getColumnsFromSchema(entityDB, schema)?.filter(
+        (col: any) => {
+          return !auditAttributes.includes(col.id);
+        }
+      );
+      fieldsData?.forEach((fieldData: any) => {
         fieldData.type = getFieldType(fieldData.type);
       });
     }
 
     let endpoint = "/data/" + modelName;
+    let actions: any = [];
     let formSchema = {
       create: {
         endpoint: endpoint,
@@ -119,7 +119,7 @@ async function generateFormSchema(modelName) {
         onSubmitRefine: "San_URL_ADD_PATH_PARAM_ID",
       },
       fields: fieldsData,
-      actions: [],
+      actions,
     };
     return { formID: modelName, schema: formSchema };
   } catch (error) {
@@ -136,11 +136,11 @@ async function generateFormSchema(modelName) {
  * @param {*} dbName
  * @param {*} formID
  */
-async function getFormSchemaFromDB(formID, auth) {
+async function getFormSchemaFromDB(formID: any, auth: any) {
   try {
     let dbName = "application";
     let dbSequelize = databaseProvider[dbName].Sequelize;
-    let whereClause = {
+    let whereClause: any = {
       formID: formID,
       _status: entityStatus.PUBLISHED,
     };
@@ -173,7 +173,7 @@ async function getFormSchemaFromDB(formID, auth) {
  * @param {*} dbName
  * @param {*} formID
  */
-const getFormSchema = async (formID, auth = true) => {
+export const getFormSchema = async (formID: any, auth = true) => {
   try {
     let formSchema = await getFormSchemaFromDB(formID, auth);
     if (!formSchema && auth) {
@@ -189,7 +189,7 @@ const getFormSchema = async (formID, auth = true) => {
   }
 };
 
-const updateStringValue = async (databaseProvider, req) => {
+const updateStringValue = async (databaseProvider: any, req: any) => {
   // var table = req.body.table;
   // var whereOb = {};
   // switch (table) {
@@ -201,7 +201,7 @@ const updateStringValue = async (databaseProvider, req) => {
   // }
 
   const result = await databaseProvider.application.sequelize.transaction(
-    async (t) => {
+    async (t: any) => {
       let stringValue = await databaseActions.findOne(
         "application",
         "StringValues",
@@ -209,8 +209,7 @@ const updateStringValue = async (databaseProvider, req) => {
           where: {
             id: req.params.id,
           },
-        },
-        { transaction: t }
+        }
       );
       let [nrows, rows] = await databaseActions.update(
         "application",
