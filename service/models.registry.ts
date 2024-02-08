@@ -1,7 +1,7 @@
 import { BusinessEntitySchemas } from "./models/BusinessEntitySchemas.model";
 import { FormSchemas } from "./models/FormSchemas.model";
 import { Pages } from "./models/Pages.model";
-
+import { Users } from "./models/Users.model";
 const ModelsRegistry = {
   BusinessEntitySchemas: {
     database: "application",
@@ -14,6 +14,10 @@ const ModelsRegistry = {
   Pages: {
     database: "application",
     model: Pages,
+  },
+  Users: {
+    database: "application",
+    model: Users,
   },
 };
 
