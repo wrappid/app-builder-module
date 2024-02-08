@@ -31,6 +31,4 @@ const whereConst = {
   },
 };
 
-module.exports = {
-  whereConst,
-};
+export default whereConst;
