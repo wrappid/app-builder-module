@@ -1,4 +1,10 @@
 export const RoutesRegistry = {
+  createTheme: {
+    Page        : { appComponent: "CreateTheme", layout: "BlankLayout" },
+    authRequired: false,
+    entityRef   : "components",
+    url         : "createTheme"
+  },
   BUSINESS_ENTITY   : "business_entity",
   FORMS             : "forms",
   HISTORY           : "history/:model/:entityRef",

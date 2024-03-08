@@ -10,6 +10,7 @@ import PagesManager from "./components/PagesManager";
 import RoutesManager from "./components/RoutesManager";
 import StatusChangeCommentHistory from "./components/StatusChangeCommentHistory";
 import StatusChangeForm from "./components/StatusChangeForm";
+import CreateTheme from "./components/ThemeViewer/CreateTheme";
 
 export const ComponentsRegistry = {
   BusinessEntityComp        : { comp: BusinessEntityComp },
@@ -24,4 +25,5 @@ export const ComponentsRegistry = {
   RoutesManager             : { comp: RoutesManager },
   StatusChangeCommentHistory: { comp: StatusChangeCommentHistory },
   StatusChangeForm          : { comp: StatusChangeForm },
+  CreateTheme : {comp: CreateTheme},
 };
