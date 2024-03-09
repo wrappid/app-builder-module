@@ -5,6 +5,12 @@ export const RoutesRegistry = {
     entityRef   : "components",
     url         : "createTheme"
   },
+  themes: {
+    Page        : { appComponent: "ThemesViewer" },
+    authRequired: false,
+    entityRef   : "components",
+    url         : "themes"
+  },
   BUSINESS_ENTITY   : "business_entity",
   FORMS             : "forms",
   HISTORY           : "history/:model/:entityRef",
