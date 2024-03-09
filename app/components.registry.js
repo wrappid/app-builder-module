@@ -15,6 +15,7 @@ import CreateTheme from "./components/ThemeViewer/CreateTheme";
 export const ComponentsRegistry = {
   BusinessEntityComp        : { comp: BusinessEntityComp },
   BusinessEntityManager     : { comp: BusinessEntityManager },
+  CreateTheme               : { comp: CreateTheme },
   DataCreator               : { comp: DataCreator },
   DataViewer                : { comp: DataViewer },
   FormBuilder               : { comp: FormBuilder },
@@ -25,5 +26,4 @@ export const ComponentsRegistry = {
   RoutesManager             : { comp: RoutesManager },
   StatusChangeCommentHistory: { comp: StatusChangeCommentHistory },
   StatusChangeForm          : { comp: StatusChangeForm },
-  CreateTheme : {comp: CreateTheme},
 };

@@ -6,11 +6,9 @@ import {
   CoreH2,
   BlankLayout,
   CoreLayoutItem,
-  CoreBox,
-  CoreClasses,
+  CoreBox
 } from "@wrappid/core";
 
-import JsonEditor from "./JsonEditor";
 import ThemesViewer from "./ThemesViewer";
 function CreateTheme() {
   const [currentState, setCurrentState] = React.useState("Presets");
@@ -25,6 +23,7 @@ function CreateTheme() {
         id={BlankLayout.PLACEHOLDER.CONTENT}
       >
         <CoreH3>THEME VIEWER</CoreH3>
+
         <CoreBox>
           <CoreBox>
             <CoreBox>

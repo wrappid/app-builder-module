@@ -1,24 +1,11 @@
 import React from "react";
-import { useDispatch } from "react-redux";
 
 import {
-  CoreH1,
-  CoreBox,
-  setUserTheme,
-  CoreButton,
-  CoreGrid,
-  CoreClasses,
-  CoreTypographyBody1,
-  CoreThemeProvider,
+  CoreBox, setUserTheme, CoreButton, CoreGrid, CoreClasses, CoreTypographyBody1, CoreThemeProvider 
 } from "@wrappid/core";
-
 // eslint-disable-next-line import/no-unresolved
-import {
-  UPDATE_DEFAULT_THEME,
-  WrappidDataContext,
-  WrappidDispatchContext,
-  StylesProvider,
-} from "@wrappid/styles";
+import { WrappidDataContext, StylesProvider } from "@wrappid/styles";
+import { useDispatch } from "react-redux";
 
 function ThemesViewer() {
   const storeDispatch = useDispatch();
@@ -32,23 +19,18 @@ function ThemesViewer() {
     return (
       <CoreGrid>
         {Object.keys(themes).map((themeName, index) => {
+          
           return (
-            <CoreBox gridProps={{ gridSize: 3 }}>
+            <CoreBox key={index} gridProps={{ gridSize: 3 }}>
               <CoreThemeProvider themeID={themeName}>
                 <StylesProvider themeID={themeName}>
-
                   <CoreGrid
-                    styleClasses={[
-                      CoreClasses.HEIGHT.VH_25,
-                      CoreClasses.BORDER.BORDER,
-                      CoreClasses.BORDER.BORDER_SUCCESS,
-                      CoreClasses.DISPLAY.FLEX,
-                    ]}
+                    styleClasses={[CoreClasses.HEIGHT.VH_25, CoreClasses.BORDER.BORDER, CoreClasses.BORDER.BORDER_SUCCESS, CoreClasses.DISPLAY.FLEX]}
                   >
                     {/* First Segment for PrimaryColor */}
                     <CoreBox
                       gridProps={{
-                        gridSize: { xs: 6 },
+                        gridSize    : { xs: 6 },
                         styleClasses: [CoreClasses.BG.BG_PRIMARY],
                       }}
                     >
@@ -58,7 +40,7 @@ function ThemesViewer() {
                     {/* Second Segment for SecondaryColor */}
                     <CoreBox
                       gridProps={{
-                        gridSize: { xs: 6 },
+                        gridSize    : { xs: 6 },
                         styleClasses: [CoreClasses.BG.BG_SECONDARY],
                       }}
                     >
@@ -72,6 +54,7 @@ function ThemesViewer() {
                       justifyContent="center"
                     >
                       <CoreTypographyBody1>test</CoreTypographyBody1>
+
                       <CoreButton
                         key={index}
                         OnClick={() => handleChangeTheme(themeName)}
