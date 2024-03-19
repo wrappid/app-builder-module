@@ -1,59 +1,15 @@
-import React from "react";
+import { CoreForm, FORM_EDIT_MODE } from "@wrappid/core";
 
-import {
-  CoreButton,
-  CoreH3,
-  CoreH2,
-  BlankLayout,
-  CoreLayoutItem,
-  CoreBox
-} from "@wrappid/core";
+import { formSchema } from "./ThemeFormSchema";
 
-import ThemesViewer from "./ThemesViewer";
-function CreateTheme() {
-  const [currentState, setCurrentState] = React.useState("Presets");
-
-  const handleStateChange = (state) => {
-    setCurrentState(state);
-  };
+export default function CreateTheme() {
 
   return (
     <>
-      <CoreLayoutItem
-        id={BlankLayout.PLACEHOLDER.CONTENT}
-      >
-        <CoreH3>THEME VIEWER</CoreH3>
-
-        <CoreBox>
-          <CoreBox>
-            <CoreBox>
-              <CoreButton OnClick={() => handleStateChange("Presets")}>
-                Presets
-              </CoreButton>
-
-              <CoreButton OnClick={() => handleStateChange("Create Theme")}>
-                Create Theme
-              </CoreButton>
-
-              <CoreButton OnClick={() => handleStateChange("Preview")}>
-                Preview
-              </CoreButton>
-            </CoreBox>
-
-            <>
-              {currentState === "Presets" && <ThemesViewer/>}
-
-              {currentState === "Create Theme" && (
-                <CoreH2>Preview State</CoreH2>
-              )}
-
-              {currentState === "Preview" && <CoreH2>Preview State</CoreH2>}
-            </>
-          </CoreBox>
-        </CoreBox>
-      </CoreLayoutItem>
+      <CoreForm
+        formId="themeForm"
+        formJson={{ themeForm: formSchema }}
+        mode={FORM_EDIT_MODE}/>
     </>
   );
 }
-
-export default CreateTheme;
