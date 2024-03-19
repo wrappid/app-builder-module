@@ -6,11 +6,11 @@ export const RoutesRegistry = {
   ROUTES            : "routes",
   STATUS_CHANGE_FORM: "status/:model/:id/:status",
   TABLES            : "tables",
-  createTheme       : {
-    Page        : { appComponent: "CreateTheme", layout: "BlankLayout" },
+  themecontent      : {
+    Page        : { appComponent: "ThemeContent", layout: "BlankLayout" },
     authRequired: false,
     entityRef   : "components",
-    url         : "createTheme"
+    url         : "theme/createTheme"
   },
   themes: {
     Page        : { appComponent: "ThemesViewer" },
