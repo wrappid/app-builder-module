@@ -1,15 +1,18 @@
 import {
+  AppContainerLayout,
   CoreDataTable,
+  CoreLayoutItem,
+  HTTP,
   __IconTypes,
   apiRequestAction,
-  coreUseNavigate,
-  HTTP
+  coreUseNavigate
 } from "@wrappid/core";
 import { useDispatch } from "react-redux";
 
-import StatusChangeCommentHistory from "./StatusChangeCommentHistory";
 import { __EntityStatus } from "../constants/constants";
 import { RoutesRegistry } from "../routes.registry";
+// eslint-disable-next-line import/order
+import StatusChangeCommentHistory from "./StatusChangeCommentHistory";
 
 function FormsManager() {
   const navigate = coreUseNavigate();
@@ -158,13 +161,17 @@ function FormsManager() {
   ];
 
   return (
-    <CoreDataTable
-      entity="FormSchemas"
-      // createFormID={"FormSchemas"}
-      // updateFormID={"FormSchemas"}
-      rowActions={tableRowActions}
-      postRenderDetailsPaneComponent={StatusChangeCommentHistory}
-    />
+    <>
+      <CoreLayoutItem id={AppContainerLayout.PLACEHOLDER.CONTENT}>
+        <CoreDataTable
+          entity="FormSchemas"
+          // createFormID={"FormSchemas"}
+          // updateFormID={"FormSchemas"}
+          rowActions={tableRowActions}
+          postRenderDetailsPaneComponent={StatusChangeCommentHistory}
+        />
+      </CoreLayoutItem>
+    </>
   );
 }
 

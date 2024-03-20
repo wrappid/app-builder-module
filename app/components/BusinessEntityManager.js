@@ -1,5 +1,7 @@
 import {
+  AppContainerLayout,
   CoreDataTable,
+  CoreLayoutItem,
   HTTP,
   __IconTypes,
   apiRequestAction,
@@ -7,9 +9,10 @@ import {
 } from "@wrappid/core";
 import { useDispatch } from "react-redux";
 
-import StatusChangeCommentHistory from "./StatusChangeCommentHistory";
 import { __EntityStatus } from "../constants/constants";
 import { RoutesRegistry } from "../routes.registry";
+// eslint-disable-next-line import/order
+import StatusChangeCommentHistory from "./StatusChangeCommentHistory";
 
 export default function BusinessEntityManager() {
   const navigate = coreUseNavigate();
@@ -176,10 +179,14 @@ export default function BusinessEntityManager() {
   ];
 
   return (
-    <CoreDataTable
-      entity={"BusinessEntitySchemas"}
-      rowActions={tableRowActions}
-      postRenderDetailsPaneComponent={StatusChangeCommentHistory}
-    />
+    <>
+      <CoreLayoutItem id={AppContainerLayout.PLACEHOLDER.CONTENT}>
+        <CoreDataTable
+          entity={"BusinessEntitySchemas"}
+          rowActions={tableRowActions}
+          postRenderDetailsPaneComponent={StatusChangeCommentHistory}
+        />
+      </CoreLayoutItem>
+    </>
   );
 }

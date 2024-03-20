@@ -1,7 +1,9 @@
 import { useEffect } from "react";
 
 import {
-  coreUseLocation, coreUseNavigate, coreUseParams, CoreForm, FORM_EDIT_MODE, urls 
+  CoreForm, FORM_EDIT_MODE,
+  coreUseLocation, coreUseNavigate, coreUseParams,
+  urls
 } from "@wrappid/core";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -35,15 +37,17 @@ export default function StatusChangeForm() {
   }, [statusUpdateSuccess]);
 
   return (
-    <CoreForm
-      apiMode={FORM_EDIT_MODE}
-      initData={{ currentStatus: state?._status, id: id, nextStatus: status, requestTime: new Date() }}
-      formId={"statusUpdateForm"}
-      mode={FORM_EDIT_MODE}
-      _query={{ model: model }}
-      afterEditSuccess={() => {
-        navigate(pageUrl);
-      }}
-    />
+    <>
+      <CoreForm
+        apiMode={FORM_EDIT_MODE}
+        initData={{ currentStatus: state?._status, id: id, nextStatus: status, requestTime: new Date() }}
+        formId={"statusUpdateForm"}
+        mode={FORM_EDIT_MODE}
+        _query={{ model: model }}
+        afterEditSuccess={() => {
+          navigate(pageUrl);
+        }}
+      />
+    </>
   );
 }

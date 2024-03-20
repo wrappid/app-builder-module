@@ -1,16 +1,19 @@
 import { useContext, useEffect } from "react";
 
 import {
+  AppContainerLayout,
+  ComponentRegistryContext,
   CoreDataTable,
+  CoreLayoutItem,
   __IconTypes,
-  coreUseNavigate,
-  ComponentRegistryContext
+  coreUseNavigate
 } from "@wrappid/core";
 import { useDispatch } from "react-redux";
 
-import StatusChangeCommentHistory from "./StatusChangeCommentHistory";
 import { __EntityStatus } from "../constants/constants";
 import { RoutesRegistry } from "../routes.registry";
+// eslint-disable-next-line import/order
+import StatusChangeCommentHistory from "./StatusChangeCommentHistory";
 
 export default function PagesManager() {
   const navigate = coreUseNavigate();
@@ -156,12 +159,16 @@ export default function PagesManager() {
   ];
 
   return (
-    <CoreDataTable
-      entity="Pages"
-      createFormID={"PageForm"}
-      updateFormID={"PageForm"}
-      rowActions={tableRowActions}
-      postRenderDetailsPaneComponent={StatusChangeCommentHistory}
-    />
+    <>
+      <CoreLayoutItem id={AppContainerLayout.PLACEHOLDER.CONTENT}>
+        <CoreDataTable
+          entity="Pages"
+          createFormID={"PageForm"}
+          updateFormID={"PageForm"}
+          rowActions={tableRowActions}
+          postRenderDetailsPaneComponent={StatusChangeCommentHistory}
+        />
+      </CoreLayoutItem>
+    </>
   );
 }
