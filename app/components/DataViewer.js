@@ -1,13 +1,15 @@
 import React from "react";
 
 import {
+  AppContainerLayout,
+  CoreAsyncSelect,
+  CoreBox,
+  CoreButton,
+  CoreClasses,
   CoreDataTable,
   CoreForm,
-  FORM_EDIT_MODE,
-  CoreAsyncSelect,
-  CoreButton,
-  CoreBox,
-  CoreClasses
+  CoreLayoutItem,
+  FORM_EDIT_MODE
 } from "@wrappid/core";
 
 import { getLabel } from "../utils/stringUtils";
@@ -31,21 +33,23 @@ export default function DataViewer(props) {
 
   return (
     <>
-      {!entity && (
-        <CoreAsyncSelect
-          id="model"
-          label="Database Model"
-          itemKey="model"
-          endpoint="/models"
-          query={{ input: "" }}
-          value={model}
-          handleChange={(values) => {
-            setModel(values.id);
-          }}
-        />
-      )}
+      <CoreLayoutItem id={AppContainerLayout.PLACEHOLDER.CONTENT}>
+      
+        {!entity && (
+          <CoreAsyncSelect
+            id="model"
+            label="Database Model"
+            itemKey="model"
+            endpoint="/models"
+            query={{ input: "" }}
+            value={model}
+            handleChange={(values) => {
+              setModel(values.id);
+            }}
+          />
+        )}
 
-      {enableCreate &&
+        {enableCreate &&
         model &&
         model !== "" &&
         /* _formJSON && */
@@ -71,18 +75,19 @@ export default function DataViewer(props) {
           </CoreBox>
         ))}
 
-      {model && model !== "" && (
-        <CoreDataTable
-          serverSide={true}
-          entity={model}
-          editable={true}
-          deletable={true}
-          showToolbar={true}
-          rowActions={rowActions}
-          preRenderDetailsPaneComponent={preRenderDetailsPaneComponent}
-          postRenderDetailsPaneComponent={postRenderDetailsPaneComponent}
-        />
-      )}
+        {model && model !== "" && (
+          <CoreDataTable
+            serverSide={true}
+            entity={model}
+            editable={true}
+            deletable={true}
+            showToolbar={true}
+            rowActions={rowActions}
+            preRenderDetailsPaneComponent={preRenderDetailsPaneComponent}
+            postRenderDetailsPaneComponent={postRenderDetailsPaneComponent}
+          />
+        )}
+      </CoreLayoutItem>
     </>
   );
 }

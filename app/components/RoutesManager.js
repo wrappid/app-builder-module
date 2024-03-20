@@ -1,8 +1,9 @@
-import { CoreDataTable, __IconTypes, coreUseNavigate } from "@wrappid/core";
+import { AppContainerLayout, CoreDataTable, CoreLayoutItem, __IconTypes, coreUseNavigate } from "@wrappid/core";
 
-import StatusChangeCommentHistory from "./StatusChangeCommentHistory";
 import { __EntityStatus } from "../constants/constants";
 import { RoutesRegistry } from "../routes.registry";
+// eslint-disable-next-line import/order
+import StatusChangeCommentHistory from "./StatusChangeCommentHistory";
 
 export default function RoutesManager() {
   const navigate = coreUseNavigate();
@@ -134,12 +135,16 @@ export default function RoutesManager() {
   ];
 
   return (
-    <CoreDataTable
-      entity={"Routes"}
-      createFormID={"RouteForm"}
-      updateFormID={"RouteForm"}
-      rowActions={tableRowActions}
-      postRenderDetailsPaneComponent={StatusChangeCommentHistory}
-    />
+    <>
+      <CoreLayoutItem id={AppContainerLayout.PLACEHOLDER.CONTENT}>
+        <CoreDataTable
+          entity={"Routes"}
+          createFormID={"RouteForm"}
+          updateFormID={"RouteForm"}
+          rowActions={tableRowActions}
+          postRenderDetailsPaneComponent={StatusChangeCommentHistory}
+        />
+      </CoreLayoutItem>
+    </>
   );
 }
