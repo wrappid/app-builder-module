@@ -5,9 +5,3 @@ All notable changes to this project will be documented in this file. See [standa
 ### 0.0.3 (2024-03-20)
 
 ### 0.0.2 (2024-03-19)
-
-### 0.0.4 (2024-03-18)
-
-### 0.0.3 (2024-03-16)
-
-### 0.0.2 (2024-03-15)
