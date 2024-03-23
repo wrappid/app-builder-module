@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 
 import {
-  CoreForm, FORM_EDIT_MODE,
+  AppContainerLayout,
+  CoreForm, CoreLayoutItem, FORM_EDIT_MODE,
   coreUseLocation, coreUseNavigate, coreUseParams,
   urls
 } from "@wrappid/core";
@@ -38,16 +39,18 @@ export default function StatusChangeForm() {
 
   return (
     <>
-      <CoreForm
-        apiMode={FORM_EDIT_MODE}
-        initData={{ currentStatus: state?._status, id: id, nextStatus: status, requestTime: new Date() }}
-        formId={"statusUpdateForm"}
-        mode={FORM_EDIT_MODE}
-        _query={{ model: model }}
-        afterEditSuccess={() => {
-          navigate(pageUrl);
-        }}
-      />
+      <CoreLayoutItem id={AppContainerLayout.PLACEHOLDER.CONTENT}>
+        <CoreForm
+          apiMode={FORM_EDIT_MODE}
+          initData={{ currentStatus: state?._status, id: id, nextStatus: status, requestTime: new Date() }}
+          formId={"statusUpdateForm"}
+          mode={FORM_EDIT_MODE}
+          _query={{ model: model }}
+          afterEditSuccess={() => {
+            navigate(pageUrl);
+          }}
+        />
+      </CoreLayoutItem>
     </>
   );
 }
