@@ -9,8 +9,7 @@ import {
 } from "@wrappid/core";
 import { useDispatch } from "react-redux";
 
-import { __EntityStatus } from "../constants/constants";
-import { RoutesRegistry } from "../routes.registry";
+import { __EntityStatus, __ROUTES_CONSTANT } from "../constants/constants";
 // eslint-disable-next-line import/order
 import StatusChangeCommentHistory from "./StatusChangeCommentHistory";
 
@@ -23,7 +22,7 @@ export default function BusinessEntityManager() {
       action: (data) => {
         navigate(
           "/" +
-            RoutesRegistry?.HISTORY?.replace(
+            __ROUTES_CONSTANT?.HISTORY?.replace(
               ":model",
               "BusinessEntitySchemas"
             )?.replace(":entityRef", data.entityRef),
@@ -57,7 +56,7 @@ export default function BusinessEntityManager() {
       action: (data) => {
         navigate(
           "/" +
-            RoutesRegistry?.STATUS_CHANGE_FORM.replace(
+            __ROUTES_CONSTANT?.STATUS_CHANGE_FORM.replace(
               ":model",
               "BusinessEntitySchemas"
             )
@@ -84,7 +83,7 @@ export default function BusinessEntityManager() {
       action: (data) => {
         navigate(
           "/" +
-            RoutesRegistry.STATUS_CHANGE_FORM.replace(
+            __ROUTES_CONSTANT.STATUS_CHANGE_FORM.replace(
               ":model",
               "BusinessEntitySchemas"
             )
@@ -108,7 +107,7 @@ export default function BusinessEntityManager() {
       action: (data) => {
         navigate(
           "/" +
-            RoutesRegistry.STATUS_CHANGE_FORM.replace(
+            __ROUTES_CONSTANT.STATUS_CHANGE_FORM.replace(
               ":model",
               "BusinessEntitySchemas"
             )
@@ -132,7 +131,7 @@ export default function BusinessEntityManager() {
       action: (data) => {
         navigate(
           "/" +
-            RoutesRegistry.STATUS_CHANGE_FORM.replace(
+            __ROUTES_CONSTANT.STATUS_CHANGE_FORM.replace(
               ":model",
               "BusinessEntitySchemas"
             )
@@ -156,7 +155,7 @@ export default function BusinessEntityManager() {
       action: (data) => {
         navigate(
           "/" +
-            RoutesRegistry.STATUS_CHANGE_FORM.replace(
+            __ROUTES_CONSTANT.STATUS_CHANGE_FORM.replace(
               ":model",
               "BusinessEntitySchemas"
             )
