@@ -1,4 +1,3 @@
-const ValidationsRegistry = {
-};
+const ValidationsRegistry = {};
 
 export default ValidationsRegistry;
