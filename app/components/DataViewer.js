@@ -68,7 +68,7 @@ export default function DataViewer(props) {
             <CoreButton
               sx={{ display: "flex", selfAlign: "end" }}
               label={"Create " + getLabel(model)}
-              OnClick={() => {
+              onClick={() => {
                 set_collapseForm(!_collapseForm);
               }}
             />

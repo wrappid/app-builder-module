@@ -342,7 +342,7 @@ export default function BusinessEntityComp(props) {
                         <CoreIcon>add</CoreIcon>Model
                       </>
                     }
-                    OnClick={() => {
+                    onClick={() => {
                       addNestedModel(modelID);
                     }}
                   />
@@ -504,7 +504,7 @@ export default function BusinessEntityComp(props) {
                     <CoreIcon>add</CoreIcon>Model
                   </>
                 }
-                OnClick={() => {
+                onClick={() => {
                   // eslint-disable-next-line no-console
                   console.log(`parent model=${model}`);
                   addNestedModel(modelID);

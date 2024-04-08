@@ -57,7 +57,7 @@ function ThemesViewer() {
 
                       <CoreButton
                         key={index}
-                        OnClick={() => handleChangeTheme(themeName)}
+                        onClick={() => handleChangeTheme(themeName)}
                       >
                         {themeName}
                       </CoreButton>
