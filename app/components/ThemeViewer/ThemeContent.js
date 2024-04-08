@@ -30,15 +30,15 @@ function ThemeContent() {
         <CoreBox>
           <CoreBox>
             <CoreBox>
-              <CoreButton OnClick={() => handleStateChange("Presets")}>
+              <CoreButton onClick={() => handleStateChange("Presets")}>
                 Presets
               </CoreButton>
 
-              <CoreButton OnClick={() => handleStateChange("Create Theme")}>
+              <CoreButton onClick={() => handleStateChange("Create Theme")}>
                 Create Theme
               </CoreButton>
 
-              <CoreButton OnClick={() => handleStateChange("Preview")}>
+              <CoreButton onClick={() => handleStateChange("Preview")}>
                 Preview
               </CoreButton>
 
