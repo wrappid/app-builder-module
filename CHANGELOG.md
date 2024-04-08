@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.5](https://https//github.com/wrappid/wrappid-module/compare/v0.0.4...v0.0.5) (2024-04-08)
+
+
+### Bug Fixes
+
+* **global:** :bug: event OnClick func name changes to onClick ([4c7f65e](https://https//github.com/wrappid/wrappid-module/commit/4c7f65ee41cb8779274ba603ba82608ecd7df105)), closes [#38](https://https//github.com/wrappid/wrappid-module/issues/38)
+
 ### [0.0.4](https://https//github.com/wrappid/wrappid-module/compare/v0.0.3...v0.0.4) (2024-04-02)
 
 
