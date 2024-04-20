@@ -4,6 +4,7 @@ import {
   AppContainerLayout,
   ComponentRegistryContext,
   CoreDataTable,
+  CoreDialogContext,
   CoreLayoutItem,
   __IconTypes,
   coreUseNavigate
@@ -14,12 +15,13 @@ import { __EntityStatus, __ROUTES_CONSTANT } from "../constants/constants";
 // eslint-disable-next-line import/order
 import StatusChangeCommentHistory from "./StatusChangeCommentHistory";
 
-export default function PagesManager() {
+export default function ThemesManager() {
   const navigate = coreUseNavigate();
   const dispatch = useDispatch();
-  const componentsRegistry = useContext(ComponentRegistryContext);
-  const options = componentsRegistry
-    ? Object.keys(componentsRegistry)?.map((com) => {
+  const componentRegistry = useContext(ComponentRegistryContext);
+  const { setDialog } = useContext(CoreDialogContext);
+  const options = componentRegistry
+    ? Object.keys(componentRegistry)?.map((com) => {
       return { id: com, label: com };
     })
     : [];
@@ -34,9 +36,33 @@ export default function PagesManager() {
   const tableRowActions = [
     {
       action: (data) => {
+        setDialog({
+          doneButton: () => {
+            
+          },
+          doneButtonLabel: "Apply",
+          showDialog     : true,
+          subtitle       : `Applying theme: ${data?.name || "Unknown"}\nThe whole UI will chnage based on your changes.`,
+          title          : "Apply Theme",
+          type           : "warning"
+        });
+      },
+      hide: (rowData) => {
+        if (rowData._status === __EntityStatus.PUBLISHED) {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      icon : { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
+      label: "Apply",
+      type : "action",
+    },
+    {
+      action: (data) => {
         navigate(
           "/" +
-            __ROUTES_CONSTANT.HISTORY.replace(":model", "Pages").replace(
+            __ROUTES_CONSTANT.HISTORY.replace(":model", "ThemeSchemas").replace(
               ":entityRef",
               data.entityRef
             ),
@@ -51,7 +77,7 @@ export default function PagesManager() {
       action: (data) => {
         navigate(
           "/" +
-            __ROUTES_CONSTANT.STATUS_CHANGE_FORM.replace(":model", "Pages")
+            __ROUTES_CONSTANT.STATUS_CHANGE_FORM.replace(":model", "ThemeSchemas")
               .replace(":id", data?.id)
               .replace(":status", __EntityStatus.REVIEW_REQUESTED),
           { state: data }
@@ -75,7 +101,7 @@ export default function PagesManager() {
       action: (data) => {
         navigate(
           "/" +
-            __ROUTES_CONSTANT.STATUS_CHANGE_FORM.replace(":model", "Pages")
+            __ROUTES_CONSTANT.STATUS_CHANGE_FORM.replace(":model", "ThemeSchemas")
               .replace(":id", data?.id)
               .replace(":status", __EntityStatus.APPROVED),
           { state: data }
@@ -96,7 +122,7 @@ export default function PagesManager() {
       action: (data) => {
         navigate(
           "/" +
-            __ROUTES_CONSTANT.STATUS_CHANGE_FORM.replace(":model", "Pages")
+            __ROUTES_CONSTANT.STATUS_CHANGE_FORM.replace(":model", "ThemeSchemas")
               .replace(":id", data?.id)
               .replace(":status", __EntityStatus.CHANGE_REQUESTED),
           { state: data }
@@ -117,7 +143,7 @@ export default function PagesManager() {
       action: (data) => {
         navigate(
           "/" +
-            __ROUTES_CONSTANT.STATUS_CHANGE_FORM.replace(":model", "Pages")
+            __ROUTES_CONSTANT.STATUS_CHANGE_FORM.replace(":model", "ThemeSchemas")
               .replace(":id", data?.id)
               .replace(":status", __EntityStatus.REJECTED),
           { state: data }
@@ -138,7 +164,7 @@ export default function PagesManager() {
       action: (data) => {
         navigate(
           "/" +
-            __ROUTES_CONSTANT.STATUS_CHANGE_FORM.replace(":model", "Pages")
+            __ROUTES_CONSTANT.STATUS_CHANGE_FORM.replace(":model", "ThemeSchemas")
               .replace(":id", data?.id)
               .replace(":status", __EntityStatus.PUBLISHED),
           { state: data }
@@ -161,9 +187,7 @@ export default function PagesManager() {
     <>
       <CoreLayoutItem id={AppContainerLayout.PLACEHOLDER.CONTENT}>
         <CoreDataTable
-          entity="Pages"
-          createFormID={"PageForm"}
-          updateFormID={"PageForm"}
+          entity="ThemeSchemas"
           rowActions={tableRowActions}
           postRenderDetailsPaneComponent={StatusChangeCommentHistory}
         />
