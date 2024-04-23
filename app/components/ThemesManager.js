@@ -47,13 +47,14 @@ export default function ThemesManager() {
           type           : "warning"
         });
       },
-      hide: (rowData) => {
-        if (rowData._status === __EntityStatus.PUBLISHED) {
-          return true;
-        } else {
-          return false;
-        }
-      },
+      // eslint-disable-next-line etc/no-commented-out-code
+      // hide: (rowData) => {
+      //   if (rowData._status === __EntityStatus.PUBLISHED) {
+      //     return false;
+      //   } else {
+      //     return true;
+      //   }
+      // },
       icon : { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
       label: "Apply",
       type : "action",
