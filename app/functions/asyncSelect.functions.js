@@ -11,3 +11,15 @@ export const pages = {
     return option.entityRef === value;
   },
 };
+
+export const controllers = {
+  getOptionLabel: (data) => {
+    return data.id;
+  },
+  getOptionValue: (data) => {
+    return data.id;
+  },
+  isOptionsEqualToValue: (option, value) => {
+    return option.id === value;
+  },
+};
