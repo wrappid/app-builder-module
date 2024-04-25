@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.6](https://https//github.com/wrappid/wrappid-module/compare/v0.0.5...v0.0.6) (2024-04-20)
+
+
+### Bug Fixes
+
+* **core:** :zap: themes page ([90c4e00](https://https//github.com/wrappid/wrappid-module/commit/90c4e003435bfc17e81d224d4344cc8e6b8c8f19)), closes [#31](https://https//github.com/wrappid/wrappid-module/issues/31)
+
 ### [0.0.5](https://https//github.com/wrappid/wrappid-module/compare/v0.0.4...v0.0.5) (2024-04-08)
 
 
