@@ -6,7 +6,9 @@ import {
   CoreDataTable,
   CoreDialogContext,
   CoreLayoutItem,
+  HTTP,
   __IconTypes,
+  apiRequestAction,
   coreUseNavigate
 } from "@wrappid/core";
 import { useDispatch } from "react-redux";
@@ -38,7 +40,7 @@ export default function ThemesManager() {
       action: (data) => {
         setDialog({
           doneButton: () => {
-            
+            dispatch({ payload: data?.entityRef, type: "SET_USER_THEME" });
           },
           doneButtonLabel: "Apply",
           showDialog     : true,
@@ -47,16 +49,25 @@ export default function ThemesManager() {
           type           : "warning"
         });
       },
-      // eslint-disable-next-line etc/no-commented-out-code
-      // hide: (rowData) => {
-      //   if (rowData._status === __EntityStatus.PUBLISHED) {
-      //     return false;
-      //   } else {
-      //     return true;
-      //   }
-      // },
       icon : { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
       label: "Apply",
+      type : "action",
+    },
+    {
+      action: (data) => {
+        // eslint-disable-next-line no-console
+        console.log("Clone button clicked");
+        dispatch(
+          apiRequestAction(
+            HTTP.POST,
+            `/data/clone/${data?.entityRef}`,
+            true,
+            {}
+          )
+        );
+      },
+      icon : { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
+      label: "Clone",
       type : "action",
     },
     {
