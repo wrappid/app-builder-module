@@ -10,6 +10,7 @@ import PagesManager from "./components/PagesManager";
 import RoutesManager from "./components/RoutesManager";
 import StatusChangeCommentHistory from "./components/StatusChangeCommentHistory";
 import StatusChangeForm from "./components/StatusChangeForm";
+import ThemeSchemaComponent from "./components/ThemeSchemaComponent";
 import ThemesManager from "./components/ThemesManager";
 
 export const ComponentsRegistry = {
@@ -25,5 +26,6 @@ export const ComponentsRegistry = {
   RoutesManager             : { comp: RoutesManager },
   StatusChangeCommentHistory: { comp: StatusChangeCommentHistory },
   StatusChangeForm          : { comp: StatusChangeForm },
-  ThemesManager             : { comp: ThemesManager },
+  ThemeSchemaComponent      : { comp: ThemeSchemaComponent },
+  ThemesManager             : { comp: ThemesManager }
 };

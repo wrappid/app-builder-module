@@ -16,12 +16,12 @@ import { getLabel } from "../utils/stringUtils";
 
 export default function DataViewer(props) {
   const {
-    entity,
+    entity = "",
     enableCreate = false,
     rowActions,
     preRenderDetailsPaneComponent,
     postRenderDetailsPaneComponent,
-  } = props;
+  } = props || {};
   const [model, setModel] = React.useState("");
   const [_collapseForm, set_collapseForm] = React.useState(false);
 
@@ -40,7 +40,7 @@ export default function DataViewer(props) {
             id="model"
             label="Database Model"
             itemKey="model"
-            endpoint="/models"
+            endpoint="/business/tables/application"
             query={{ input: "" }}
             value={model}
             handleChange={(values) => {
