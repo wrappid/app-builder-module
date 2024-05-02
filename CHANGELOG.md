@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.8](https://https//github.com/wrappid/wrappid-module/compare/v0.0.7...v0.0.8) (2024-05-02)
+
+
+### Features
+
+* **core:** :zap: theme builder component ([33d1ebd](https://https//github.com/wrappid/wrappid-module/commit/33d1ebd0b3e0eb5b12d4cd494af2bf9406e36001)), closes [#31](https://https//github.com/wrappid/wrappid-module/issues/31)
+
 ### [0.0.7](https://https//github.com/wrappid/wrappid-module/compare/v0.0.6...v0.0.7) (2024-04-27)
 
 
