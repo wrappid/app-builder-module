@@ -42,7 +42,8 @@ export default function BusinessEntityManager() {
         dispatch(
           apiRequestAction(
             HTTP.POST,
-            `/businessEntity/clone/${data?.name}`,
+            // `/businessEntity/clone/${data?.name}`,
+            `/data/clone/BusinessEntitySchemas/${data?.name}`,
             true,
             data
           )

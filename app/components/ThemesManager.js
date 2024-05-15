@@ -60,7 +60,8 @@ export default function ThemesManager() {
         dispatch(
           apiRequestAction(
             HTTP.POST,
-            `/data/clone/${data?.entityRef}`,
+            // `/data/clone/${data?.entityRef}`,
+            `/data/clone/ThemeSchemas/${data?.name}`,
             true,
             {}
           )
