@@ -39,7 +39,8 @@ function FormsManager() {
         dispatch(
           apiRequestAction(
             HTTP.POST,
-            `/formSchema/clone/${data?.formID}`,
+            // `/formSchema/clone/${data?.formID}`,
+            `/data/clone/FormSchemas/${data?.name}`,
             true,
             {}
           )

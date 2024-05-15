@@ -1,4 +1,7 @@
-import { AppContainerLayout, CoreDataTable, CoreLayoutItem, __IconTypes, coreUseNavigate } from "@wrappid/core";
+import {
+  AppContainerLayout, CoreDataTable, CoreLayoutItem, __IconTypes, coreUseNavigate, apiRequestAction, HTTP 
+} from "@wrappid/core";
+import { useDispatch } from "react-redux";
 
 import { __EntityStatus, __ROUTES_CONSTANT } from "../constants/constants";
 // eslint-disable-next-line import/order
@@ -6,7 +9,8 @@ import StatusChangeCommentHistory from "./StatusChangeCommentHistory";
 
 export default function RoutesManager() {
   const navigate = coreUseNavigate();
-
+  const dispatch = useDispatch();
+ 
   const tableRowActions = [
     {
       action: (data) => {
@@ -21,6 +25,26 @@ export default function RoutesManager() {
       },
       icon : { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
       label: "History",
+      type : "action",
+    },
+    {
+      action: (data) => {
+        // eslint-disable-next-line no-console
+        console.log("Clone button clicked");
+        // eslint-disable-next-line no-console
+        console.log(data);
+        dispatch(
+          apiRequestAction(
+            HTTP.POST,
+            // `/businessEntity/clone/${data?.name}`,
+            `/data/clone/Routes/${data?.name}`,
+            true,
+            data
+          )
+        );
+      },
+      icon : { icon: "", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
+      label: "Clone",
       type : "action",
     },
     {
