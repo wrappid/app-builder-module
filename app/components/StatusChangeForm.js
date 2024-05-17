@@ -12,7 +12,7 @@ import { RESET_STATUS_SUCCESS_DATA } from "../types/appBuilderTypes";
 
 export default function StatusChangeForm() {
   const location = coreUseLocation();
-  const { state, pageUrl } = location;
+  const { state } = location;
   const { id, model, status } = coreUseParams();
 
   const navigate = coreUseNavigate();
@@ -47,7 +47,7 @@ export default function StatusChangeForm() {
           mode={FORM_EDIT_MODE}
           _query={{ model: model }}
           afterEditSuccess={() => {
-            navigate(pageUrl);
+            navigate(state.pageUrl);
           }}
         />
       </CoreLayoutItem>

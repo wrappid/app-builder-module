@@ -3,7 +3,8 @@ import {
   HTTP,
   __IconTypes,
   apiRequestAction,
-  coreUseNavigate
+  coreUseNavigate,
+  coreUseLocation
 } from "@wrappid/core";
 import { useDispatch } from "react-redux";
 
@@ -13,6 +14,8 @@ import StatusChangeCommentHistory from "./StatusChangeCommentHistory";
 
 export default function EntityManager(props) {
   const { entityName } = props;
+  const location = coreUseLocation();
+  const { pathname: pageUrl } = location;
   const navigate = coreUseNavigate();
   const dispatch = useDispatch();
 
@@ -68,7 +71,7 @@ export default function EntityManager(props) {
             )
               ?.replace(":id", data?.id)
               ?.replace(":status", __EntityStatus.REVIEW_REQUESTED),
-          { state: data }
+          { state: { ...data, pageUrl } }
         );
       },
       hide: (rowData) => {
@@ -95,7 +98,7 @@ export default function EntityManager(props) {
             )
               ?.replace(":id", data?.id)
               ?.replace(":status", __EntityStatus.APPROVED),
-          { state: data }
+          { state: { ...data, pageUrl } }
         );
       },
       hide: (rowData) => {
@@ -119,7 +122,7 @@ export default function EntityManager(props) {
             )
               ?.replace(":id", data?.id)
               ?.replace(":status", __EntityStatus.CHANGE_REQUESTED),
-          { state: data }
+          { state: { ...data, pageUrl } }
         );
       },
       hide: (rowData) => {
@@ -143,7 +146,7 @@ export default function EntityManager(props) {
             )
               ?.replace(":id", data?.id)
               ?.replace(":status", __EntityStatus.REJECTED),
-          { state: data }
+          { state: { ...data, pageUrl } }
         );
       },
       hide: (rowData) => {
@@ -167,7 +170,7 @@ export default function EntityManager(props) {
             )
               ?.replace(":id", data?.id)
               ?.replace(":status", __EntityStatus.PUBLISHED),
-          { state: data }
+          { state: { ...data, pageUrl } }
         );
       },
       hide: (rowData) => {
