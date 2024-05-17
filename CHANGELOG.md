@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.10](https://https//github.com/wrappid/wrappid-module/compare/v0.0.9...v0.0.10) (2024-05-17)
+
+
+### Features
+
+* **global:** :sparkles: app builder modelManager compnents handled by single component ([6f34f21](https://https//github.com/wrappid/wrappid-module/commit/6f34f21119509f4033694c74aa3ba667091fc18c)), closes [#45](https://https//github.com/wrappid/wrappid-module/issues/45)
+
+
+### Bug Fixes
+
+* **global:** :bug: after change entity status back to previous page ([e769904](https://https//github.com/wrappid/wrappid-module/commit/e769904fe5fe0b7cf988e124c0931fcf5b9b767f)), closes [#45](https://https//github.com/wrappid/wrappid-module/issues/45)
+
 ### [0.0.9](https://https//github.com/wrappid/wrappid-module/compare/v0.0.8...v0.0.9) (2024-05-15)
 
 
