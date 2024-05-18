@@ -19,7 +19,6 @@ import {
   CoreClasses
 } from "@wrappid/core";
 
-import { DB_CONST } from "../constants/constants";
 import { getUUID } from "../utils/appUtils";
 import {
   __BusinessEntityIncFunc,
@@ -187,7 +186,7 @@ export default function BusinessEntityComp(props) {
         tempSchema
       );
       // add database if missing
-      tempSchema.database = tempSchema?.database || DB_CONST.RXEFY_DB;
+      // tempSchema.database = "application";
       setSchema(tempSchema);
     }
   }, [value]);
@@ -208,10 +207,10 @@ export default function BusinessEntityComp(props) {
         <CoreAsyncSelect
           id={"database"}
           label="Database"
-          optionsData={[{ label: DB_CONST.RXEFY_DB }, { label: DB_CONST.RXEFY_MEDICINE_DB }]}
+          endpoint="/business/databases"
           value={database}
           handleChange={(value) => {
-            const tmpSchema = { database: value?.label };
+            const tmpSchema = { database: value?.id };
 
             handleSchemaChange(tmpSchema);
           }}
@@ -219,7 +218,7 @@ export default function BusinessEntityComp(props) {
 
         <CoreDivider />
 
-        {database && (
+        {database && database != "" && (
           <>
             <CoreTypographySubtitle2>Root Model</CoreTypographySubtitle2>
 
