@@ -44,7 +44,7 @@ export default function EntityManager(props) {
         dispatch(
           apiRequestAction(
             HTTP.POST,
-            `/data/clone/${entityName}/${data?.name}`,
+            `/data/clone/${entityName}/${data?.entityRef}`,
             true,
             data
           )
