@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.12](https://https//github.com/wrappid/wrappid-module/compare/v0.0.11...v0.0.12) (2024-05-18)
+
+
+### Bug Fixes
+
+* **global:** :bug: businessEntity get databses chnaged end point ([12434cc](https://https//github.com/wrappid/wrappid-module/commit/12434ccfcee42b371bdce3882cf67535400d745d)), closes [#45](https://https//github.com/wrappid/wrappid-module/issues/45)
+
 ### [0.0.11](https://https//github.com/wrappid/wrappid-module/compare/v0.0.10...v0.0.11) (2024-05-18)
 
 
