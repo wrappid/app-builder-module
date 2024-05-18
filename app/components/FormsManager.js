@@ -6,7 +6,7 @@ export default function FormsManager() {
   return (
     <>
       <CoreLayoutItem id={AppContainerLayout.PLACEHOLDER.CONTENT}>
-        <EntityManager entityName="Pages" />;
+        <EntityManager entityName="FormSchemas" />;
       </CoreLayoutItem>
     </>
   );
