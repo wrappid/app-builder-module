@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.14](https://https//github.com/wrappid/wrappid-module/compare/v0.0.13...v0.0.14) (2024-07-11)
+
+
+### Bug Fixes
+
+* **core:** :bug: form builder editor fix ([6c9b197](https://https//github.com/wrappid/wrappid-module/commit/6c9b197ffe04e0ec121b49b616433627f9ee2359)), closes [#52](https://https//github.com/wrappid/wrappid-module/issues/52)
+
 ### [0.0.13](https://https//github.com/wrappid/wrappid-module/compare/v0.0.12...v0.0.13) (2024-05-22)
 
 
