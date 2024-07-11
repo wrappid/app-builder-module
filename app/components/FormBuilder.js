@@ -1,4 +1,4 @@
-import { CoreJSONInput, CoreTypographyBody1 } from "@wrappid/core";
+import { CoreJSONEditor, CoreTypographyBody1 } from "@wrappid/core";
 
 export default function FormBuilder(props) {
   return (
@@ -7,7 +7,7 @@ export default function FormBuilder(props) {
         TODO: Form Builder Work In Progress
       </CoreTypographyBody1>
 
-      <CoreJSONInput {...props} />
+      <CoreJSONEditor {...props} />
     </>
   );
 }
