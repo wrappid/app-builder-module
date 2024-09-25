@@ -7,6 +7,7 @@ import FormPreview from "./components/FormPreview";
 import FormsManager from "./components/FormsManager";
 import History from "./components/History";
 import ModelSchemaManager from "./components/ModelSchemaManager";
+import PageBuilder from "./components/page-builder/PageBuilder";
 import PagesManager from "./components/PagesManager";
 import RoutesManager from "./components/RoutesManager";
 import StatusChangeCommentHistory from "./components/StatusChangeCommentHistory";
@@ -24,6 +25,7 @@ export const ComponentsRegistry = {
   FormsManager              : { comp: FormsManager },
   History                   : { comp: History },
   ModelSchemaManager        : { comp: ModelSchemaManager },
+  PageBuilder               : { comp: PageBuilder },
   PagesManager              : { comp: PagesManager },
   RoutesManager             : { comp: RoutesManager },
   StatusChangeCommentHistory: { comp: StatusChangeCommentHistory },
