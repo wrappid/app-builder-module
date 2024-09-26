@@ -1,4 +1,4 @@
-import { RESET_TEST, TEST_FAILURE, TEST_SUCCESS } from "../types/test.types";
+import { RESET_TEST, SELECT_LAYOUT, TEST_FAILURE, TEST_SUCCESS } from "../types/test.types";
 
 export const testSuccess = () => {
   return (dispatch) => {
@@ -15,5 +15,12 @@ export const testFailure = () => {
 export const resetTest = () => {
   return (dispatch) => {
     dispatch({ type: RESET_TEST });
+  };
+};
+
+export const selectLayout = (layoutName) => {
+  return {
+    payload: layoutName,
+    type   : SELECT_LAYOUT, 
   };
 };

@@ -1,14 +1,17 @@
 import {
   CoreBox, CoreClasses, CoreGrid, CoreIcon, CoreIconButton, CoreSelect, CoreStack, CoreToolBox, CoreTypographyBody1 
 } from "@wrappid/core";
+
+import LayoutSelector from "./LayoutSelector";
 export default function RightDrawerComp() {
+
   return (
     <CoreStack spacing={2} styleClasses={[CoreClasses.HEIGHT.VH_100, CoreClasses.OVERFLOW.OVERFLOW_Y_SCROLL]}>
     
       {/* Tool box for Layout list */}
         
-      <CoreToolBox toolTitle="Layout Viewer Menu" resize="both">
-        <CoreTypographyBody1>Layout Viewer Menu</CoreTypographyBody1>
+      <CoreToolBox toolTitle="Select Layout" resize="both">
+        <LayoutSelector />
       </CoreToolBox>
             
       {/* Tool box for Component list */}
