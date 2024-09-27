@@ -1,33 +1,33 @@
 import {
-  CoreBox, CoreClasses, CoreGrid, CoreIcon, CoreIconButton, CoreSelect, CoreStack, CoreToolBox, CoreTypographyBody1 
+  CoreBox, CoreClasses, CoreGrid, CoreIcon, CoreIconButton, CoreSelect, CoreStack, CoreToolBox, CoreTypographyBody1
 } from "@wrappid/core";
 
+import ComponentSelector from "./ComponentSelector";
 import LayoutSelector from "./LayoutSelector";
-export default function RightDrawerComp() {
 
+/**
+ * RightDrawerComp component
+ * @returns {React.Component} The RightDrawerComp component
+ */
+export default function RightDrawerComp() {
   return (
     <CoreStack spacing={2} styleClasses={[CoreClasses.HEIGHT.VH_100, CoreClasses.OVERFLOW.OVERFLOW_Y_SCROLL]}>
-    
       {/* Tool box for Layout list */}
-        
       <CoreToolBox toolTitle="Select Layout" resize="both">
         <LayoutSelector />
       </CoreToolBox>
-            
+
       {/* Tool box for Component list */}
-        
       <CoreToolBox toolTitle="Component Viewer Menu" resize="both">
-        <CoreTypographyBody1>Component Viewer Menu</CoreTypographyBody1>
+        <ComponentSelector />
       </CoreToolBox>
-            
+
       {/* Tool box for Props list related to selected component */}
-        
       <CoreToolBox toolTitle="Props Viewer Menu" resize="both">
         <CoreTypographyBody1>Props Viewer Menu</CoreTypographyBody1>
       </CoreToolBox>
-            
+
       {/* Tool box for styles list related to selected component */}
-        
       <CoreToolBox toolTitle="Styles Viewer Menu" resize="both">
         <CoreTypographyBody1>Default Styles</CoreTypographyBody1>
 
@@ -48,7 +48,6 @@ export default function RightDrawerComp() {
             label="Zoom"
             selectID="currentZoom"
             options={[{ id: "", label: "None" }, { id: "10", label: "Ten" }, { id: "20", label: "Twenty" }, { id: "30", label: "Thirty" }]}
-
           />
 
           <CoreBox
@@ -66,7 +65,6 @@ export default function RightDrawerComp() {
           </CoreBox>
         </CoreGrid>
       </CoreToolBox>
-            
     </CoreStack>
   );
 }
