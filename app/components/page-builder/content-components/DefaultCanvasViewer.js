@@ -82,10 +82,10 @@ export default function DefaultCanvasViewer() {
    * @returns {React.Component[]} Array of rendered components
    */
   const renderComponents = (components, placeholderIndex, path = []) => {
-    if (!components || !Array.isArray(components)) {
+    components = components?.children;
+    if (!components || !Array.isArray(components) ) {
       return null;
     }
-
     return components.map((component, componentIndex) => {
       const currentPath = [...path, componentIndex];
 
@@ -136,6 +136,17 @@ export default function DefaultCanvasViewer() {
               ))}
             </>
           )}
+
+          <CoreBox>
+            <CoreTypographyBody1>JSON Data:</CoreTypographyBody1>
+
+            <CoreBox styleClasses={[CoreClasses.BORDER.BORDER, CoreClasses.PADDING.P1]}>
+              <CoreBox component="pre">
+                {/* Display the JSON data */}
+                {JSON.stringify(componentsInBoxes, null, 2)}
+              </CoreBox>
+            </CoreBox>
+          </CoreBox>
         </CoreBox>
       </CoreBox>
     </>

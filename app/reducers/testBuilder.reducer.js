@@ -11,27 +11,10 @@ import {
  * @type {Object}
  */
 const initialState = {
-  activeBox        : null,
-  componentsInBoxes: [],
-  coreComponents   : [
-    {
-      id  : "CoreBox",
-      name: "CoreBox",
-    },
-    {
-      id  : "CoreButton",
-      name: "CoreButton" 
-    },
-    { 
-      id  : "CoreTypographyBody1",
-      name: "CoreTypographyBody1"
-    },
-  ],
-  error                : false,
-  message              : "This is a test module.",
+  activeBox            : null,
+  componentsInBoxes    : [],
   selectedComponentPath: null,
   selectedLayout       : "RightDrawerLayout",
-  success              : false,
 };
 
 /**
@@ -41,12 +24,19 @@ const initialState = {
  * @returns {Object} Updated state
  */
 const handleSelectLayout = (state, newLayout) => {
-  const boxCount = layoutData[newLayout].length;
+  const boxIds = layoutData[newLayout];
+
+  // Create componentsInBoxes with each box having an id and an empty components array
+  const componentsInBoxes = boxIds.map((id) => ({
+    // Set the id based on layoutData values
+    children: [],             
+    id // Initialize an empty components array for each box
+  }));
 
   return {
     ...state,
-    componentsInBoxes: Array(boxCount).fill([]),
-    selectedLayout   : newLayout,
+    componentsInBoxes, // This now contains an array of box objects
+    selectedLayout: newLayout, // Update the selected layout
   };
 };
 
@@ -58,24 +48,45 @@ const handleSelectLayout = (state, newLayout) => {
  */
 const handleAddComponent = (state, payload) => {
   const { component, boxIndex, path } = payload;
-  const newComponentsInBoxes = [...state.componentsInBoxes];
+  const newComponentsInBoxes = [...state.componentsInBoxes]; // Create a shallow copy
 
+  // Validate boxIndex and ensure it exists
   if (!newComponentsInBoxes[boxIndex]) {
-    newComponentsInBoxes[boxIndex] = [];
+    newComponentsInBoxes[boxIndex] = { children: [] }; // Initialize if undefined
   }
 
   if (path === null) {
-    newComponentsInBoxes[boxIndex].push({
+    // Add the component at the root level of the box
+    newComponentsInBoxes[boxIndex].children.push({
       ComponentName: component,
       children     : [],
     });
   } else {
+    // Traverse the path to find the correct place to insert the component
     let currentLevel = newComponentsInBoxes[boxIndex];
 
-    for (let i = 0; i < path.length - 1; i++) {
-      currentLevel = currentLevel[path[i]].children;
+    for (let i = 0; i < path.length; i++) {
+      const currentIndex = path[i];
+
+      // Check if the current level exists at this path, if not initialize it
+      if (!currentLevel.children) {
+        currentLevel.children = []; // Initialize children array if not present
+      }
+
+      // Move to the next level in the component hierarchy
+      if (!currentLevel.children[currentIndex]) {
+        currentLevel.children[currentIndex] = { children: [] }; // Ensure child exists
+      }
+
+      currentLevel = currentLevel.children[currentIndex]; // Move down the tree
     }
-    currentLevel[path[path.length - 1]].children.push({
+
+    // Now add the new component at the final level
+    if (!currentLevel.children) {
+      currentLevel.children = [];
+    }
+
+    currentLevel.children.push({
       ComponentName: component,
       children     : [],
     });

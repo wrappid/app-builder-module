@@ -1,27 +1,24 @@
-import React from "react";
-
 import { CoreBox, CoreClasses } from "@wrappid/core";
 import { useSelector } from "react-redux";
 
 export default function JsonCanvasViewer() {
+  // Fetch the selected layout and placeholders from the Redux store
   const selectedLayout = useSelector((state) => state.testBuilderReducer?.selectedLayout);
-  const layoutName = selectedLayout || "BlankLayout";
+  const componentsInBoxes = useSelector((state) => state.testBuilderReducer?.componentsInBoxes) || [];
 
-  const [pageJson, setPageJson] = React.useState({ layout: layoutName });
+  // Create the pageJson structure based on the Redux data
+  const pageJson = {
+    layout      : selectedLayout || "BlankLayout",
+    placeholders: componentsInBoxes
+  };
 
-  // Update pageJson when layout changes
-  React.useEffect(() => {
-    if (layoutName) {
-      setPageJson((prevPageJson) => ({
-        ...prevPageJson,
-        layout: layoutName, // Replace the layout with the new selected layout
-      }));
-    }
-  }, [layoutName]);
   return (
     <>
-      <CoreBox component="pre" styleClasses={[CoreClasses.HEIGHT.VH_75, CoreClasses.OVERFLOW.OVERFLOW_AUTO, CoreClasses.PADDING.P2]}>
-        {JSON.stringify(pageJson, null, 2)}
+      <CoreBox
+        component="pre"
+        styleClasses={[CoreClasses.HEIGHT.VH_75, CoreClasses.OVERFLOW.OVERFLOW_AUTO, CoreClasses.PADDING.P2]}
+      >
+        {JSON.stringify(pageJson, null, 2)} 
       </CoreBox>
     </>
   );
