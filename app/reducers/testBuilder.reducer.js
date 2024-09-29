@@ -12,9 +12,24 @@ import {
  */
 const initialState = {
   activeBox            : null,
-  componentsInBoxes    : [],
+  componentsInBoxes    : [], 
   selectedComponentPath: null,
-  selectedLayout       : "RightDrawerLayout",
+  selectedLayout       : "BlankLayout", 
+};
+
+/**
+ * Initializes componentsInBoxes based on the selected layout
+ * @param {string} layout - Layout to initialize
+ * @returns {Object[]} Array of initialized boxes
+ */
+const initializeComponentsInBoxes = (layout) => {
+  const boxIds = layoutData[layout];
+
+  return boxIds.map((id) => ({
+    id, 
+    // eslint-disable-next-line sort-keys-fix/sort-keys-fix
+    children: []
+  }));
 };
 
 /**
@@ -24,19 +39,12 @@ const initialState = {
  * @returns {Object} Updated state
  */
 const handleSelectLayout = (state, newLayout) => {
-  const boxIds = layoutData[newLayout];
-
-  // Create componentsInBoxes with each box having an id and an empty components array
-  const componentsInBoxes = boxIds.map((id) => ({
-    // Set the id based on layoutData values
-    children: [],             
-    id // Initialize an empty components array for each box
-  }));
+  const componentsInBoxes = initializeComponentsInBoxes(newLayout); 
 
   return {
     ...state,
-    componentsInBoxes, // This now contains an array of box objects
-    selectedLayout: newLayout, // Update the selected layout
+    componentsInBoxes, 
+    selectedLayout: newLayout, 
   };
 };
 
@@ -50,46 +58,46 @@ const handleAddComponent = (state, payload) => {
   const { component, boxIndex, path } = payload;
   const newComponentsInBoxes = [...state.componentsInBoxes]; // Create a shallow copy
 
-  // Validate boxIndex and ensure it exists
+  // Ensure boxIndex exists, otherwise initialize it
   if (!newComponentsInBoxes[boxIndex]) {
-    newComponentsInBoxes[boxIndex] = { children: [] }; // Initialize if undefined
+    newComponentsInBoxes[boxIndex] = { children: [] }; 
   }
 
+  // Helper function to traverse and add component
+  const addComponentRecursively = (currentLevel, path, component) => {
+    path.forEach((currentIndex) => {
+      // Ensure current level has children array
+      if (!currentLevel.children) {
+        currentLevel.children = [];
+      }
+
+      // Initialize child if it does not exist
+      if (!currentLevel.children[currentIndex]) {
+        currentLevel.children[currentIndex] = { children: [] };
+      }
+
+      // Move down the tree
+      currentLevel = currentLevel.children[currentIndex];
+    });
+
+    // Finally, add the new component at the last level
+    currentLevel.children.push({
+      component: component,
+      // eslint-disable-next-line sort-keys-fix/sort-keys-fix
+      children : [],
+    });
+  };
+
+  // Check if the path is null to add at the root level
   if (path === null) {
-    // Add the component at the root level of the box
     newComponentsInBoxes[boxIndex].children.push({
-      ComponentName: component,
-      children     : [],
+      component: component,
+      // eslint-disable-next-line sort-keys-fix/sort-keys-fix
+      children : [],
     });
   } else {
-    // Traverse the path to find the correct place to insert the component
-    let currentLevel = newComponentsInBoxes[boxIndex];
-
-    for (let i = 0; i < path.length; i++) {
-      const currentIndex = path[i];
-
-      // Check if the current level exists at this path, if not initialize it
-      if (!currentLevel.children) {
-        currentLevel.children = []; // Initialize children array if not present
-      }
-
-      // Move to the next level in the component hierarchy
-      if (!currentLevel.children[currentIndex]) {
-        currentLevel.children[currentIndex] = { children: [] }; // Ensure child exists
-      }
-
-      currentLevel = currentLevel.children[currentIndex]; // Move down the tree
-    }
-
-    // Now add the new component at the final level
-    if (!currentLevel.children) {
-      currentLevel.children = [];
-    }
-
-    currentLevel.children.push({
-      ComponentName: component,
-      children     : [],
-    });
+    // Add the component recursively
+    addComponentRecursively(newComponentsInBoxes[boxIndex], path, component);
   }
 
   return {

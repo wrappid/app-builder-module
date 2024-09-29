@@ -52,8 +52,15 @@ export default function DefaultCanvasViewer() {
   const dispatch = useDispatch();
   const selectedLayout = useSelector((state) => state.testBuilderReducer?.selectedLayout);
   const componentsInBoxes = useSelector((state) => state.testBuilderReducer?.componentsInBoxes) || [];
-  const layoutName = selectedLayout || "RightDrawerLayout";
-  const layoutPlaceholders = layoutData[layoutName];
+  
+  const layoutPlaceholders = layoutData[selectedLayout] || [];
+
+  // Dispatch layout selection when the component mounts
+  // React.useEffect(() => {
+  //   if (selectedLayout) {
+  //     dispatch(selectLayout(selectedLayout));
+  //   }
+  // }, [dispatch, selectedLayout]);
 
   /**
    * Handles click on add button for parent components
@@ -82,19 +89,17 @@ export default function DefaultCanvasViewer() {
    * @returns {React.Component[]} Array of rendered components
    */
   const renderComponents = (components, placeholderIndex, path = []) => {
-    components = components?.children;
-    if (!components || !Array.isArray(components) ) {
-      return null;
-    }
-    return components.map((component, componentIndex) => {
+    const children = components?.children || [];
+
+    return children.map((component, componentIndex) => {
       const currentPath = [...path, componentIndex];
 
       return (
         <CoreBox
-          key={componentIndex}
+          key={`${placeholderIndex}-${componentIndex}`} // Unique key
           styleClasses={[CoreClasses.BORDER.BORDER, CoreClasses.PADDING.P1]}
         >
-          <CoreTypographyBody1>{component.ComponentName}</CoreTypographyBody1>
+          <CoreTypographyBody1>{component.component}</CoreTypographyBody1>
 
           <CoreIconButton
             onClick={() => handleAddChildClick(placeholderIndex, currentPath)}
@@ -105,7 +110,7 @@ export default function DefaultCanvasViewer() {
           </CoreIconButton>
 
           <CoreStack spacing={1}>
-            {component.children && component.children.length > 0 && renderComponents(component.children, placeholderIndex, currentPath)}
+            {component.children && component.children.length > 0 && renderComponents({ children: component.children }, placeholderIndex, currentPath)}
           </CoreStack>
         </CoreBox>
       );
@@ -113,42 +118,29 @@ export default function DefaultCanvasViewer() {
   };
 
   return (
-    <>
-      <CoreBox styleClasses={[CoreClasses.BG.BG_DOT_GRID_1, CoreClasses.HEIGHT.VH_75, CoreClasses.OVERFLOW.OVERFLOW_AUTO, CoreClasses.PADDING.P2]}>
-        <CoreBox styleClasses={[CoreClasses.BG.BG_GREY_100, CoreClasses.PADDING.P1, CoreClasses.SHADOW.NORMAL, CoreClasses.OVERFLOW.OVERFLOW_AUTO]}>
-          {layoutPlaceholders && (
-            <>
-              {layoutPlaceholders.map((sectionId, placeholderIndex) => (
-                <CoreLayoutItem key={sectionId} id={`${layoutName}.PLACEHOLDER.${sectionId}`}>
-                  <CoreTypographyBody1>PLACEHOLDER {placeholderIndex + 1}</CoreTypographyBody1>
+    <CoreBox styleClasses={[CoreClasses.BG.BG_DOT_GRID_1, CoreClasses.HEIGHT.VH_75, CoreClasses.OVERFLOW.OVERFLOW_AUTO, CoreClasses.PADDING.P2]}>
+      <CoreBox styleClasses={[CoreClasses.BG.BG_GREY_100, CoreClasses.PADDING.P1, CoreClasses.SHADOW.NORMAL, CoreClasses.OVERFLOW.OVERFLOW_AUTO]}>
+        {layoutPlaceholders && layoutPlaceholders.length > 0 && (
+          <>
+            {layoutPlaceholders.map((sectionId, placeholderIndex) => (
+              <CoreLayoutItem key={sectionId} id={`${selectedLayout}.PLACEHOLDER.${sectionId}`}>
+                <CoreTypographyBody1>PLACEHOLDER {placeholderIndex + 1}</CoreTypographyBody1>
 
-                  <CoreStack spacing={1}>
-                    {renderComponents(componentsInBoxes[placeholderIndex] || [], placeholderIndex)} 
-                  </CoreStack>
+                <CoreStack spacing={1}>
+                  {renderComponents(componentsInBoxes[placeholderIndex] || {}, placeholderIndex)}
+                </CoreStack>
 
-                  <CoreIconButton
-                    variant="text"
-                    onClick={() => handleAddClick(placeholderIndex)}
-                  >
-                    <CoreIcon icon="add" />
-                  </CoreIconButton>
-                </CoreLayoutItem>
-              ))}
-            </>
-          )}
-
-          <CoreBox>
-            <CoreTypographyBody1>JSON Data:</CoreTypographyBody1>
-
-            <CoreBox styleClasses={[CoreClasses.BORDER.BORDER, CoreClasses.PADDING.P1]}>
-              <CoreBox component="pre">
-                {/* Display the JSON data */}
-                {JSON.stringify(componentsInBoxes, null, 2)}
-              </CoreBox>
-            </CoreBox>
-          </CoreBox>
-        </CoreBox>
+                <CoreIconButton
+                  variant="text"
+                  onClick={() => handleAddClick(placeholderIndex)}
+                >
+                  <CoreIcon icon="add" />
+                </CoreIconButton>
+              </CoreLayoutItem>
+            ))}
+          </>
+        )}
       </CoreBox>
-    </>
+    </CoreBox>
   );
 }
