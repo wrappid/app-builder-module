@@ -1,15 +1,19 @@
 import {
-  CoreBox, CoreClasses, CoreGrid, CoreIcon, CoreIconButton, CoreSelect, CoreStack, CoreToolBox, CoreTypographyBody1
+  CoreBox, CoreClasses, CoreGrid, CoreIcon, CoreIconButton, CoreSelect, CoreStack, CoreToolBox
 } from "@wrappid/core";
+import { useSelector } from "react-redux";
 
 import ComponentSelector from "./ComponentSelector";
 import LayoutSelector from "./LayoutSelector";
+import PropSelector from "./PropSelector";
 
 /**
  * RightDrawerComp component
  * @returns {React.Component} The RightDrawerComp component
  */
 export default function RightDrawerComp() {
+  const isPropSelectorOpen = useSelector((state) => state.testBuilderReducer?.isPropSelectorOpen); // Read from Redux
+
   return (
     <CoreStack spacing={2} styleClasses={[CoreClasses.HEIGHT.VH_100, CoreClasses.OVERFLOW.OVERFLOW_Y_SCROLL]}>
       {/* Tool box for Layout list */}
@@ -24,15 +28,10 @@ export default function RightDrawerComp() {
 
       {/* Tool box for Props list related to selected component */}
       <CoreToolBox toolTitle="Props Viewer Menu" resize="both">
-        <CoreTypographyBody1>Props Viewer Menu</CoreTypographyBody1>
+        {isPropSelectorOpen && <PropSelector />}
       </CoreToolBox>
 
       {/* Tool box for styles list related to selected component */}
-      <CoreToolBox toolTitle="Styles Viewer Menu" resize="both">
-        <CoreTypographyBody1>Default Styles</CoreTypographyBody1>
-
-        <CoreTypographyBody1>Advance Styles</CoreTypographyBody1>
-      </CoreToolBox>
 
       <CoreToolBox toolTitle="Select Device">
         <CoreGrid>

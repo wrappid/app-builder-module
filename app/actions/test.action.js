@@ -1,5 +1,6 @@
 import {
-  ADD_COMPONENT, REMOVE_COMPONENT, RESET_TEST, SELECT_LAYOUT, SET_ACTIVE_BOX, SET_SELECTED_COMPONENT_PATH, TEST_FAILURE, TEST_SUCCESS 
+  ADD_COMPONENT, ADD_COMPONENT_PROP, REMOVE_COMPONENT, RESET_TEST, SELECT_LAYOUT, SET_ACTIVE_BOX, SET_PROPS_COMPONENT_PATH, SET_SELECTED_COMPONENT_PATH, TEST_FAILURE, TEST_SUCCESS, 
+  TOGGLE_PROP_SELECTOR
 } from "../types/test.types";
 
 export const testSuccess = () => {
@@ -45,3 +46,17 @@ export const addComponent = ({ component, boxIndex, path }) => ({
   type   : ADD_COMPONENT
 });
 
+export const setPropsComponentPath = (payload) => ({
+  payload,
+  type: SET_PROPS_COMPONENT_PATH
+});
+
+export const togglePropSelector = (isOpen) => ({
+  payload: isOpen,
+  type   : TOGGLE_PROP_SELECTOR
+});
+
+export const addComponentProp = (componentPath, prop) => ({
+  payload: { componentPath, prop },
+  type   : ADD_COMPONENT_PROP
+});
