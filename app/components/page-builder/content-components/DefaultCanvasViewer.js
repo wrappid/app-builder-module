@@ -11,8 +11,8 @@ import {
 } from "@wrappid/core";
 import { useSelector, useDispatch } from "react-redux";
 
-import ReactComponentRenderer from './ReactComponentRenderer';
-import { setActiveBox, setSelectedComponentPath, setPropsComponentPath, togglePropSelector, addComponent } from "../../../actions/test.action";
+import CoreComponentRenderer from './CoreComponentRenderer';
+import { setActiveBox, setSelectedComponentPath, setPropsComponentPath, togglePropSelector } from "../../../actions/test.action";
 
 /**
  * Layout data for different layout types
@@ -101,15 +101,14 @@ export default function DefaultCanvasViewer() {
       return (
         <CoreBox
           key={`${placeholderIndex}-${componentIndex}`}
-          styleClasses={[CoreClasses.BORDER.BORDER, CoreClasses.PADDING.P1, CoreClasses.MARGIN.MB2]}
+          styleClasses={[CoreClasses.BORDER.BORDER]}
         >
           <CoreTypographyBody1>
-            Component: {component.component} (Category: {ComponentInfo?.category || 'Unknown'})
+            {component.component}
           </CoreTypographyBody1>
 
-          <CoreBox styleClasses={[CoreClasses.MARGIN.MY2, CoreClasses.PADDING.P2, CoreClasses.BG.BG_GREY_200]}>
-            <CoreTypographyBody1>Rendered Component:</CoreTypographyBody1>
-            <ReactComponentRenderer componentData={component} />
+          <CoreBox styleClasses={[CoreClasses.MARGIN.MY1, CoreClasses.PADDING.P1, CoreClasses.BG.BG_GREY_200]}>
+            <CoreComponentRenderer componentData={component} />
           </CoreBox>
 
           {/* Button to open PropSelector */}
@@ -124,7 +123,7 @@ export default function DefaultCanvasViewer() {
           <CoreIconButton
             onClick={() => handleAddChildClick(placeholderIndex, currentPath)}
             size="small"
-            variant="text"
+            variant="text" 
           >
             <CoreIcon icon="add" />
           </CoreIconButton>
@@ -132,9 +131,9 @@ export default function DefaultCanvasViewer() {
           {component.children && component.children.length > 0 && (
             <CoreBox styleClasses={[CoreClasses.MARGIN.MT2, CoreClasses.PADDING.P2, CoreClasses.BG.BG_GREY_100]}>
               <CoreTypographyBody1>Children:</CoreTypographyBody1>
-              <CoreStack spacing={1}>
+              <CoreBox>
                 {renderComponents({ children: component.children }, placeholderIndex, currentPath)}
-              </CoreStack>
+              </CoreBox>
             </CoreBox>
           )}
         </CoreBox>
