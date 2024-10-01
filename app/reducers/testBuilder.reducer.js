@@ -3,7 +3,9 @@ import {
   SELECT_LAYOUT,
   SET_ACTIVE_BOX,
   SET_SELECTED_COMPONENT_PATH,
-  ADD_COMPONENT
+  ADD_COMPONENT,
+  SET_PROPS_COMPONENT_PATH,
+  TOGGLE_PROP_SELECTOR
 } from "../types/test.types";
 
 /**
@@ -13,8 +15,10 @@ import {
 const initialState = {
   activeBox            : null,
   componentsInBoxes    : [], 
-  selectedComponentPath: null,
-  selectedLayout       : "BlankLayout", 
+  isPropSelectorOpen   : false, // New: Boolean to track whether PropSelector is open
+  propsComponentPath   : null, // New: Path to the component whose props are being edited
+  selectedComponentPath: null, 
+  selectedLayout       : "BlankLayout"
 };
 
 /**
@@ -133,6 +137,18 @@ const testBuilderReducer = (state = initialState, action) => {
 
     case ADD_COMPONENT:
       return handleAddComponent(state, action.payload);
+
+    case SET_PROPS_COMPONENT_PATH:
+      return {
+        ...state,
+        propsComponentPath: action.payload
+      };
+
+    case TOGGLE_PROP_SELECTOR:
+      return {
+        ...state,
+        isPropSelectorOpen: action.payload
+      };
 
     default:
       return state;

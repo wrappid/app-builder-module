@@ -11,8 +11,8 @@ import {
 } from "@wrappid/core";
 import { useSelector, useDispatch } from "react-redux";
 
-import { setActiveBox, setSelectedComponentPath, addComponent } from "../../../actions/test.action";
 import ReactComponentRenderer from './ReactComponentRenderer';
+import { setActiveBox, setSelectedComponentPath, setPropsComponentPath, togglePropSelector, addComponent } from "../../../actions/test.action";
 
 /**
  * Layout data for different layout types
@@ -55,9 +55,25 @@ export default function DefaultCanvasViewer() {
   const dispatch = useDispatch();
   const selectedLayout = useSelector((state) => state.testBuilderReducer?.selectedLayout);
   const componentsInBoxes = useSelector((state) => state.testBuilderReducer?.componentsInBoxes) || [];
-  
   const layoutPlaceholders = layoutData[selectedLayout] || [];
 
+  // Dispatch layout selection when the component mounts
+  // React.useEffect(() => {
+  //   if (selectedLayout) {
+  //     dispatch(selectLayout(selectedLayout));
+  //   }
+  // }, [dispatch, selectedLayout]);
+
+  // Function to handle props button click
+  const handleAddProps = (placeholderIndex, componentPath) => {
+    // Set the component path in the state and open the PropSelector
+    dispatch(setPropsComponentPath({ componentPath, placeholderIndex }));
+    dispatch(togglePropSelector(true)); // Open the PropSelector via Redux
+  };
+  /**
+   * Handles click on add button for parent components
+   * @param {number} placeholderIndex - Index of the box where component will be added
+   */
   const handleAddClick = (placeholderIndex) => {
     dispatch(setActiveBox(placeholderIndex));
     dispatch(setSelectedComponentPath(null));
@@ -68,8 +84,15 @@ export default function DefaultCanvasViewer() {
     dispatch(setSelectedComponentPath(componentPath));
   };
 
-  const renderComponents = (components, placeholderIndex, path = []) => {
-    const children = components?.children || [];
+  /**
+   * Renders components recursively
+   * @param {Object[]} components - Array of components to render
+   * @param {number} placeholderIndex - Index of the current box
+   * @param {number[]} path - Current path in the component tree
+   * @returns {React.Component[]} Array of rendered components
+   */
+  const renderComponents = (componentsArray, placeholderIndex, path = []) => {
+    const children = componentsArray?.children || [];
 
     return children.map((component, componentIndex) => {
       const currentPath = [...path, componentIndex];
@@ -88,6 +111,15 @@ export default function DefaultCanvasViewer() {
             <CoreTypographyBody1>Rendered Component:</CoreTypographyBody1>
             <ReactComponentRenderer componentData={component} />
           </CoreBox>
+
+          {/* Button to open PropSelector */}
+          <CoreIconButton
+            onClick={() => handleAddProps(placeholderIndex, currentPath)} // Pass placeholder index and component path to open PropSelector
+            size="small"
+            variant="text"
+          >
+            <CoreIcon icon="widgets" />
+          </CoreIconButton>
 
           <CoreIconButton
             onClick={() => handleAddChildClick(placeholderIndex, currentPath)}
