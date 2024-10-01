@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   CoreBox,
   CoreClasses,
@@ -5,11 +6,13 @@ import {
   CoreIconButton,
   CoreLayoutItem,
   CoreStack,
-  CoreTypographyBody1
+  CoreTypographyBody1,
+  CoreComponentsRegistry
 } from "@wrappid/core";
 import { useSelector, useDispatch } from "react-redux";
 
-import { setActiveBox, setSelectedComponentPath } from "../../../actions/test.action";
+import { setActiveBox, setSelectedComponentPath, addComponent } from "../../../actions/test.action";
+import ReactComponentRenderer from './ReactComponentRenderer';
 
 /**
  * Layout data for different layout types
@@ -55,51 +58,36 @@ export default function DefaultCanvasViewer() {
   
   const layoutPlaceholders = layoutData[selectedLayout] || [];
 
-  // Dispatch layout selection when the component mounts
-  // React.useEffect(() => {
-  //   if (selectedLayout) {
-  //     dispatch(selectLayout(selectedLayout));
-  //   }
-  // }, [dispatch, selectedLayout]);
-
-  /**
-   * Handles click on add button for parent components
-   * @param {number} placeholderIndex - Index of the box where component will be added
-   */
   const handleAddClick = (placeholderIndex) => {
     dispatch(setActiveBox(placeholderIndex));
     dispatch(setSelectedComponentPath(null));
   };
 
-  /**
-   * Handles click on add button for child components
-   * @param {number} placeholderIndex - Index of the box where component will be added
-   * @param {number[]} componentPath - Path to the parent component
-   */
   const handleAddChildClick = (placeholderIndex, componentPath) => {
     dispatch(setActiveBox(placeholderIndex));
     dispatch(setSelectedComponentPath(componentPath));
   };
 
-  /**
-   * Renders components recursively
-   * @param {Object[]} components - Array of components to render
-   * @param {number} placeholderIndex - Index of the current box
-   * @param {number[]} path - Current path in the component tree
-   * @returns {React.Component[]} Array of rendered components
-   */
   const renderComponents = (components, placeholderIndex, path = []) => {
     const children = components?.children || [];
 
     return children.map((component, componentIndex) => {
       const currentPath = [...path, componentIndex];
+      const ComponentInfo = CoreComponentsRegistry[component.component];
 
       return (
         <CoreBox
-          key={`${placeholderIndex}-${componentIndex}`} // Unique key
-          styleClasses={[CoreClasses.BORDER.BORDER, CoreClasses.PADDING.P1]}
+          key={`${placeholderIndex}-${componentIndex}`}
+          styleClasses={[CoreClasses.BORDER.BORDER, CoreClasses.PADDING.P1, CoreClasses.MARGIN.MB2]}
         >
-          <CoreTypographyBody1>{component.component}</CoreTypographyBody1>
+          <CoreTypographyBody1>
+            Component: {component.component} (Category: {ComponentInfo?.category || 'Unknown'})
+          </CoreTypographyBody1>
+
+          <CoreBox styleClasses={[CoreClasses.MARGIN.MY2, CoreClasses.PADDING.P2, CoreClasses.BG.BG_GREY_200]}>
+            <CoreTypographyBody1>Rendered Component:</CoreTypographyBody1>
+            <ReactComponentRenderer componentData={component} />
+          </CoreBox>
 
           <CoreIconButton
             onClick={() => handleAddChildClick(placeholderIndex, currentPath)}
@@ -109,9 +97,14 @@ export default function DefaultCanvasViewer() {
             <CoreIcon icon="add" />
           </CoreIconButton>
 
-          <CoreStack spacing={1}>
-            {component.children && component.children.length > 0 && renderComponents({ children: component.children }, placeholderIndex, currentPath)}
-          </CoreStack>
+          {component.children && component.children.length > 0 && (
+            <CoreBox styleClasses={[CoreClasses.MARGIN.MT2, CoreClasses.PADDING.P2, CoreClasses.BG.BG_GREY_100]}>
+              <CoreTypographyBody1>Children:</CoreTypographyBody1>
+              <CoreStack spacing={1}>
+                {renderComponents({ children: component.children }, placeholderIndex, currentPath)}
+              </CoreStack>
+            </CoreBox>
+          )}
         </CoreBox>
       );
     });
