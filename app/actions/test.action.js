@@ -1,6 +1,7 @@
 import {
   ADD_COMPONENT, ADD_COMPONENT_PROP, REMOVE_COMPONENT, RESET_TEST, SELECT_LAYOUT, SET_ACTIVE_BOX, SET_PROPS_COMPONENT_PATH, SET_SELECTED_COMPONENT_PATH, TEST_FAILURE, TEST_SUCCESS, 
-  TOGGLE_PROP_SELECTOR
+  TOGGLE_PROP_SELECTOR,
+  UPDATE_COMPONENT_PROPS
 } from "../types/test.types";
 
 export const testSuccess = () => {
@@ -59,4 +60,9 @@ export const togglePropSelector = (isOpen) => ({
 export const addComponentProp = (componentPath, prop) => ({
   payload: { componentPath, prop },
   type   : ADD_COMPONENT_PROP
+});
+
+export const updateComponentProps = (componentPath, props) => ({
+  payload: { componentPath, props },
+  type   : UPDATE_COMPONENT_PROPS
 });

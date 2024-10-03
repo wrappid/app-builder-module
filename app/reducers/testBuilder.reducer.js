@@ -5,7 +5,8 @@ import {
   SET_SELECTED_COMPONENT_PATH,
   ADD_COMPONENT,
   SET_PROPS_COMPONENT_PATH,
-  TOGGLE_PROP_SELECTOR
+  TOGGLE_PROP_SELECTOR,
+  UPDATE_COMPONENT_PROPS
 } from "../types/test.types";
 
 /**
@@ -89,6 +90,7 @@ const handleAddComponent = (state, payload) => {
       component: component,
       // eslint-disable-next-line sort-keys-fix/sort-keys-fix
       children : [],
+      props    : {}
     });
   };
 
@@ -98,6 +100,7 @@ const handleAddComponent = (state, payload) => {
       component: component,
       // eslint-disable-next-line sort-keys-fix/sort-keys-fix
       children : [],
+      props    : {}
     });
   } else {
     // Add the component recursively
@@ -109,6 +112,30 @@ const handleAddComponent = (state, payload) => {
     activeBox            : null,
     componentsInBoxes    : newComponentsInBoxes,
     selectedComponentPath: null,
+  };
+};
+
+const updateComponentProps = (state, payload) => {
+  const { componentPath, props } = payload;
+  const newComponentsInBoxes = [...state.componentsInBoxes];
+
+  let currentLevel = newComponentsInBoxes[componentPath.placeholderIndex];
+
+  for (let i = 0; i < componentPath.componentPath.length; i++) {
+    if (i === componentPath.componentPath.length - 1) {
+      // We've reached the target component, update its props
+      currentLevel.children[componentPath.componentPath[i]].props = {
+        ...currentLevel.children[componentPath.componentPath[i]].props,
+        ...props
+      };
+    } else {
+      currentLevel = currentLevel.children[componentPath.componentPath[i]];
+    }
+  }
+
+  return {
+    ...state,
+    componentsInBoxes: newComponentsInBoxes
   };
 };
 
@@ -149,6 +176,9 @@ const testBuilderReducer = (state = initialState, action) => {
         ...state,
         isPropSelectorOpen: action.payload
       };
+
+    case UPDATE_COMPONENT_PROPS:
+      return updateComponentProps(state, action.payload);
 
     default:
       return state;
