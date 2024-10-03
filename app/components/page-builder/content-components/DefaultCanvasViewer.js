@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   CoreBox,
   CoreClasses,
@@ -5,10 +6,12 @@ import {
   CoreIconButton,
   CoreLayoutItem,
   CoreStack,
-  CoreTypographyBody1
+  CoreTypographyBody1,
+  CoreComponentsRegistry
 } from "@wrappid/core";
 import { useSelector, useDispatch } from "react-redux";
 
+import CoreComponentRenderer from './CoreComponentRenderer';
 import { setActiveBox, setSelectedComponentPath, setPropsComponentPath, togglePropSelector } from "../../../actions/test.action";
 
 /**
@@ -76,11 +79,6 @@ export default function DefaultCanvasViewer() {
     dispatch(setSelectedComponentPath(null));
   };
 
-  /**
-   * Handles click on add button for child components
-   * @param {number} placeholderIndex - Index of the box where component will be added
-   * @param {number[]} componentPath - Path to the parent component
-   */
   const handleAddChildClick = (placeholderIndex, componentPath) => {
     dispatch(setActiveBox(placeholderIndex));
     dispatch(setSelectedComponentPath(componentPath));
@@ -98,13 +96,20 @@ export default function DefaultCanvasViewer() {
 
     return children.map((component, componentIndex) => {
       const currentPath = [...path, componentIndex];
+      const ComponentInfo = CoreComponentsRegistry[component.component];
 
       return (
         <CoreBox
-          key={`${placeholderIndex}-${componentIndex}`} // Unique key
-          styleClasses={[CoreClasses.BORDER.BORDER, CoreClasses.PADDING.P1]}
+          key={`${placeholderIndex}-${componentIndex}`}
+          styleClasses={[CoreClasses.BORDER.BORDER]}
         >
-          <CoreTypographyBody1>{component.component}</CoreTypographyBody1>
+          <CoreTypographyBody1>
+            {component.component}
+          </CoreTypographyBody1>
+
+          <CoreBox styleClasses={[CoreClasses.MARGIN.MY1, CoreClasses.PADDING.P1, CoreClasses.BG.BG_GREY_200]}>
+            <CoreComponentRenderer componentData={component} />
+          </CoreBox>
 
           {/* Button to open PropSelector */}
           <CoreIconButton
@@ -118,14 +123,19 @@ export default function DefaultCanvasViewer() {
           <CoreIconButton
             onClick={() => handleAddChildClick(placeholderIndex, currentPath)}
             size="small"
-            variant="text"
+            variant="text" 
           >
             <CoreIcon icon="add" />
           </CoreIconButton>
 
-          <CoreStack spacing={1}>
-            {component.children && component.children.length > 0 && renderComponents({ children: component.children }, placeholderIndex, currentPath)}
-          </CoreStack>
+          {component.children && component.children.length > 0 && (
+            <CoreBox styleClasses={[CoreClasses.MARGIN.MT2, CoreClasses.PADDING.P2, CoreClasses.BG.BG_GREY_100]}>
+              <CoreTypographyBody1>Children:</CoreTypographyBody1>
+              <CoreBox>
+                {renderComponents({ children: component.children }, placeholderIndex, currentPath)}
+              </CoreBox>
+            </CoreBox>
+          )}
         </CoreBox>
       );
     });

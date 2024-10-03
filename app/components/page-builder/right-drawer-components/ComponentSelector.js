@@ -3,8 +3,10 @@ import {
   CoreClasses,
   CoreTypographyBody1,
   CoreList,
-  CoreListItem
-} from "@wrappid/core";
+  CoreListItem,
+  CoreComponentsRegistry
+}
+from "@wrappid/core";
 import { useSelector, useDispatch } from "react-redux";
 
 import { addComponent, setActiveBox, setSelectedComponentPath } from "../../../actions/test.action";
@@ -17,10 +19,13 @@ export default function ComponentSelector() {
   const dispatch = useDispatch();
   const activeBox = useSelector((state) => state.testBuilderReducer?.activeBox);
   const selectedComponentPath = useSelector((state) => state.testBuilderReducer?.selectedComponentPath);
-  const componentList = ["Header", "Footer", "Button", "Image"];
+  const allCoreComponents = {...CoreComponentsRegistry};
+  const componentList = Object.keys(allCoreComponents);
+  console.log("componentList ", componentList);
+
 
   /**
-   * Handles component selection
+   * Handles component selectioncomponentList
    * @param {string} component - Name of the selected component
    */
   const handleComponentSelect = (component) => {
@@ -42,10 +47,10 @@ export default function ComponentSelector() {
     <CoreBox>
       <CoreTypographyBody1>Select Component for Box {activeBox + 1}</CoreTypographyBody1>
 
-      <CoreList>
+      <CoreList variant="grid" >
         {componentList.map((comp) => (
           <CoreListItem 
-            onClick={() => handleComponentSelect(comp)} 
+            onClick={() => handleComponentSelect(comp)}
             key={comp}
             styleClasses={[CoreClasses.CURSOR.CURSOR_POINTER]}
           >
