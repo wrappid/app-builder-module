@@ -1,9 +1,10 @@
-import React from 'react';
+import React from "react";
+
 import { CoreComponentsRegistry } from "@wrappid/core";
 
 const CoreComponentRenderer = ({ componentData }) => {
   const renderCoreComponent = (data) => {
-    if (!data || typeof data !== 'object') {
+    if (!data || typeof data !== "object") {
       return null;
     }
 
@@ -11,6 +12,8 @@ const CoreComponentRenderer = ({ componentData }) => {
     const ComponentToRender = ComponentInfo?.comp;
 
     if (!ComponentToRender) {
+
+      // eslint-disable-next-line no-console
       console.warn(`Component ${data.component} not found in CoreComponentsRegistry`);
       return null;
     }
@@ -23,10 +26,11 @@ const CoreComponentRenderer = ({ componentData }) => {
 
     // Add default props for specific components
     let defaultProps = { };
-    if (data.component === 'CoreIcon') {
-      defaultProps = { ...defaultProps, icon: 'star' }; // Example default icon
-    } else if (data.component === 'CoreAvatar') {
-      defaultProps = { ...defaultProps, alt: 'User' };
+
+    if (data.component === "CoreIcon") {
+      defaultProps = { ...defaultProps, icon: "star" }; // Example default icon
+    } else if (data.component === "CoreAvatar") {
+      defaultProps = { ...defaultProps, alt: "User" };
     }
     // Add more component-specific default props as needed
 

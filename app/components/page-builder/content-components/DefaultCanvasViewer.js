@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   CoreBox,
   CoreClasses,
@@ -6,12 +5,11 @@ import {
   CoreIconButton,
   CoreLayoutItem,
   CoreStack,
-  CoreTypographyBody1,
-  CoreComponentsRegistry
+  CoreTypographyBody1
 } from "@wrappid/core";
 import { useSelector, useDispatch } from "react-redux";
 
-import CoreComponentRenderer from './CoreComponentRenderer';
+import CoreComponentRenderer from "./CoreComponentRenderer";
 import { setActiveBox, setSelectedComponentPath, setPropsComponentPath, togglePropSelector } from "../../../actions/test.action";
 
 /**
@@ -96,7 +94,6 @@ export default function DefaultCanvasViewer() {
 
     return children.map((component, componentIndex) => {
       const currentPath = [...path, componentIndex];
-      const ComponentInfo = CoreComponentsRegistry[component.component];
 
       return (
         <CoreBox
@@ -131,6 +128,7 @@ export default function DefaultCanvasViewer() {
           {component.children && component.children.length > 0 && (
             <CoreBox styleClasses={[CoreClasses.MARGIN.MT2, CoreClasses.PADDING.P2, CoreClasses.BG.BG_GREY_100]}>
               <CoreTypographyBody1>Children:</CoreTypographyBody1>
+
               <CoreBox>
                 {renderComponents({ children: component.children }, placeholderIndex, currentPath)}
               </CoreBox>

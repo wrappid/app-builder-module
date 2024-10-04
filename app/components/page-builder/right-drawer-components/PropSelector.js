@@ -5,11 +5,15 @@ import {
   CoreTypographyBody1,
   CoreButton,
   CoreComponentsRegistry,
-  CoreStack,
   CoreSelect,
   CoreMenuItem,
   CoreTextField,
-  CoreSwitch
+  CoreSwitch,
+  CoreTable,
+  CoreTableBody,
+  CoreTableRow,
+  CoreTableCell,
+  CoreClasses
 } from "@wrappid/core";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -75,6 +79,7 @@ export default function PropSelector() {
   const dispatch = useDispatch();
   const [propsValues, setPropsValues] = useState({});
   const [availableProps, setAvailableProps] = useState([]);
+  const [selectedType, setSelectedType] = useState({});
 
   const propsComponentPath = useSelector((state) => state.testBuilderReducer?.propsComponentPath);
   const componentsInBoxes = useSelector((state) => state.testBuilderReducer?.componentsInBoxes);
@@ -86,17 +91,15 @@ export default function PropSelector() {
     if (selectedComponent) {
       const selectedKey = selectedComponent.component;
       const component = CoreComponentsRegistry[selectedKey];
-      const props = component && component.comp && component.comp.validProps
-        ? component.comp.validProps
-        : [];
+      const props = component && component.comp && component.comp.validProps ? component.comp.validProps : [];
 
       setAvailableProps(props);
-      
+
       const componentId = `${activeBox}-${propsComponentPath?.componentPath.join("-")}`;
 
-      setPropsValues(prevValues => ({
+      setPropsValues((prevValues) => ({
         ...prevValues,
-        [componentId]: selectedComponent.props || {}
+        [componentId]: selectedComponent.props || {},
       }));
     }
   }, [selectedComponent, activeBox, propsComponentPath]);
@@ -126,10 +129,17 @@ export default function PropSelector() {
         break;
 
       case "integer":
-        parsedValue = Number(value);
+        parsedValue = parseInt(value, 10); // Ensures the value is parsed as an integer in base 10
+        if (isNaN(parsedValue)) {
+          return; // Don't update if the value is not a valid integer
+        }
         break;
 
       case "object":
+        parsedValue = safeJSONParse(value);
+        if (parsedValue === null) {
+          return; // Don't update if parsing fails
+        }
         break;
 
       case "array":
@@ -141,62 +151,71 @@ export default function PropSelector() {
         if (typeof value === "string") {
           const parsedFunction = safeFunctionParse(value); // Parse the function string
 
-          if (parsedFunction === null) {
-            return; // If parsing fails, do not update the state
-          }
-          // Store the function as a string representation for Redux
+          if (parsedFunction === null) return; // If parsing fails, do not update the state
           parsedValue = parsedFunction.toString();
         }
         break;
 
-      case "day":
-        break;
-
-      case "month":
-        break;
-
-      case "year":
-        parsedValue = new Date(value);
-        break;
-
-      case "element":
-        break;
-
-      case "node":
-        break;
-
-      case "ref":
-        break;
-
-      case "element string":
-        break;
-
-      case "HTML element":
-        break;
-
-      case "any":
-        break;
-
       default:
-        // Keep as string for other types
         break;
     }
 
-    setPropsValues(prevValues => ({
+    setPropsValues((prevValues) => ({
       ...prevValues,
       [componentId]: {
         ...prevValues[componentId],
-        [propName]: parsedValue
-      }
+        [propName]: parsedValue,
+      },
     }));
   };
 
-  const renderPropInput = (prop, typeObj) => {
+  const handleTypeChange = (propName, type) => {
+    setSelectedType((prevState) => ({
+      ...prevState,
+      [propName]: type,
+    }));
+  };
+
+  const renderPropInput = (prop) => {
     const componentId = `${activeBox}-${propsComponentPath?.componentPath.join("-")}`;
     const currentProps = propsValues[componentId] || {};
     const currentValue = currentProps[prop.name] ?? "";
+    const selectedPropType = selectedType[prop.name];
 
-    switch (typeObj.type) {
+    if (prop.types && prop.types.length > 1) {
+      // Multiple types, show a type selector
+      return (
+        <>
+          <CoreSelect
+            fullWidth
+            value={selectedPropType || ""}
+            onChange={(event) => handleTypeChange(prop.name, event.target.value)}
+            displayEmpty
+            variant="standard"
+          >
+            <CoreMenuItem value="" disabled>
+              Select Type
+            </CoreMenuItem>
+
+            {prop.types.map((typeObj, idx) => (
+              <CoreMenuItem key={idx} value={typeObj.type}>
+                {typeObj.type}
+              </CoreMenuItem>
+            ))}
+          </CoreSelect>
+
+          {/* Render the input based on the selected type */}
+          {selectedPropType && renderInputForType(prop, selectedPropType, currentValue)}
+        </>
+      );
+    } else if (prop.types && prop.types.length === 1) {
+      // Single type, render the input directly
+      return renderInputForType(prop, prop.types[0].type, currentValue);
+    }
+  };
+
+  const renderInputForType = (prop, type, currentValue) => {
+    switch (type) {
       case "boolean":
         return (
           <CoreSwitch
@@ -204,30 +223,23 @@ export default function PropSelector() {
             onChange={(event) => handleChange(prop.name, event.target.checked, "boolean")}
           />
         );
-        
+
       case "number":
-        return (
-          <CoreTextField
-            type="number"
-            fullWidth
-            value={currentValue}
-            onChange={(event) => handleChange(prop.name, event.target.value, typeObj.type)}
-          />
-        );
+        return;
 
       case "integer":
         return (
           <CoreTextField
-            type="number"
+            type={type === "integer" ? "text" : "number"}
             fullWidth
             value={currentValue}
-            onChange={(event) => handleChange(prop.name, event.target.value, typeObj.type)}
+            onChange={(event) => handleChange(prop.name, event.target.value, type)}
           />
         );
 
       case "object":
         return;
-
+        
       case "array":
         return (
           <CoreTextField
@@ -235,7 +247,8 @@ export default function PropSelector() {
             multiline
             rows={3}
             value={typeof currentValue === "object" ? JSON.stringify(currentValue, null, 2) : currentValue}
-            onChange={(event) => handleChange(prop.name, event.target.value, typeObj.type)}
+            onChange={(event) => handleChange(prop.name, event.target.value, type)}
+            helperText={`Please enter a valid ${type}.`}
           />
         );
 
@@ -245,113 +258,45 @@ export default function PropSelector() {
             fullWidth
             multiline
             rows={3}
-            value={typeof currentValue === "function" ? currentValue.toString() : currentValue} // Display function as string
+            value={typeof currentValue === "function" ? currentValue.toString() : currentValue}
             onChange={(event) => handleChange(prop.name, event.target.value, "function")}
           />
         );
 
-      case "day":
-        return;
-
-      case "month":
-        return;
-
-      case "year":
-        return;
-
-      case "element":
-        return;
-
-      case "node":
-        return;
-
-      case "ref":
-        return;
-
-      case "element string":
-        return;
-
-      case "HTML element":
-        return (
-          <CoreBox>
-            <CoreTextField
-              fullWidth
-              value={currentValue}
-              onChange={(event) => handleChange(prop.name, event.target.value, typeObj.type)}
-            />
-
-            <CoreTypographyBody1 color="warning">
-              Warning: {typeObj.type} is stored as a string.
-            </CoreTypographyBody1>
-          </CoreBox>
-        );
-
-      case "any":
+      default:
         return (
           <CoreTextField
             fullWidth
-            multiline
-            rows={2}
             value={currentValue}
-            onChange={(event) => handleChange(prop.name, event.target.value, "any")}
+            onChange={(event) => handleChange(prop.name, event.target.value, type)}
           />
         );
-
-      default:
-        if (typeObj.validValues && typeObj.validValues.length > 0) {
-          return (
-            <CoreSelect
-              fullWidth
-              value={currentValue}
-              onChange={(event) => handleChange(prop.name, event.target.value, typeObj.type)}
-              displayEmpty
-            >
-              <CoreMenuItem value="" disabled>Select...</CoreMenuItem>
-
-              {typeObj.validValues.map((validValue) => (
-                <CoreMenuItem key={String(validValue)} value={validValue}>
-                  {String(validValue)}
-                </CoreMenuItem>
-              ))}
-            </CoreSelect>
-          );
-        } else {
-          return (
-            <CoreTextField
-              fullWidth
-              value={currentValue}
-              onChange={(event) => handleChange(prop.name, event.target.value, typeObj.type)}
-            />
-          );
-        }
     }
   };
 
   if (!selectedComponent) {
     return null;
   }
-
   return (
     <CoreBox>
       <CoreTypographyBody1>Props for Component: {selectedComponent.component}</CoreTypographyBody1>
 
-      <CoreStack spacing={2}>
-        {availableProps.map((prop, index) => (
-          <CoreBox key={index}>
-            <CoreTypographyBody1>
-              <CoreTypographyBody1 fontWeight="bold">{prop.name}:</CoreTypographyBody1>
-            </CoreTypographyBody1>
+      <CoreTable>
+        <CoreTableBody styleClasses={[CoreClasses.BORDER.BORDER_STYLE_HIDDEN]}>
+          {availableProps.map((prop) => (
+            <CoreTableRow key={prop.name}>
+              <CoreTableCell styleClasses={[CoreClasses.PADDING.P0]}>
+                {prop.name}:
+              </CoreTableCell>
 
-            {prop.types && prop.types.length > 0 && prop.types.map((typeObj, idx) => (
-              <CoreBox key={idx} mt={1}>
-                {renderPropInput(prop, typeObj)}
-              </CoreBox>
-            ))}
-          </CoreBox>
-        ))}
-      </CoreStack>
+              <CoreTableCell styleClasses={[CoreClasses.PADDING.P0, CoreClasses.BORDER.BO]}>{renderPropInput(prop)}</CoreTableCell>
+            </CoreTableRow>
+          ))}
+        </CoreTableBody>
+      </CoreTable>
 
       <CoreButton onClick={() => dispatch(togglePropSelector(false))}>Close</CoreButton>
+      
     </CoreBox>
   );
 }

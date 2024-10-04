@@ -6,7 +6,7 @@ import {
   CoreListItem,
   CoreComponentsRegistry
 }
-from "@wrappid/core";
+  from "@wrappid/core";
 import { useSelector, useDispatch } from "react-redux";
 
 import { addComponent, setActiveBox, setSelectedComponentPath } from "../../../actions/test.action";
@@ -19,10 +19,11 @@ export default function ComponentSelector() {
   const dispatch = useDispatch();
   const activeBox = useSelector((state) => state.testBuilderReducer?.activeBox);
   const selectedComponentPath = useSelector((state) => state.testBuilderReducer?.selectedComponentPath);
-  const allCoreComponents = {...CoreComponentsRegistry};
+  const allCoreComponents = { ...CoreComponentsRegistry };
   const componentList = Object.keys(allCoreComponents);
+  
+  // eslint-disable-next-line no-console
   console.log("componentList ", componentList);
-
 
   /**
    * Handles component selectioncomponentList
