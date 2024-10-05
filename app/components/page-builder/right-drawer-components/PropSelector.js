@@ -17,6 +17,7 @@ import {
 } from "@wrappid/core";
 import { useSelector, useDispatch } from "react-redux";
 
+import StyleSelector from "./StyleSelector";
 import { togglePropSelector, updateComponentProps } from "../../../actions/test.action";
 
 // Utility function to safely parse JSON
@@ -292,6 +293,17 @@ export default function PropSelector() {
               <CoreTableCell styleClasses={[CoreClasses.PADDING.P0, CoreClasses.BORDER.BO]}>{renderPropInput(prop)}</CoreTableCell>
             </CoreTableRow>
           ))}
+
+          <CoreTableRow>
+            <CoreTableCell styleClasses={[CoreClasses.PADDING.P0, CoreClasses.BORDER.BO]}>
+              styleClasses:
+            </CoreTableCell>
+
+            <CoreTableCell styleClasses={[CoreClasses.PADDING.P0, CoreClasses.BORDER.BO]}>
+              <StyleSelector />
+            </CoreTableCell>
+          </CoreTableRow>
+          
         </CoreTableBody>
       </CoreTable>
 
