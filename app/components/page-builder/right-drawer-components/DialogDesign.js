@@ -1,18 +1,23 @@
-import { useState, useRef } from "react";
+import React from "react";
 
 import {
   CoreBox, CoreClasses, CoreIcon, CoreIconButton, CoreStack, 
+  CoreTooltip, 
   CoreTypographyBody2,
-  CoreTypographyOverline
+  CoreTypographyOverline,
+  CoreBadge
 } from "@wrappid/core";
 
-export default function DialogDesign() {
-  const [selectedItemsAdding, setSelectedItemsAdding] = useState([]);
-  const [selectedItemsRemoving, setSelectedItemsRemoving] = useState([]);
-  const [transferredItems, setTransferredItems] = useState([]);
-  const lastClickRef = useRef({ action: null, item: null, time: 0 });
+export default function DialogDesign({ initialItems = [], onTransferDone }) {
+  const [selectedItemsAdding, setSelectedItemsAdding] = React.useState([]);
+  const [selectedItemsRemoving, setSelectedItemsRemoving] = React.useState([]);
+  const [transferredItems, setTransferredItems] = React.useState(initialItems);
+  const [activeList, setActiveList] = React.useState(null); // 'adding' or 'removing'
+  const lastClickRef = React.useRef({ action: null, item: null, time: 0 });
   const DOUBLE_CLICK_THRESHOLD = 1000; // 1000 milliseconds threshold for consecutive clicks
 
+  // eslint-disable-next-line no-console
+  console.log(transferredItems);
   const getHeaderClasses = (depth) => {
     const baseClasses = [CoreClasses.POSITION.POSITION_STICKY, CoreClasses.PADDING.P1, CoreClasses.BG.BG_GREY_300, CoreClasses.COLOR.TEXT_BLACK_50];
 
@@ -32,52 +37,63 @@ export default function DialogDesign() {
     const now = Date.now();
     const { item: lastItem, time: lastTime, action: lastAction } = lastClickRef.current;
 
+    if (action !== activeList) {
+      if (action === "add") {
+        setSelectedItemsRemoving([]);
+      } else {
+        setSelectedItemsAdding([]);
+      }
+      setActiveList(action);
+    }
+
     if (item === lastItem && action === lastAction && now - lastTime < DOUBLE_CLICK_THRESHOLD) {
       if (action === "add") {
-        // Transfer the item
         if (!transferredItems.includes(item)) {
           setTransferredItems(prev => [...prev, item]);
           setSelectedItemsAdding(prev => prev.filter(i => i !== item));
         }
       } else if (action === "remove") {
-        // Remove the item from transferred items
         setTransferredItems(prev => prev.filter(i => i !== item));
         setSelectedItemsRemoving(prev => prev.filter(i => i !== item));
       }
     } else {
       if (action === "add") {
-        // Toggle item in selectedItemsAdding
         setSelectedItemsAdding(prev => 
           prev.includes(item) ? prev.filter(i => i !== item) : [...prev, item]
         );
       } else if (action === "remove") {
-        // Toggle item in selectedItemsRemoving
         setSelectedItemsRemoving(prev => 
           prev.includes(item) ? prev.filter(i => i !== item) : [...prev, item]
         );
       }
     }
 
-    // Update the last click reference
     lastClickRef.current = { action, item, time: now };
   };
 
   const handleTransfer = () => {
     setTransferredItems(prev => [...prev, ...selectedItemsAdding]);
     setSelectedItemsAdding([]);
+    setActiveList(null);
   };
 
   const handleRemoveTransfer = () => {
     setTransferredItems(prev => prev.filter(item => !selectedItemsRemoving.includes(item)));
     setSelectedItemsRemoving([]);
+    setActiveList(null);
   };
+
+  React.useEffect(() => {
+    onTransferDone(transferredItems);
+  }, [transferredItems, onTransferDone]);
 
   const renderCoreKeys = (obj, parentKey = "", depth = 0) => {
     return Object.keys(obj).map((key) => {
       const value = obj[key];
       const fullKey = parentKey ? `${parentKey}.${key}` : key;
 
-      if (transferredItems.includes(fullKey)) {
+      // Ensure transferredItems is an array before calling includes
+      if (Array.isArray(transferredItems) && transferredItems.includes(fullKey)) {
         return null;
       }
 
@@ -99,7 +115,7 @@ export default function DialogDesign() {
         <CoreBox 
           key={fullKey} 
           onClick={() => handleItemClick(fullKey, "add")}
-          styleClasses={[CoreClasses.CURSOR.CURSOR_POINTER]}
+          styleClasses={[CoreClasses.CURSOR.CURSOR_POINTER, activeList === "removing" ? CoreClasses.OPACITY._50 : null]}
         >
           <CoreTypographyOverline styleClasses={[selectedItemsAdding.includes(fullKey) ? CoreClasses.COLOR.TEXT_PRIMARY : CoreClasses.COLOR.TEXT_BLACK]}>{key}</CoreTypographyOverline>
         </CoreBox>
@@ -109,7 +125,13 @@ export default function DialogDesign() {
 
   return (
     <CoreBox styleClasses={[CoreClasses.DISPLAY.FLEX]}>
-      <CoreBox styleClasses={[CoreClasses.BG.BG_GREY_50, CoreClasses.BORDER.BORDER, CoreClasses.BORDER.BORDER_GREY_300, CoreClasses.PADDING.PX1]}>
+      <CoreBox styleClasses={[
+        CoreClasses.BG.BG_GREY_50,
+        CoreClasses.BORDER.BORDER,
+        CoreClasses.BORDER.BORDER_GREY_300,
+        CoreClasses.PADDING.PX1,
+        CoreClasses.WIDTH.VW_25
+      ]}>
         <CoreBox styleClasses={[
           CoreClasses.ALIGNMENT.JUSTIFY_CONTENT_CENTER,
           CoreClasses.BORDER.BORDER_BOTTOM,
@@ -128,25 +150,59 @@ export default function DialogDesign() {
         </CoreBox>  
       </CoreBox>
       
-      <CoreStack spacing={2} styleClasses={[CoreClasses.HEIGHT.VH_50, CoreClasses.ALIGNMENT.ALIGN_ITEMS_CENTER, CoreClasses.ALIGNMENT.JUSTIFY_CONTENT_CENTER, CoreClasses.PADDING.PX1]}>
-        <CoreIconButton onClick={handleTransfer} disabled={selectedItemsAdding.length === 0}>
-          <CoreIcon icon="keyboard_double_arrow_right" color="success"/>
-        </CoreIconButton>
+      <CoreStack spacing={4} styleClasses={[CoreClasses.HEIGHT.VH_50, CoreClasses.ALIGNMENT.ALIGN_ITEMS_CENTER, CoreClasses.ALIGNMENT.JUSTIFY_CONTENT_CENTER, CoreClasses.PADDING.PX1]}>
+        <CoreTooltip title={transferredItems.length === 0 ? "" : "Reset"} arrow>
+          <CoreIconButton
+            onClick={() => { setTransferredItems([]); setActiveList(null); }}
+            styleClasses={[CoreClasses.ALIGNMENT.ALIGN_CONTENT_END]}
+            disabled={transferredItems.length === 0}
+            color="primary">
+            <CoreIcon icon="restart_alt"/>
+          </CoreIconButton>
+        </CoreTooltip>
 
-        <CoreIconButton onClick={handleRemoveTransfer} disabled={selectedItemsRemoving.length === 0}>
-          <CoreIcon icon="keyboard_double_arrow_left" color="warning"/>
-        </CoreIconButton>
+        <CoreTooltip title={selectedItemsAdding.length === 0 ? "Select styleClass to Add" : "Add"} arrow>
+          <CoreBadge badgeContent={selectedItemsAdding.length} color="primary">
+            <CoreIconButton
+              onClick={handleTransfer}
+              disabled={selectedItemsAdding.length === 0}
+            >
+              <CoreIcon icon="keyboard_double_arrow_right" />
+            </CoreIconButton>
+          </CoreBadge>
+        </CoreTooltip>
+
+        <CoreTooltip
+          title={selectedItemsRemoving.length === 0 
+            ? (transferredItems.length === 0 ? "" : "Select styleClass to Remove") 
+            : "Remove"
+          }
+          arrow>
+          <CoreBadge badgeContent={selectedItemsRemoving.length} color="primary">
+            <CoreIconButton onClick={handleRemoveTransfer} disabled={selectedItemsRemoving.length === 0} color="primary">
+              <CoreIcon icon="keyboard_double_arrow_left"/>
+            </CoreIconButton>
+          </CoreBadge>
+        </CoreTooltip>
       </CoreStack>
 
-      <CoreBox styleClasses={[CoreClasses.PADDING.P1, CoreClasses.BG.BG_GREY_50, CoreClasses.BORDER.BORDER, CoreClasses.BORDER.BORDER_GREY_300]}>
-        <CoreBox styleClasses={[CoreClasses.ALIGNMENT.JUSTIFY_CONTENT_SPACE_BETWEEN, CoreClasses.BORDER.BORDER_BOTTOM, CoreClasses.ALIGNMENT.ALIGN_ITEMS_CENTER]}>
+      <CoreBox styleClasses={[
+        CoreClasses.PADDING.P1,
+        CoreClasses.BG.BG_GREY_50,
+        CoreClasses.BORDER.BORDER,
+        CoreClasses.BORDER.BORDER_GREY_300,
+        CoreClasses.WIDTH.VW_25
+      ]}>
+        <CoreBox styleClasses={[
+          CoreClasses.ALIGNMENT.JUSTIFY_CONTENT_CENTER,
+          CoreClasses.BORDER.BORDER_BOTTOM,
+          CoreClasses.ALIGNMENT.ALIGN_ITEMS_CENTER,
+          CoreClasses.DISPLAY.FLEX,
+          CoreClasses.PADDING.PB1
+        ]}>
           <CoreTypographyBody2 styleClasses={[CoreClasses.MARGIN.M0]}>
-            Added Styles
+           Your Added Style Classes
           </CoreTypographyBody2>
-
-          <CoreIconButton onClick={() => { setTransferredItems([]); }} styleClasses={[CoreClasses.ALIGNMENT.ALIGN_CONTENT_END]}>
-            <CoreIcon icon="restart_alt" color="primary"/>
-          </CoreIconButton>
         </CoreBox>
 
         <CoreBox styleClasses={[CoreClasses.HEIGHT.VH_50, CoreClasses.OVERFLOW.OVERFLOW_Y_AUTO, CoreClasses.PADDING.PT1]}>
@@ -154,7 +210,7 @@ export default function DialogDesign() {
             <CoreBox
               key={item}
               onClick={() => handleItemClick(item, "remove")}
-              styleClasses={[CoreClasses.CURSOR.CURSOR_POINTER]}
+              styleClasses={[CoreClasses.CURSOR.CURSOR_POINTER, activeList === "adding" ? CoreClasses.OPACITY._50 : null]}
             >
               <CoreTypographyOverline styleClasses={[selectedItemsRemoving.includes(item) ? CoreClasses.COLOR.TEXT_PRIMARY : CoreClasses.COLOR.TEXT_BLACK]}>{item}</CoreTypographyOverline>
             </CoreBox>

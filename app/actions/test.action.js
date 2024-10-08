@@ -1,7 +1,8 @@
 import {
   ADD_COMPONENT, ADD_COMPONENT_PROP, REMOVE_COMPONENT, RESET_TEST, SELECT_LAYOUT, SET_ACTIVE_BOX, SET_PROPS_COMPONENT_PATH, SET_SELECTED_COMPONENT_PATH, TEST_FAILURE, TEST_SUCCESS, 
   TOGGLE_PROP_SELECTOR,
-  UPDATE_COMPONENT_PROPS
+  UPDATE_COMPONENT_PROPS,
+  UPDATE_COMPONENT_STYLE_CLASSES
 } from "../types/test.types";
 
 export const testSuccess = () => {
@@ -65,4 +66,9 @@ export const addComponentProp = (componentPath, prop) => ({
 export const updateComponentProps = (componentPath, props) => ({
   payload: { componentPath, props },
   type   : UPDATE_COMPONENT_PROPS
+});
+
+export const updateComponentStyleClasses = (componentPath, styleClasses) => ({
+  payload: { componentPath, styleClasses },
+  type   : UPDATE_COMPONENT_STYLE_CLASSES
 });

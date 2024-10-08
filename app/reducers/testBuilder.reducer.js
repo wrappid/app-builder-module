@@ -6,7 +6,8 @@ import {
   ADD_COMPONENT,
   SET_PROPS_COMPONENT_PATH,
   TOGGLE_PROP_SELECTOR,
-  UPDATE_COMPONENT_PROPS
+  UPDATE_COMPONENT_PROPS,
+  UPDATE_COMPONENT_STYLE_CLASSES
 } from "../types/test.types";
 
 /**
@@ -87,20 +88,22 @@ const handleAddComponent = (state, payload) => {
 
     // Finally, add the new component at the last level
     currentLevel.children.push({
-      component: component,
+      component   : component,
       // eslint-disable-next-line sort-keys-fix/sort-keys-fix
-      children : [],
-      props    : {}
+      children    : [],
+      props       : {},
+      styleClasses: {}
     });
   };
 
   // Check if the path is null to add at the root level
   if (path === null) {
     newComponentsInBoxes[boxIndex].children.push({
-      component: component,
+      component   : component,
       // eslint-disable-next-line sort-keys-fix/sort-keys-fix
-      children : [],
-      props    : {}
+      children    : [],
+      props       : {},
+      styleClasses: {}
     });
   } else {
     // Add the component recursively
@@ -136,6 +139,31 @@ const updateComponentProps = (state, payload) => {
   return {
     ...state,
     componentsInBoxes: newComponentsInBoxes
+  };
+};
+
+const updateComponentStyleClasses = (state, payload) => {
+  const { componentPath, styleClasses } = payload;
+
+  // eslint-disable-next-line no-console
+  console.log("Updating style classes for:", componentPath, styleClasses); // Debugging line
+  
+  const newComponentsInBoxes = [...state.componentsInBoxes];
+
+  let currentLevel = newComponentsInBoxes[componentPath.placeholderIndex];
+
+  for (let i = 0; i < componentPath.componentPath.length; i++) {
+    if (i === componentPath.componentPath.length - 1) {
+      // Update the styleClasses of the target component
+      currentLevel.children[componentPath.componentPath[i]].styleClasses = styleClasses;
+    } else {
+      currentLevel = currentLevel.children[componentPath.componentPath[i]];
+    }
+  }
+
+  return {
+    ...state,
+    componentsInBoxes: newComponentsInBoxes,
   };
 };
 
@@ -180,6 +208,9 @@ const testBuilderReducer = (state = initialState, action) => {
     case UPDATE_COMPONENT_PROPS:
       return updateComponentProps(state, action.payload);
 
+    case UPDATE_COMPONENT_STYLE_CLASSES:
+      return updateComponentStyleClasses(state, action.payload);
+      
     default:
       return state;
   }
