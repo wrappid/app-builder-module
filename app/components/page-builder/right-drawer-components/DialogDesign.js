@@ -1,7 +1,11 @@
 import React from "react";
 
 import {
-  CoreBox, CoreClasses, CoreIcon, CoreIconButton, CoreStack, 
+  CoreBox, 
+  CoreClasses, 
+  CoreIcon, 
+  CoreIconButton, 
+  CoreStack, 
   CoreTooltip, 
   CoreTypographyBody2,
   CoreTypographyOverline,
@@ -11,13 +15,11 @@ import {
 export default function DialogDesign({ initialItems = [], onTransferDone }) {
   const [selectedItemsAdding, setSelectedItemsAdding] = React.useState([]);
   const [selectedItemsRemoving, setSelectedItemsRemoving] = React.useState([]);
-  const [transferredItems, setTransferredItems] = React.useState(initialItems);
+  const [transferredItems, setTransferredItems] = React.useState(Array.isArray(initialItems) ? initialItems : []);
   const [activeList, setActiveList] = React.useState(null); // 'adding' or 'removing'
   const lastClickRef = React.useRef({ action: null, item: null, time: 0 });
   const DOUBLE_CLICK_THRESHOLD = 1000; // 1000 milliseconds threshold for consecutive clicks
 
-  // eslint-disable-next-line no-console
-  console.log(transferredItems);
   const getHeaderClasses = (depth) => {
     const baseClasses = [CoreClasses.POSITION.POSITION_STICKY, CoreClasses.PADDING.P1, CoreClasses.BG.BG_GREY_300, CoreClasses.COLOR.TEXT_BLACK_50];
 
@@ -37,37 +39,27 @@ export default function DialogDesign({ initialItems = [], onTransferDone }) {
     const now = Date.now();
     const { item: lastItem, time: lastTime, action: lastAction } = lastClickRef.current;
 
+    // Switch active list if a different action is selected
     if (action !== activeList) {
-      if (action === "add") {
-        setSelectedItemsRemoving([]);
-      } else {
-        setSelectedItemsAdding([]);
-      }
+      action === "add" ? setSelectedItemsRemoving([]) : setSelectedItemsAdding([]);
       setActiveList(action);
     }
 
-    if (item === lastItem && action === lastAction && now - lastTime < DOUBLE_CLICK_THRESHOLD) {
-      if (action === "add") {
-        if (!transferredItems.includes(item)) {
-          setTransferredItems(prev => [...prev, item]);
-          setSelectedItemsAdding(prev => prev.filter(i => i !== item));
-        }
-      } else if (action === "remove") {
-        setTransferredItems(prev => prev.filter(i => i !== item));
-        setSelectedItemsRemoving(prev => prev.filter(i => i !== item));
-      }
-    } else {
-      if (action === "add") {
-        setSelectedItemsAdding(prev => 
-          prev.includes(item) ? prev.filter(i => i !== item) : [...prev, item]
-        );
-      } else if (action === "remove") {
-        setSelectedItemsRemoving(prev => 
-          prev.includes(item) ? prev.filter(i => i !== item) : [...prev, item]
-        );
-      }
-    }
+    // Determine if this is a double-click
+    const isDoubleClick = item === lastItem && action === lastAction && (now - lastTime < DOUBLE_CLICK_THRESHOLD);
+    
+    // Handle actions based on double-click or single-click
+    isDoubleClick 
+      ? (action === "add" && !transferredItems.includes(item)
+        ? (setTransferredItems(prev => [...prev, item]), setSelectedItemsAdding(prev => prev.filter(i => i !== item))) 
+        : action === "remove" && (setTransferredItems(prev => prev.filter(i => i !== item)), setSelectedItemsRemoving(prev => prev.filter(i => i !== item)))
+      )
+      : (action === "add" 
+        ? setSelectedItemsAdding(prev => prev.includes(item) ? prev.filter(i => i !== item) : [...prev, item]) 
+        : setSelectedItemsRemoving(prev => prev.includes(item) ? prev.filter(i => i !== item) : [...prev, item])
+      );
 
+    // Update last click reference
     lastClickRef.current = { action, item, time: now };
   };
 
@@ -84,7 +76,7 @@ export default function DialogDesign({ initialItems = [], onTransferDone }) {
   };
 
   React.useEffect(() => {
-    onTransferDone(transferredItems);
+    onTransferDone(transferredItems); // Notify parent component of transferred items
   }, [transferredItems, onTransferDone]);
 
   const renderCoreKeys = (obj, parentKey = "", depth = 0) => {
@@ -117,7 +109,9 @@ export default function DialogDesign({ initialItems = [], onTransferDone }) {
           onClick={() => handleItemClick(fullKey, "add")}
           styleClasses={[CoreClasses.CURSOR.CURSOR_POINTER, activeList === "removing" ? CoreClasses.OPACITY._50 : null]}
         >
-          <CoreTypographyOverline styleClasses={[selectedItemsAdding.includes(fullKey) ? CoreClasses.COLOR.TEXT_PRIMARY : CoreClasses.COLOR.TEXT_BLACK]}>{key}</CoreTypographyOverline>
+          <CoreTypographyOverline styleClasses={[selectedItemsAdding.includes(fullKey) ? CoreClasses.COLOR.TEXT_PRIMARY : CoreClasses.COLOR.TEXT_BLACK]}>
+            {key}
+          </CoreTypographyOverline>
         </CoreBox>
       );
     });

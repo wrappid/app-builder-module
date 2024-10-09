@@ -7,61 +7,69 @@ import DialogDesign from "./DialogDesign";
 import { updateComponentStyleClasses } from "../../../actions/test.action";
 
 export default function StyleSelector() {
-  const [allPropsOpen, setAllPropsOpen] = React.useState(false);
-  const [tempTransferredItems, setTempTransferredItems] = React.useState([]);
-
+  const [dialogOpen, setDialogOpen] = React.useState(false);
   const { setDialog } = React.useContext(CoreDialogContext);
   const dispatch = useDispatch();
+  const propsComponentPath = useSelector((state) => state.testBuilderReducer?.propsComponentPath || null);
+  const componentsInBoxes = useSelector((state) => state.testBuilderReducer?.componentsInBoxes);
 
-  // Get the selectedComponentPath from Redux state
-  const selectedComponentPath = useSelector((state) => state.testBuilder?.selectedComponentPath || null);
+  // Get the current style classes for the selected component
+  const currentStyleClasses = React.useMemo(() => {
+    if (propsComponentPath) {
+      let currentComponent = componentsInBoxes[propsComponentPath.placeholderIndex];
 
-  // Function to handle the dialog close and dispatch the updated styles
-  const handleDialogDone = () => {
-    if (selectedComponentPath) {
-      // eslint-disable-next-line no-console
-      console.log("Dispatching styles:", tempTransferredItems, selectedComponentPath);
-      dispatch(updateComponentStyleClasses(selectedComponentPath, tempTransferredItems));
-
-    } else {
-      // eslint-disable-next-line no-console
-      console.warn("No component path is selected.");
+      for (const index of propsComponentPath.componentPath) {
+        currentComponent = currentComponent.children[index];
+      }
+      return Array.isArray(currentComponent.styleClasses) ? currentComponent.styleClasses : [];
     }
-  };
+    return [];
+  }, [propsComponentPath, componentsInBoxes]);
+
+  const [tempTransferredItems, setTempTransferredItems] = React.useState(currentStyleClasses);
 
   React.useEffect(() => {
-    if (allPropsOpen) {
+    setTempTransferredItems(currentStyleClasses);
+  }, [currentStyleClasses]);
+
+  const handleDialogDone = React.useCallback(() => {
+    if (propsComponentPath) {
+      dispatch(updateComponentStyleClasses(propsComponentPath, tempTransferredItems));
+      // eslint-disable-next-line etc/no-commented-out-code
+      // console.log("Dispatching styles:", tempTransferredItems, propsComponentPath);
+    } else {
+      // console.warn("No component path is selected.");
+      //do nothing
+    }
+    setDialogOpen(false);
+  }, [dispatch, propsComponentPath, tempTransferredItems]);
+
+  React.useEffect(() => {
+    if (dialogOpen) {
       setDialog({
-        cancelButtonLabel: "Cancel",
-        dialogProps      : { maxWidth: "xl" },
-        doneButton       : handleDialogDone, // On done, apply styles
-        doneButtonLabel  : "Apply",
-        noCancelButton   : false,
-        noDoneButton     : false,
-        showDialog       : true,
-        subtitle         : (
+        dialogProps    : { maxWidth: "xl" },
+        doneButton     : handleDialogDone,
+        doneButtonLabel: "Apply",
+        noCancelButton : false,
+        noDoneButton   : false,
+        showDialog     : true,
+        subtitle       : (
           <DialogDesign
-            initialItems={tempTransferredItems}
+            initialItems={currentStyleClasses}
             onTransferDone={setTempTransferredItems}
           />
         ),
         type: "info",
       });
-
-      const timer = setTimeout(() => {
-        setAllPropsOpen(false);
-      }, 500);
-
-      return () => clearTimeout(timer);
     }
-  }, [allPropsOpen, setDialog, tempTransferredItems]);
+  }, [dialogOpen, setDialog, handleDialogDone, currentStyleClasses]);
 
-  const handleClickAllPropsOpen = () => {
-    setAllPropsOpen(true);
+  const handleDialogOpen = () => {
+    setDialogOpen(true);
   };
 
   return (
-    <CoreButton variant="text" onClick={handleClickAllPropsOpen}>
+    <CoreButton variant="text" onClick={handleDialogOpen}>
       Add styles
     </CoreButton>
   );

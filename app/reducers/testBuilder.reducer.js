@@ -17,8 +17,8 @@ import {
 const initialState = {
   activeBox            : null,
   componentsInBoxes    : [], 
-  isPropSelectorOpen   : false, // New: Boolean to track whether PropSelector is open
-  propsComponentPath   : null, // New: Path to the component whose props are being edited
+  isPropSelectorOpen   : false, // Boolean to track whether PropSelector is open
+  propsComponentPath   : null, // Path to the component whose props are being edited
   selectedComponentPath: null, 
   selectedLayout       : "BlankLayout"
 };
@@ -72,27 +72,22 @@ const handleAddComponent = (state, payload) => {
   // Helper function to traverse and add component
   const addComponentRecursively = (currentLevel, path, component) => {
     path.forEach((currentIndex) => {
-      // Ensure current level has children array
-      if (!currentLevel.children) {
+      if (!currentLevel.children) { // Ensure current level has children array
         currentLevel.children = [];
-      }
-
-      // Initialize child if it does not exist
-      if (!currentLevel.children[currentIndex]) {
+      } else if (!currentLevel.children[currentIndex]) { // Initialize child if it does not exist
         currentLevel.children[currentIndex] = { children: [] };
+      } else{ // Move down the tree
+        currentLevel = currentLevel.children[currentIndex];
       }
-
-      // Move down the tree
-      currentLevel = currentLevel.children[currentIndex];
     });
 
     // Finally, add the new component at the last level
     currentLevel.children.push({
       component   : component,
-      // eslint-disable-next-line sort-keys-fix/sort-keys-fix
-      children    : [],
       props       : {},
-      styleClasses: {}
+      styleClasses: {},
+      // eslint-disable-next-line sort-keys-fix/sort-keys-fix
+      children    : []
     });
   };
 
@@ -100,10 +95,10 @@ const handleAddComponent = (state, payload) => {
   if (path === null) {
     newComponentsInBoxes[boxIndex].children.push({
       component   : component,
-      // eslint-disable-next-line sort-keys-fix/sort-keys-fix
-      children    : [],
       props       : {},
-      styleClasses: {}
+      styleClasses: {},
+      // eslint-disable-next-line sort-keys-fix/sort-keys-fix
+      children    : []
     });
   } else {
     // Add the component recursively
@@ -144,18 +139,14 @@ const updateComponentProps = (state, payload) => {
 
 const updateComponentStyleClasses = (state, payload) => {
   const { componentPath, styleClasses } = payload;
-
-  // eslint-disable-next-line no-console
-  console.log("Updating style classes for:", componentPath, styleClasses); // Debugging line
-  
-  const newComponentsInBoxes = [...state.componentsInBoxes];
+  const newComponentsInBoxes = JSON.parse(JSON.stringify(state.componentsInBoxes));
 
   let currentLevel = newComponentsInBoxes[componentPath.placeholderIndex];
 
   for (let i = 0; i < componentPath.componentPath.length; i++) {
     if (i === componentPath.componentPath.length - 1) {
       // Update the styleClasses of the target component
-      currentLevel.children[componentPath.componentPath[i]].styleClasses = styleClasses;
+      currentLevel.children[componentPath.componentPath[i]].styleClasses = Array.isArray(styleClasses) ? styleClasses : [];
     } else {
       currentLevel = currentLevel.children[componentPath.componentPath[i]];
     }
