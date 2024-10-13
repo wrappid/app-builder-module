@@ -1,4 +1,4 @@
-import React from "react";
+import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 
 import {
   CoreBox, 
@@ -12,113 +12,140 @@ import {
   CoreBadge
 } from "@wrappid/core";
 
+const ListAction = {
+  ADD   : "adding",
+  REMOVE: "removing",
+};
+
 export default function DialogDesign({ initialItems = [], onTransferDone }) {
-  const [selectedItemsAdding, setSelectedItemsAdding] = React.useState([]);
-  const [selectedItemsRemoving, setSelectedItemsRemoving] = React.useState([]);
-  const [transferredItems, setTransferredItems] = React.useState(Array.isArray(initialItems) ? initialItems : []);
-  const [activeList, setActiveList] = React.useState(null); // 'adding' or 'removing'
-  const lastClickRef = React.useRef({ action: null, item: null, time: 0 });
+  // State management
+  const [selectedItemsAdding, setSelectedItemsAdding] = useState([]);
+  const [selectedItemsRemoving, setSelectedItemsRemoving] = useState([]);
+  const [transferredItems, setTransferredItems] = useState(Array.isArray(initialItems) ? initialItems : []);
+  const [activeList, setActiveList] = useState(null);
+  const lastClickRef = useRef({ action: null, item: null, time: 0 });
   const DOUBLE_CLICK_THRESHOLD = 1000; // 1000 milliseconds threshold for consecutive clicks
 
-  const getHeaderClasses = (depth) => {
+  // Get header classes based on depth
+  const getHeaderClasses = useCallback((depth) => {
     const baseClasses = [CoreClasses.POSITION.POSITION_STICKY, CoreClasses.PADDING.P1, CoreClasses.BG.BG_GREY_300, CoreClasses.COLOR.TEXT_BLACK_50];
 
-    switch (depth) {
-      case 0:
-        return [...baseClasses, CoreClasses.POSITION.TOP_0, CoreClasses.Z_INDEX.Z_3];
+    // Use ternary operators to determine additional classes based on depth
 
-      case 1:
-        return [...baseClasses, CoreClasses.POSITION.TOP_2R, CoreClasses.Z_INDEX.Z_2];
+    return [...baseClasses, depth === 0 ? CoreClasses.POSITION.TOP_0 : CoreClasses.POSITION.TOP_2R, depth === 0 ? CoreClasses.Z_INDEX.Z_3 : (depth === 1 ? CoreClasses.Z_INDEX.Z_2 : CoreClasses.Z_INDEX.Z_1)];
+  }, []);
 
-      default:
-        return [...baseClasses, CoreClasses.POSITION.TOP_2R, CoreClasses.Z_INDEX.Z_1];
-    }
-  };
-
-  const handleItemClick = (item, action) => {
+  // Handle item click (selection or transfer)
+  const handleItemClick = useCallback((item, action) => {
     const now = Date.now();
     const { item: lastItem, time: lastTime, action: lastAction } = lastClickRef.current;
 
     // Switch active list if a different action is selected
-    if (action !== activeList) {
-      action === "add" ? setSelectedItemsRemoving([]) : setSelectedItemsAdding([]);
-      setActiveList(action);
-    }
+    action !== activeList && (
+      action === ListAction.ADD ? setSelectedItemsRemoving([]) : setSelectedItemsAdding([]),
+      setActiveList(action)
+    );
 
     // Determine if this is a double-click
     const isDoubleClick = item === lastItem && action === lastAction && (now - lastTime < DOUBLE_CLICK_THRESHOLD);
-    
-    // Handle actions based on double-click or single-click
-    isDoubleClick 
-      ? (action === "add" && !transferredItems.includes(item)
-        ? (setTransferredItems(prev => [...prev, item]), setSelectedItemsAdding(prev => prev.filter(i => i !== item))) 
-        : action === "remove" && (setTransferredItems(prev => prev.filter(i => i !== item)), setSelectedItemsRemoving(prev => prev.filter(i => i !== item)))
-      )
-      : (action === "add" 
-        ? setSelectedItemsAdding(prev => prev.includes(item) ? prev.filter(i => i !== item) : [...prev, item]) 
-        : setSelectedItemsRemoving(prev => prev.includes(item) ? prev.filter(i => i !== item) : [...prev, item])
+
+    if (isDoubleClick) {
+      // Handle double-click actions
+      action === ListAction.ADD
+        ? (!transferredItems.includes(item) && setTransferredItems(prev => [...prev, item]),
+        setSelectedItemsAdding(prev => prev.filter(i => i !== item)))
+        : (setTransferredItems(prev => prev.filter(i => i !== item)),
+        setSelectedItemsRemoving(prev => prev.filter(i => i !== item)));
+    } else {
+      // Toggle item selection
+      const setSelectedItems = action === ListAction.ADD ? setSelectedItemsAdding : setSelectedItemsRemoving;
+
+      setSelectedItems(prev =>
+        prev.includes(item) ? prev.filter(i => i !== item) : [...prev, item]
       );
+    }
 
     // Update last click reference
     lastClickRef.current = { action, item, time: now };
-  };
+  }, [activeList, transferredItems]);
 
-  const handleTransfer = () => {
+  // Handle transfer of selected items
+  const handleTransfer = useCallback(() => {
     setTransferredItems(prev => [...prev, ...selectedItemsAdding]);
     setSelectedItemsAdding([]);
     setActiveList(null);
-  };
+  }, [selectedItemsAdding]);
 
-  const handleRemoveTransfer = () => {
+  // Handle removal of selected items
+  const handleRemoveTransfer = useCallback(() => {
     setTransferredItems(prev => prev.filter(item => !selectedItemsRemoving.includes(item)));
     setSelectedItemsRemoving([]);
     setActiveList(null);
-  };
+  }, [selectedItemsRemoving]);
 
-  React.useEffect(() => {
-    onTransferDone(transferredItems); // Notify parent component of transferred items
+  // Notify parent component of transferred items
+  useEffect(() => {
+    onTransferDone(transferredItems);
   }, [transferredItems, onTransferDone]);
 
-  const renderCoreKeys = (obj, parentKey = "", depth = 0) => {
-    return Object.keys(obj).map((key) => {
-      const value = obj[key];
-      const fullKey = parentKey ? `${parentKey}.${key}` : key;
+  // Render core keys recursively
+  const renderCoreKeys = useCallback(
+    (obj, parentKey = "", depth = 0) => {
+      const transferred = Array.isArray(transferredItems) ? transferredItems : [];
 
-      // Ensure transferredItems is an array before calling includes
-      if (Array.isArray(transferredItems) && transferredItems.includes(fullKey)) {
-        return null;
-      }
+      return Object.keys(obj).map((key) => {
+        const value = obj[key];
+        const fullKey = parentKey ? `${parentKey}.${key}` : key;
 
-      if (typeof value === "object" && !Array.isArray(value)) {
-        return (
-          <CoreBox key={fullKey}>
-            <CoreTypographyBody2 styleClasses={getHeaderClasses(depth)}>
-              {key}
-            </CoreTypographyBody2>
+        // Use a ternary to conditionally return null or the rendered item
+        return transferred.includes(fullKey) ? null : (
+          typeof value === "object" && !Array.isArray(value) ? (
+          // If it's an object, recursively render its children
+            <CoreBox key={fullKey}>
+              <CoreTypographyBody2 styleClasses={getHeaderClasses(depth)}>
+                {key}
+              </CoreTypographyBody2>
 
-            <CoreBox styleClasses={[CoreClasses.PADDING.PL3]}>
-              {renderCoreKeys(value, fullKey, depth + 1)}
+              <CoreBox styleClasses={[CoreClasses.PADDING.PL3]}>
+                {renderCoreKeys(value, fullKey, depth + 1)}
+              </CoreBox>
             </CoreBox>
-          </CoreBox>
+          ) : (
+          // Otherwise, render the leaf node (selectable item)
+            <CoreBox
+              key={fullKey}
+              onClick={() => handleItemClick(fullKey, ListAction.ADD)}
+              styleClasses={[CoreClasses.CURSOR.CURSOR_POINTER, activeList === ListAction.REMOVE ? CoreClasses.OPACITY._50 : null]}
+            >
+              <CoreTypographyOverline
+                styleClasses={[
+                  selectedItemsAdding.includes(fullKey)
+                    ? CoreClasses.COLOR.TEXT_PRIMARY
+                    : CoreClasses.COLOR.TEXT_BLACK,
+                ]}
+              >
+                {key}
+              </CoreTypographyOverline>
+            </CoreBox>
+          )
         );
-      }
+      });
+    },
+    [
+      transferredItems,
+      selectedItemsAdding,
+      activeList,
+      handleItemClick,
+      getHeaderClasses,
+    ]
+  );
 
-      return (
-        <CoreBox 
-          key={fullKey} 
-          onClick={() => handleItemClick(fullKey, "add")}
-          styleClasses={[CoreClasses.CURSOR.CURSOR_POINTER, activeList === "removing" ? CoreClasses.OPACITY._50 : null]}
-        >
-          <CoreTypographyOverline styleClasses={[selectedItemsAdding.includes(fullKey) ? CoreClasses.COLOR.TEXT_PRIMARY : CoreClasses.COLOR.TEXT_BLACK]}>
-            {key}
-          </CoreTypographyOverline>
-        </CoreBox>
-      );
-    });
-  };
+  // Memoize rendered core keys
+  const memoizedCoreKeys = useMemo(() => renderCoreKeys(CoreClasses), [renderCoreKeys]);
 
   return (
     <CoreBox styleClasses={[CoreClasses.DISPLAY.FLEX]}>
+      {/* Left panel: Available style classes */}
       <CoreBox styleClasses={[
         CoreClasses.BG.BG_GREY_50,
         CoreClasses.BORDER.BORDER,
@@ -140,10 +167,11 @@ export default function DialogDesign({ initialItems = [], onTransferDone }) {
         </CoreBox>
 
         <CoreBox styleClasses={[CoreClasses.OVERFLOW.OVERFLOW_Y_AUTO, CoreClasses.HEIGHT.VH_50]}>
-          {renderCoreKeys(CoreClasses)}
+          {memoizedCoreKeys}
         </CoreBox>  
       </CoreBox>
       
+      {/* Middle panel: Action buttons */}
       <CoreStack spacing={4} styleClasses={[CoreClasses.HEIGHT.VH_50, CoreClasses.ALIGNMENT.ALIGN_ITEMS_CENTER, CoreClasses.ALIGNMENT.JUSTIFY_CONTENT_CENTER, CoreClasses.PADDING.PX1]}>
         <CoreTooltip title={transferredItems.length === 0 ? "" : "Reset"} arrow>
           <CoreIconButton
@@ -155,7 +183,7 @@ export default function DialogDesign({ initialItems = [], onTransferDone }) {
           </CoreIconButton>
         </CoreTooltip>
 
-        <CoreTooltip title={selectedItemsAdding.length === 0 ? "Select styleClass to Add" : "Add"} arrow>
+        <CoreTooltip title={selectedItemsAdding.length === 0 ? "Select styleClass to Add" : ListAction.ADD} arrow>
           <CoreBadge badgeContent={selectedItemsAdding.length} color="primary">
             <CoreIconButton
               onClick={handleTransfer}
@@ -169,7 +197,7 @@ export default function DialogDesign({ initialItems = [], onTransferDone }) {
         <CoreTooltip
           title={selectedItemsRemoving.length === 0 
             ? (transferredItems.length === 0 ? "" : "Select styleClass to Remove") 
-            : "Remove"
+            : ListAction.REMOVE
           }
           arrow>
           <CoreBadge badgeContent={selectedItemsRemoving.length} color="primary">
@@ -180,6 +208,7 @@ export default function DialogDesign({ initialItems = [], onTransferDone }) {
         </CoreTooltip>
       </CoreStack>
 
+      {/* Right panel: Added style classes */}
       <CoreBox styleClasses={[
         CoreClasses.PADDING.P1,
         CoreClasses.BG.BG_GREY_50,
@@ -203,10 +232,14 @@ export default function DialogDesign({ initialItems = [], onTransferDone }) {
           {transferredItems.map((item) => (
             <CoreBox
               key={item}
-              onClick={() => handleItemClick(item, "remove")}
-              styleClasses={[CoreClasses.CURSOR.CURSOR_POINTER, activeList === "adding" ? CoreClasses.OPACITY._50 : null]}
+              onClick={() => handleItemClick(item, ListAction.REMOVE)}
+              styleClasses={[CoreClasses.CURSOR.CURSOR_POINTER, activeList === ListAction.ADD ? CoreClasses.OPACITY._50 : null]}
             >
-              <CoreTypographyOverline styleClasses={[selectedItemsRemoving.includes(item) ? CoreClasses.COLOR.TEXT_PRIMARY : CoreClasses.COLOR.TEXT_BLACK]}>{item}</CoreTypographyOverline>
+              <CoreTypographyOverline 
+                styleClasses={[selectedItemsRemoving.includes(item) ? CoreClasses.COLOR.TEXT_PRIMARY : CoreClasses.COLOR.TEXT_BLACK]}
+              >
+                {item}
+              </CoreTypographyOverline>
             </CoreBox>
           ))}
         </CoreBox>

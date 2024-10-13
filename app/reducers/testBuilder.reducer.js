@@ -55,53 +55,56 @@ const handleSelectLayout = (state, newLayout) => {
 };
 
 /**
- * Handles the ADD_COMPONENT action
- * @param {Object} state - Current state
- * @param {Object} payload - Action payload
- * @returns {Object} Updated state
+ * Recursively traverses the component tree and adds the new component at the specified path.
+ * 
+ * @param {Object} currentLevel - The current level of the component tree being traversed.
+ * @param {Array} path - Array of indices that defines the path where the component should be added.
+ * @param {Object} component - The component object to be added.
+ */
+const addComponentRecursively = (currentLevel, path, component) => {
+  path.forEach((currentIndex) => {
+    // Ensure current level has children array; initialize child if it does not exist
+    currentLevel.children = currentLevel.children || [];
+    currentLevel.children[currentIndex] = currentLevel.children[currentIndex] || { children: [] };
+
+    // Move down the tree to the next level
+    currentLevel = currentLevel.children[currentIndex];
+  });
+
+  currentLevel.children.push({
+    component,
+    props       : {},
+    styleClasses: [],
+    // eslint-disable-next-line sort-keys-fix/sort-keys-fix
+    children    : []
+  });
+};
+
+/**
+ * Adds a new component to the component tree structure in the state.
+ * 
+ * @param {Object} state - The current application state.
+ * @param {Object} payload - Contains the component to be added, the box index, and the path.
+ * @returns {Object} Updated state with the new component added.
  */
 const handleAddComponent = (state, payload) => {
   const { component, boxIndex, path } = payload;
-  const newComponentsInBoxes = [...state.componentsInBoxes]; // Create a shallow copy
+  const newComponentsInBoxes = [...state.componentsInBoxes]; 
 
-  // Ensure boxIndex exists, otherwise initialize it
-  if (!newComponentsInBoxes[boxIndex]) {
-    newComponentsInBoxes[boxIndex] = { children: [] }; 
-  }
+  // Ensure boxIndex exists; initialize it if necessary
+  newComponentsInBoxes[boxIndex] = newComponentsInBoxes[boxIndex] || { children: [] };
 
-  // Helper function to traverse and add component
-  const addComponentRecursively = (currentLevel, path, component) => {
-    path.forEach((currentIndex) => {
-      if (!currentLevel.children) { // Ensure current level has children array
-        currentLevel.children = [];
-      } else if (!currentLevel.children[currentIndex]) { // Initialize child if it does not exist
-        currentLevel.children[currentIndex] = { children: [] };
-      } else{ // Move down the tree
-        currentLevel = currentLevel.children[currentIndex];
-      }
-    });
-
-    // Finally, add the new component at the last level
-    currentLevel.children.push({
-      component   : component,
-      props       : {},
-      styleClasses: {},
-      // eslint-disable-next-line sort-keys-fix/sort-keys-fix
-      children    : []
-    });
-  };
-
-  // Check if the path is null to add at the root level
+  // If no path is provided, add the component at the root level (box)
   if (path === null) {
     newComponentsInBoxes[boxIndex].children.push({
-      component   : component,
+      component,
       props       : {},
-      styleClasses: {},
+      styleClasses: [],
       // eslint-disable-next-line sort-keys-fix/sort-keys-fix
       children    : []
     });
   } else {
-    // Add the component recursively
+    // Add the component recursively along the specified path
     addComponentRecursively(newComponentsInBoxes[boxIndex], path, component);
   }
 
@@ -113,50 +116,62 @@ const handleAddComponent = (state, payload) => {
   };
 };
 
-const updateComponentProps = (state, payload) => {
-  const { componentPath, props } = payload;
-  const newComponentsInBoxes = [...state.componentsInBoxes];
+/**
+ * Updates the properties or style classes of a specified component in the state.
+ * 
+ * @param {Object} state - The current application state.
+ * @param {Object} payload - The action payload containing component path and update data.
+ * @param {string} updateType - The type of update, either "props" or "styleClasses".
+ * @returns {Object} Updated state with modified components.
+ */
+const updateComponent = (state, payload, updateType) => {
+  const { componentPath } = payload; 
+  const newComponentsInBoxes = [...state.componentsInBoxes]; 
 
-  let currentLevel = newComponentsInBoxes[componentPath.placeholderIndex];
+  let currentLevel = newComponentsInBoxes[componentPath.placeholderIndex]; // Access the correct placeholder based on the componentPath
 
-  for (let i = 0; i < componentPath.componentPath.length; i++) {
-    if (i === componentPath.componentPath.length - 1) {
-      // We've reached the target component, update its props
-      currentLevel.children[componentPath.componentPath[i]].props = {
-        ...currentLevel.children[componentPath.componentPath[i]].props,
-        ...props
-      };
+  // Iterate through the component path to find the target component
+  componentPath.componentPath.forEach((componentIndex, index) => {
+    if (index === componentPath.componentPath.length - 1) {
+      const { props, styleClasses } = payload; 
+
+      // Update props or styleClasses based on the updateType
+      updateType === "props"
+        ? (currentLevel.children[componentIndex].props = {
+          ...currentLevel.children[componentIndex].props,
+          ...props,
+        })
+        : (currentLevel.children[componentIndex].styleClasses = Array.isArray(styleClasses)
+          ? styleClasses
+          : []); // Assign styleClasses only if it's an array
     } else {
-      currentLevel = currentLevel.children[componentPath.componentPath[i]];
+      currentLevel = currentLevel.children[componentIndex]; // Move down to the next level in the component tree
     }
-  }
+  });
 
   return {
     ...state,
-    componentsInBoxes: newComponentsInBoxes
+    componentsInBoxes: newComponentsInBoxes, 
   };
 };
 
-const updateComponentStyleClasses = (state, payload) => {
-  const { componentPath, styleClasses } = payload;
-  const newComponentsInBoxes = JSON.parse(JSON.stringify(state.componentsInBoxes));
+/**
+ * Updates the properties of a specified component in the application state.
+ * 
+ * @param {Object} state - The current application state.
+ * @param {Object} payload - The action payload containing the component path and new properties.
+ * @returns {Object} Updated state with modified component properties.
+ */
+const updateComponentProps = (state, payload) => updateComponent(state, payload, "props");
 
-  let currentLevel = newComponentsInBoxes[componentPath.placeholderIndex];
-
-  for (let i = 0; i < componentPath.componentPath.length; i++) {
-    if (i === componentPath.componentPath.length - 1) {
-      // Update the styleClasses of the target component
-      currentLevel.children[componentPath.componentPath[i]].styleClasses = Array.isArray(styleClasses) ? styleClasses : [];
-    } else {
-      currentLevel = currentLevel.children[componentPath.componentPath[i]];
-    }
-  }
-
-  return {
-    ...state,
-    componentsInBoxes: newComponentsInBoxes,
-  };
-};
+/**
+ * Updates the style classes of a specified component in the application state.
+ * 
+ * @param {Object} state - The current application state.
+ * @param {Object} payload - The action payload containing the component path and new style classes.
+ * @returns {Object} Updated state with modified component style classes.
+ */
+const updateComponentStyleClasses = (state, payload) => updateComponent(state, payload, "styleClasses");
 
 /**
  * Reducer function for the test builder
