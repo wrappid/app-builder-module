@@ -1,11 +1,11 @@
-import {
-  CoreBox, CoreClasses, CoreGrid, CoreIcon, CoreIconButton, CoreSelect, CoreStack, CoreToolBox
-} from "@wrappid/core";
-import { useSelector } from "react-redux";
+/* eslint-disable etc/no-commented-out-code */
+import { CoreClasses, CoreIcon, CoreIconButton, CoreStack, CoreToolBox } from "@wrappid/core";
+import { useSelector, useDispatch } from "react-redux";
 
 import ComponentSelector from "./ComponentSelector";
 import LayoutSelector from "./LayoutSelector";
 import PropSelector from "./PropSelector";
+import { toggleComponentSelector, togglePropSelector, toggleLayoutSelector } from "../../../actions/test.action";
 
 /**
  * RightDrawerComp component
@@ -13,27 +13,49 @@ import PropSelector from "./PropSelector";
  */
 export default function RightDrawerComp() {
   const isPropSelectorOpen = useSelector((state) => state.testBuilderReducer?.isPropSelectorOpen); // Read from Redux
+  const isComponentSelectorOpen = useSelector((state) => state.testBuilderReducer?.isComponentSelectorOpen); // Read from Redux
+  const isLayoutSelectorOpen = useSelector((state) => state.testBuilderReducer?.isLayoutSelectorOpen); // Read from Redux
+
+  const dispatch = useDispatch();
 
   return (
     <CoreStack spacing={2} styleClasses={[CoreClasses.HEIGHT.VH_100, CoreClasses.OVERFLOW.OVERFLOW_Y_SCROLL]}>
       {/* Tool box for Layout list */}
-      <CoreToolBox toolTitle="Select Layout" resize="both">
+      {isLayoutSelectorOpen &&
+      <CoreToolBox 
+        toolTitle="Select Layout" 
+        resize="both"
+        toolboxActionButton={<CoreIconButton onClick={() => dispatch(toggleLayoutSelector(false))}>
+          <CoreIcon icon="close" color="secondary"/>
+        </CoreIconButton>}>
         <LayoutSelector />
-      </CoreToolBox>
+      </CoreToolBox>}
 
       {/* Tool box for Component list */}
-      <CoreToolBox toolTitle="Component Viewer Menu" resize="both">
+      {isComponentSelectorOpen &&
+      <CoreToolBox
+        toolTitle="Select any Component"
+        resize="both"
+        toolboxActionButton={<CoreIconButton onClick={() => dispatch(toggleComponentSelector(false))}>
+          <CoreIcon icon="close" color="secondary"/>
+        </CoreIconButton>}>
         <ComponentSelector />
-      </CoreToolBox>
+      </CoreToolBox>}
 
       {/* Tool box for Props list related to selected component */}
-      <CoreToolBox toolTitle="Props Viewer Menu" resize="both">
-        {isPropSelectorOpen && <PropSelector />}
-      </CoreToolBox>
+      {isPropSelectorOpen && 
+      <CoreToolBox 
+        toolTitle="Select Props for Component" 
+        resize="both"
+        toolboxActionButton={<CoreIconButton onClick={() => dispatch(togglePropSelector(false))}>
+          <CoreIcon icon="close" color="secondary"/>
+        </CoreIconButton>}>
+        <PropSelector />
+      </CoreToolBox>}
 
       {/* Tool box for styles list related to selected component */}
 
-      <CoreToolBox toolTitle="Select Device">
+      {/* <CoreToolBox toolTitle="Select Device">
         <CoreGrid>
           <CoreSelect
             gridProps={{ gridSize: { md: 12 } }}
@@ -63,7 +85,7 @@ export default function RightDrawerComp() {
             </CoreIconButton>
           </CoreBox>
         </CoreGrid>
-      </CoreToolBox>
+      </CoreToolBox> */}
     </CoreStack>
   );
 }

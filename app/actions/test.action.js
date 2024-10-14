@@ -9,6 +9,8 @@ import {
   SET_SELECTED_COMPONENT_PATH, 
   TEST_FAILURE, 
   TEST_SUCCESS, 
+  TOGGLE_LAYOUT_SELECTOR,
+  TOGGLE_COMPONENT_SELECTOR,
   TOGGLE_PROP_SELECTOR,
   UPDATE_COMPONENT_PROPS,
   UPDATE_COMPONENT_STYLE_CLASSES
@@ -99,6 +101,26 @@ export const addComponent = ({ component, boxIndex, path }) => ({
 export const setPropsComponentPath = (payload) => ({
   payload,
   type: SET_PROPS_COMPONENT_PATH
+});
+
+/**
+ * Toggles the property selector visibility.
+ * @param {boolean} isOpen - The open/closed state of the property selector.
+ * @returns {Object} The action object.
+ */
+export const toggleLayoutSelector = (isOpen) => ({
+  payload: isOpen,
+  type   : TOGGLE_LAYOUT_SELECTOR
+});
+
+/**
+ * Toggles the property selector visibility.
+ * @param {boolean} isOpen - The open/closed state of the property selector.
+ * @returns {Object} The action object.
+ */
+export const toggleComponentSelector = (isOpen) => ({
+  payload: isOpen,
+  type   : TOGGLE_COMPONENT_SELECTOR
 });
 
 /**

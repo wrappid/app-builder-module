@@ -1,12 +1,16 @@
+/* eslint-disable etc/no-commented-out-code */
 import {
   CoreBox,
   CoreClasses,
-  CoreTypographyBody1,
   CoreList,
   CoreListItem,
-  CoreComponentsRegistry
-}
-  from "@wrappid/core";
+  CoreComponentsRegistry,
+  CoreAccordionSummary,
+  CoreIcon,
+  CoreAccordion,
+  CoreAccordionDetail,
+  CoreTypographyBody2
+} from "@wrappid/core";
 import { useSelector, useDispatch } from "react-redux";
 
 import { addComponent, setActiveBox, setSelectedComponentPath } from "../../../actions/test.action";
@@ -19,46 +23,89 @@ export default function ComponentSelector() {
   const dispatch = useDispatch();
   const activeBox = useSelector((state) => state.testBuilderReducer?.activeBox);
   const selectedComponentPath = useSelector((state) => state.testBuilderReducer?.selectedComponentPath);
+
+  // Filtering layout components from the CoreComponentsRegistry
+  const layoutComponentRegistry = Object.fromEntries(
+    // eslint-disable-next-line no-unused-vars, id-length
+    Object.entries(CoreComponentsRegistry).filter(([_, value]) => value.layout === true) // Changed _ to key
+  );
+
+  const prepareLayoutMenu = (layoutComponentRegistry) => {
+    return Object.entries(layoutComponentRegistry).map(([layoutName]) => ({
+      Children: layoutName,
+      id      : layoutName,
+      label   : layoutName.trim(),
+      name    : layoutName.trim(),
+      type    : "layoutName",
+    }));
+  };
+
   const allCoreComponents = { ...CoreComponentsRegistry };
-  const componentList = Object.keys(allCoreComponents);
-  
-  // eslint-disable-next-line no-console
-  console.log("componentList ", componentList);
+  const componentList = Object.keys(allCoreComponents).filter(key => !Object.hasOwn(layoutComponentRegistry, key));
 
   /**
-   * Handles component selectioncomponentList
+   * Handles component selection
    * @param {string} component - Name of the selected component
    */
   const handleComponentSelect = (component) => {
     dispatch(addComponent({ boxIndex: activeBox, component, path: selectedComponentPath }));
-    // Reset activeBox and selectedComponentPath after adding a component
-    dispatch(setActiveBox(null));
-    dispatch(setSelectedComponentPath(null));
+    dispatch(setActiveBox(null)); // Reset activeBox after adding a component
+    dispatch(setSelectedComponentPath(null)); // Reset selectedComponentPath after adding a component
   };
-
-  if (activeBox === null) {
-    return (
-      <CoreBox>
-        <CoreTypographyBody1>Click &quot;+&quot; on the canvas layout to add a component</CoreTypographyBody1>
-      </CoreBox>
-    );
-  }
 
   return (
     <CoreBox>
-      <CoreTypographyBody1>Select Component for Box {activeBox + 1}</CoreTypographyBody1>
+      <CoreAccordion>
+        <CoreAccordionSummary
+          expandIcon={<CoreIcon icon="keyboard_arrow_down" />}
+          aria-controls="panel2-content"
+          id="panel2-header"
+        >
+          <CoreTypographyBody2>
+            Components
+          </CoreTypographyBody2>
+        </CoreAccordionSummary>
 
-      <CoreList variant="grid" >
-        {componentList.map((comp) => (
-          <CoreListItem 
-            onClick={() => handleComponentSelect(comp)}
-            key={comp}
-            styleClasses={[CoreClasses.CURSOR.CURSOR_POINTER]}
-          >
-            {comp}
-          </CoreListItem>
-        ))}
-      </CoreList>
+        <CoreAccordionDetail>
+          <CoreList variant="grid">
+            {componentList.map((comp) => (
+              <CoreListItem
+                onClick={() => handleComponentSelect(comp)}
+                key={comp}
+                styleClasses={[CoreClasses.CURSOR.CURSOR_POINTER]}
+              >
+                {comp}
+              </CoreListItem>
+            ))}
+          </CoreList>
+        </CoreAccordionDetail>
+      </CoreAccordion>
+
+      <CoreAccordion>
+        <CoreAccordionSummary
+          expandIcon={<CoreIcon icon="keyboard_arrow_down" />}
+          aria-controls="panel2-content"
+          id="panel2-header"
+        >
+          <CoreTypographyBody2>
+            Layouts
+          </CoreTypographyBody2>
+        </CoreAccordionSummary>
+
+        <CoreAccordionDetail>
+          <CoreList variant="grid">
+            {prepareLayoutMenu(layoutComponentRegistry).map((layoutItem) => (
+              <CoreListItem
+                onClick={() => handleComponentSelect(layoutItem.name)}
+                key={layoutItem.id}
+                styleClasses={[CoreClasses.CURSOR.CURSOR_POINTER]}
+              >
+                {layoutItem.label}
+              </CoreListItem>
+            ))}
+          </CoreList>
+        </CoreAccordionDetail>
+      </CoreAccordion>
     </CoreBox>
   );
 }

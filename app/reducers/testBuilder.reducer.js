@@ -7,7 +7,9 @@ import {
   SET_PROPS_COMPONENT_PATH,
   TOGGLE_PROP_SELECTOR,
   UPDATE_COMPONENT_PROPS,
-  UPDATE_COMPONENT_STYLE_CLASSES
+  UPDATE_COMPONENT_STYLE_CLASSES,
+  TOGGLE_LAYOUT_SELECTOR,
+  TOGGLE_COMPONENT_SELECTOR
 } from "../types/test.types";
 
 /**
@@ -16,7 +18,8 @@ import {
  */
 const initialState = {
   activeBox            : null,
-  componentsInBoxes    : [], 
+  componentsInBoxes    : [],
+  isLayoutSelectorOpen : true, 
   isPropSelectorOpen   : false, // Boolean to track whether PropSelector is open
   propsComponentPath   : null, // Path to the component whose props are being edited
   selectedComponentPath: null, 
@@ -203,6 +206,18 @@ const testBuilderReducer = (state = initialState, action) => {
       return {
         ...state,
         propsComponentPath: action.payload
+      };
+
+    case TOGGLE_LAYOUT_SELECTOR:
+      return {
+        ...state,
+        isLayoutSelectorOpen: action.payload
+      };
+
+    case TOGGLE_COMPONENT_SELECTOR:
+      return {
+        ...state,
+        isComponentSelectorOpen: action.payload
       };
 
     case TOGGLE_PROP_SELECTOR:

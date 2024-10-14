@@ -2,8 +2,6 @@ import { useState, useEffect } from "react";
 
 import {
   CoreBox,
-  CoreTypographyBody1,
-  CoreButton,
   CoreComponentsRegistry,
   CoreSelect,
   CoreMenuItem,
@@ -13,12 +11,13 @@ import {
   CoreTableBody,
   CoreTableRow,
   CoreTableCell,
-  CoreClasses
+  CoreClasses,
+  CoreTypographyBody2
 } from "@wrappid/core";
 import { useSelector, useDispatch } from "react-redux";
 
 import StyleSelector from "./StyleSelector";
-import { togglePropSelector, updateComponentProps } from "../../../actions/test.action";
+import { updateComponentProps } from "../../../actions/test.action";
 
 // Utility function to safely parse JSON
 const safeJSONParse = (value) => {
@@ -280,7 +279,9 @@ export default function PropSelector() {
   }
   return (
     <CoreBox>
-      <CoreTypographyBody1>Props for Component: {selectedComponent.component}</CoreTypographyBody1>
+      <CoreBox styleClasses={[CoreClasses.DISPLAY.FLEX, CoreClasses.ALIGNMENT.JUSTIFY_CONTENT_SPACE_BETWEEN, CoreClasses.ALIGNMENT.ALIGN_ITEMS_START]}>
+        <CoreTypographyBody2> {selectedComponent.component}</CoreTypographyBody2>
+      </CoreBox>
 
       <CoreTable>
         <CoreTableBody styleClasses={[CoreClasses.BORDER.BORDER_STYLE_HIDDEN]}>
@@ -305,10 +306,7 @@ export default function PropSelector() {
           </CoreTableRow>
           
         </CoreTableBody>
-      </CoreTable>
-
-      <CoreButton onClick={() => dispatch(togglePropSelector(false))}>Close</CoreButton>
-      
+      </CoreTable>      
     </CoreBox>
   );
 }

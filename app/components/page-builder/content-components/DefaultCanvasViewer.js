@@ -10,7 +10,9 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 
 import CoreComponentRenderer from "./CoreComponentRenderer";
-import { setActiveBox, setSelectedComponentPath, setPropsComponentPath, togglePropSelector } from "../../../actions/test.action";
+import {
+  setActiveBox, setSelectedComponentPath, setPropsComponentPath, togglePropSelector, toggleComponentSelector, toggleLayoutSelector 
+} from "../../../actions/test.action";
 
 /**
  * Layout data for different layout types
@@ -75,11 +77,13 @@ export default function DefaultCanvasViewer() {
   const handleAddClick = (placeholderIndex) => {
     dispatch(setActiveBox(placeholderIndex));
     dispatch(setSelectedComponentPath(null));
+    dispatch(toggleComponentSelector(true));
   };
 
   const handleAddChildClick = (placeholderIndex, componentPath) => {
     dispatch(setActiveBox(placeholderIndex));
     dispatch(setSelectedComponentPath(componentPath));
+    dispatch(toggleComponentSelector(true));
   };
 
   /**
@@ -110,7 +114,9 @@ export default function DefaultCanvasViewer() {
 
           {/* Button to open PropSelector */}
           <CoreIconButton
-            onClick={() => handleAddProps(placeholderIndex, currentPath)} // Pass placeholder index and component path to open PropSelector
+            onClick={() => {
+              handleAddProps(placeholderIndex, currentPath); // Pass placeholder index and component path to open PropSelector
+              dispatch(toggleComponentSelector(false));}} 
             size="small"
             variant="text"
           >
@@ -118,7 +124,11 @@ export default function DefaultCanvasViewer() {
           </CoreIconButton>
 
           <CoreIconButton
-            onClick={() => handleAddChildClick(placeholderIndex, currentPath)}
+            onClick={() => {
+              handleAddChildClick(placeholderIndex, currentPath);
+              dispatch(togglePropSelector(false));
+              dispatch(toggleLayoutSelector(false));
+            }}
             size="small"
             variant="text" 
           >
@@ -154,7 +164,8 @@ export default function DefaultCanvasViewer() {
 
                 <CoreIconButton
                   variant="text"
-                  onClick={() => handleAddClick(placeholderIndex)}
+                  onClick={() => {handleAddClick(placeholderIndex);
+                    dispatch(toggleLayoutSelector(false));}}
                 >
                   <CoreIcon icon="add" />
                 </CoreIconButton>
