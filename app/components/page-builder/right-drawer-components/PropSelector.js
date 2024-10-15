@@ -12,7 +12,8 @@ import {
   CoreTableRow,
   CoreTableCell,
   CoreClasses,
-  CoreTypographyBody2
+  CoreTypographyBody2,
+  CoreTypographyBody1
 } from "@wrappid/core";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -275,7 +276,9 @@ export default function PropSelector() {
   };
 
   if (!selectedComponent) {
-    return null;
+    return(
+      <CoreTypographyBody1>Click prop button on the to add a props</CoreTypographyBody1>
+    );
   }
   return (
     <CoreBox>

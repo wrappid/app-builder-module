@@ -1,5 +1,4 @@
-
-import { CoreBox, CoreButton, CoreClasses, CoreIcon, CoreIconButton } from "@wrappid/core";
+/* eslint-disable etc/no-commented-out-code */
 
 import ViewerOption from "./ViewerOption";
 
@@ -8,7 +7,7 @@ export default function ContentComp() {
     <>
       <ViewerOption />
 
-      <CoreBox styleClasses={[CoreClasses.MARGIN.MT2, CoreClasses.ALIGNMENT.JUSTIFY_CONTENT_FLEX_END]}>
+      {/* <CoreBox styleClasses={[CoreClasses.MARGIN.MT2, CoreClasses.ALIGNMENT.JUSTIFY_CONTENT_FLEX_END]}>
         <CoreIconButton>
           <CoreIcon icon="devices"/>
         </CoreIconButton>
@@ -16,7 +15,7 @@ export default function ContentComp() {
         <CoreButton label="Preview" variant="text"/>
 
         <CoreButton label="Publish"/>
-      </CoreBox>
+      </CoreBox> */}
     </>
   );
 }

@@ -5,11 +5,7 @@ import {
   CoreList,
   CoreListItem,
   CoreComponentsRegistry,
-  CoreAccordionSummary,
-  CoreIcon,
-  CoreAccordion,
-  CoreAccordionDetail,
-  CoreTypographyBody2
+  CoreTypographyBody1
 } from "@wrappid/core";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -30,16 +26,6 @@ export default function ComponentSelector() {
     Object.entries(CoreComponentsRegistry).filter(([_, value]) => value.layout === true) // Changed _ to key
   );
 
-  const prepareLayoutMenu = (layoutComponentRegistry) => {
-    return Object.entries(layoutComponentRegistry).map(([layoutName]) => ({
-      Children: layoutName,
-      id      : layoutName,
-      label   : layoutName.trim(),
-      name    : layoutName.trim(),
-      type    : "layoutName",
-    }));
-  };
-
   const allCoreComponents = { ...CoreComponentsRegistry };
   const componentList = Object.keys(allCoreComponents).filter(key => !Object.hasOwn(layoutComponentRegistry, key));
 
@@ -53,59 +39,27 @@ export default function ComponentSelector() {
     dispatch(setSelectedComponentPath(null)); // Reset selectedComponentPath after adding a component
   };
 
+  if (activeBox === null) {
+    return (
+      <CoreBox>
+        <CoreTypographyBody1>Click &quot;+&quot; on the to add a component</CoreTypographyBody1>
+      </CoreBox>
+    );
+  }
+
   return (
     <CoreBox>
-      <CoreAccordion>
-        <CoreAccordionSummary
-          expandIcon={<CoreIcon icon="keyboard_arrow_down" />}
-          aria-controls="panel2-content"
-          id="panel2-header"
-        >
-          <CoreTypographyBody2>
-            Components
-          </CoreTypographyBody2>
-        </CoreAccordionSummary>
-
-        <CoreAccordionDetail>
-          <CoreList variant="grid">
-            {componentList.map((comp) => (
-              <CoreListItem
-                onClick={() => handleComponentSelect(comp)}
-                key={comp}
-                styleClasses={[CoreClasses.CURSOR.CURSOR_POINTER]}
-              >
-                {comp}
-              </CoreListItem>
-            ))}
-          </CoreList>
-        </CoreAccordionDetail>
-      </CoreAccordion>
-
-      <CoreAccordion>
-        <CoreAccordionSummary
-          expandIcon={<CoreIcon icon="keyboard_arrow_down" />}
-          aria-controls="panel2-content"
-          id="panel2-header"
-        >
-          <CoreTypographyBody2>
-            Layouts
-          </CoreTypographyBody2>
-        </CoreAccordionSummary>
-
-        <CoreAccordionDetail>
-          <CoreList variant="grid">
-            {prepareLayoutMenu(layoutComponentRegistry).map((layoutItem) => (
-              <CoreListItem
-                onClick={() => handleComponentSelect(layoutItem.name)}
-                key={layoutItem.id}
-                styleClasses={[CoreClasses.CURSOR.CURSOR_POINTER]}
-              >
-                {layoutItem.label}
-              </CoreListItem>
-            ))}
-          </CoreList>
-        </CoreAccordionDetail>
-      </CoreAccordion>
+      <CoreList variant="grid">
+        {componentList.map((comp) => (
+          <CoreListItem
+            onClick={() => handleComponentSelect(comp)}
+            key={comp}
+            styleClasses={[CoreClasses.CURSOR.CURSOR_POINTER]}
+          >
+            {comp}
+          </CoreListItem>
+        ))}
+      </CoreList>
     </CoreBox>
   );
 }
