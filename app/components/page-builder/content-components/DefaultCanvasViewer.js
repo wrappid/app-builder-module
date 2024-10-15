@@ -4,7 +4,6 @@ import {
   CoreIcon,
   CoreIconButton,
   CoreLayoutItem,
-  CoreStack,
   CoreTypographyBody1
 } from "@wrappid/core";
 import { useSelector, useDispatch } from "react-redux";
@@ -137,8 +136,6 @@ export default function DefaultCanvasViewer() {
 
           {component.children && component.children.length > 0 && (
             <CoreBox styleClasses={[CoreClasses.MARGIN.MT2, CoreClasses.PADDING.P2, CoreClasses.BG.BG_GREY_100]}>
-              <CoreTypographyBody1>Children:</CoreTypographyBody1>
-
               <CoreBox>
                 {renderComponents({ children: component.children }, placeholderIndex, currentPath)}
               </CoreBox>
@@ -158,9 +155,9 @@ export default function DefaultCanvasViewer() {
               <CoreLayoutItem key={sectionId} id={`${selectedLayout}.PLACEHOLDER.${sectionId}`}>
                 <CoreTypographyBody1>PLACEHOLDER {placeholderIndex + 1}</CoreTypographyBody1>
 
-                <CoreStack spacing={1}>
+                <CoreBox>
                   {renderComponents(componentsInBoxes[placeholderIndex] || {}, placeholderIndex)}
-                </CoreStack>
+                </CoreBox>
 
                 <CoreIconButton
                   variant="text"
