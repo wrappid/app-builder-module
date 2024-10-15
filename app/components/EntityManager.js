@@ -184,6 +184,47 @@ export default function EntityManager(props) {
       label: "Publish",
       type : "action",
     },
+    {
+      action: (data) => {
+        navigate(
+          "/" + __ROUTES_CONSTANT.PAGE_BUILDER
+            ?.replace(":id", data?.id),
+          { state: { ...data, pageUrl } }
+        );
+      },
+      hide: () => {
+        if (entityName === "Pages") {
+          return false;
+        } else {
+          return true;
+        }
+      },
+      icon : { icon: "design_services", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
+      label: "Edit Page",
+      type : "action",
+    },
+    {
+      action: () => {
+      },
+      
+      disabled: true,
+      // eslint-disable-next-line no-unused-vars
+      hide    : (rowData) => {
+        if (entityName === "Pages"
+        // eslint-disable-next-line etc/no-commented-out-code
+        // @todo: discuss when to allow users to edit.
+        // if published, and edit is selected, draft should be created
+        // && rowData._status !== __EntityStatus.PUBLISHED
+        ) {
+          return false;
+        } else {
+          return true;
+        }
+      },
+      icon : { icon: "sync", type: __IconTypes.FONTAWESOME_V5_REGULAR_ICON },
+      label: "Sync to local",
+      type : "action"
+    },
   ];
 
   return (
