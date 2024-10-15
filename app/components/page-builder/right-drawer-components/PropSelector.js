@@ -12,7 +12,9 @@ import {
   CoreTableRow,
   CoreTableCell,
   CoreClasses,
-  CoreTypographyBody2
+  CoreTypographyBody2,
+  defaultValidProps,
+  defaultValidEvents
 } from "@wrappid/core";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -91,7 +93,7 @@ export default function PropSelector() {
     if (selectedComponent) {
       const selectedKey = selectedComponent.component;
       const component = CoreComponentsRegistry[selectedKey];
-      const props = component && component.comp && component.comp.validProps ? component.comp.validProps : [];
+      const props = [...(component && component.comp && component.comp.validProps ? component.comp.validProps : []), ...defaultValidProps, ...defaultValidEvents];
 
       setAvailableProps(props);
 
@@ -144,12 +146,14 @@ export default function PropSelector() {
 
       case "array":
         parsedValue = safeJSONParse(value);
-        if (parsedValue === null) return; // Don't update if parsing fails
+        if (parsedValue === null) {
+          return; // Don't update if parsing fails
+        }
         break;
 
       case "function":
         if (typeof value === "string") {
-          const parsedFunction = safeFunctionParse(value); // Parse the function string
+          const parsedFunction = safeFunctionParse(value);
 
           if (parsedFunction === null) return; // If parsing fails, do not update the state
           parsedValue = parsedFunction.toString();
@@ -182,6 +186,18 @@ export default function PropSelector() {
     const currentValue = currentProps[prop.name] ?? "";
     const selectedPropType = selectedType[prop.name];
 
+    // Special handling for styleClasses prop
+    if (prop.name === "styleClasses") {
+      return <StyleSelector />;
+    }
+
+    // For defaultValidProps, we need to determine the type
+    if (defaultValidProps.includes(prop.name)) {
+      const type = typeof currentValue;
+
+      return renderInputForType(prop, type, currentValue);
+    }
+
     if (prop.types && prop.types.length > 1) {
       // Multiple types, show a type selector
       return (
@@ -204,7 +220,6 @@ export default function PropSelector() {
             ))}
           </CoreSelect>
 
-          {/* Render the input based on the selected type */}
           {selectedPropType && renderInputForType(prop, selectedPropType, currentValue)}
         </>
       );
@@ -212,6 +227,9 @@ export default function PropSelector() {
       // Single type, render the input directly
       return renderInputForType(prop, prop.types[0].type, currentValue);
     }
+
+    // Default case: render as string input
+    return renderInputForType(prop, "string", currentValue);
   };
 
   const renderInputForType = (prop, type, currentValue) => {
@@ -225,7 +243,14 @@ export default function PropSelector() {
         );
 
       case "number":
-        return;
+        return (
+          <CoreTextField
+            type={"number"}
+            fullWidth
+            value={currentValue}
+            onChange={(event) => handleChange(prop.name, event.target.value, type)}
+          />
+        );
 
       case "integer":
         return (
@@ -238,7 +263,16 @@ export default function PropSelector() {
         );
 
       case "object":
-        return;
+        return (
+          <CoreTextField
+            fullWidth
+            multiline
+            rows={3}
+            value={typeof currentValue === "object" ? JSON.stringify(currentValue, null, 2) : currentValue}
+            onChange={(event) => handleChange(prop.name, event.target.value, type)}
+            helperText={`Please enter a valid ${type}.`}
+          />
+        );
         
       case "array":
         return (
@@ -277,10 +311,11 @@ export default function PropSelector() {
   if (!selectedComponent) {
     return null;
   }
+
   return (
     <CoreBox>
       <CoreBox styleClasses={[CoreClasses.DISPLAY.FLEX, CoreClasses.ALIGNMENT.JUSTIFY_CONTENT_SPACE_BETWEEN, CoreClasses.ALIGNMENT.ALIGN_ITEMS_START]}>
-        <CoreTypographyBody2> {selectedComponent.component}</CoreTypographyBody2>
+        <CoreTypographyBody2>{selectedComponent.component}</CoreTypographyBody2>
       </CoreBox>
 
       <CoreTable>
@@ -291,20 +326,11 @@ export default function PropSelector() {
                 {prop.name}:
               </CoreTableCell>
 
-              <CoreTableCell styleClasses={[CoreClasses.PADDING.P0, CoreClasses.BORDER.BO]}>{renderPropInput(prop)}</CoreTableCell>
+              <CoreTableCell styleClasses={[CoreClasses.PADDING.P0, CoreClasses.BORDER.BO]}>
+                {renderPropInput(prop)}
+              </CoreTableCell>
             </CoreTableRow>
           ))}
-
-          <CoreTableRow>
-            <CoreTableCell styleClasses={[CoreClasses.PADDING.P0, CoreClasses.BORDER.BO]}>
-              styleClasses:
-            </CoreTableCell>
-
-            <CoreTableCell styleClasses={[CoreClasses.PADDING.P0, CoreClasses.BORDER.BO]}>
-              <StyleSelector />
-            </CoreTableCell>
-          </CoreTableRow>
-          
         </CoreTableBody>
       </CoreTable>      
     </CoreBox>
