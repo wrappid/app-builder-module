@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.16](https://https//github.com/wrappid/wrappid-module/compare/v0.0.15...v0.0.16) (2024-10-17)
+
+
+### Features
+
+* **core:** :lipstick: update ui design ([e984571](https://https//github.com/wrappid/wrappid-module/commit/e984571f87ff4f9115be83ac30926f651357e50f)), closes [#54](https://https//github.com/wrappid/wrappid-module/issues/54)
+* **core:** :sparkles: load data on headercomponent ([87ccffe](https://https//github.com/wrappid/wrappid-module/commit/87ccffee6f16bb8c5593be9503a9300e592d7f57)), closes [#54](https://https//github.com/wrappid/wrappid-module/issues/54)
+* **global:** :sparkles: add moving functionality ([096986f](https://https//github.com/wrappid/wrappid-module/commit/096986f6834f5b60840a75a8ecc0f0c64de03a67)), closes [#54](https://https//github.com/wrappid/wrappid-module/issues/54)
+* **global:** :sparkles: hide-display functionality add ([84a253b](https://https//github.com/wrappid/wrappid-module/commit/84a253bf21c8a8dacce7ce7ba5e7c81d89761dea)), closes [#54](https://https//github.com/wrappid/wrappid-module/issues/54)
+
+
+### Bug Fixes
+
+* **global:** :bug: lint in error solved ([3eec788](https://https//github.com/wrappid/wrappid-module/commit/3eec788ddaddf2241d9b247e10373699204f7eb8)), closes [#54](https://https//github.com/wrappid/wrappid-module/issues/54)
+
 ### [0.0.15](https://https//github.com/wrappid/wrappid-module/compare/v0.0.14...v0.0.15) (2024-10-15)
 
 
