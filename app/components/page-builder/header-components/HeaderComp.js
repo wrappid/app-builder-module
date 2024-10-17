@@ -1,10 +1,6 @@
 import { useEffect, useState } from "react";
+
 import {
-  CoreBox,
-  CoreButton,
-  CoreClasses,
-  CoreInput,
-  CoreTypographyBody2,
   CoreBox, CoreButton, CoreClasses, CoreInput, CoreTypographyBody2,
   coreUseLocation,
   HTTP,
@@ -12,9 +8,9 @@ import {
 } from "@wrappid/core";
 import { useDispatch, useSelector } from "react-redux";
 
+import IconSelector from "./IconSelector";
 import { GET_PAGE_DATA } from "../../../types/appBuilderTypes";
 
-import IconSelector from "./IconSelector";
 export default function HeaderComp() {
   const location = coreUseLocation();
   const dispatch = useDispatch();
@@ -87,43 +83,7 @@ export default function HeaderComp() {
         />
       </CoreBox>
 
-      <CoreBox styleClasses={[CoreClasses.DISPLAY.FLEX, CoreClasses.ALIGNMENT.JUSTIFY_CONTENT_CENTER, CoreClasses.ALIGNMENT.ALIGN_ITEMS_CENTER, CoreClasses.GAP.GAP_3]}>
-        <CoreTooltip title= "Layout Selector" arrow>
-          <CoreIconButton>
-            <CoreIcon icon="view_module"/>
-          </CoreIconButton>
-        </CoreTooltip>
-
-        <CoreTooltip title= "Component Selector" arrow>
-          <CoreIconButton>
-            <CoreIcon icon="widgets"/>
-          </CoreIconButton>
-        </CoreTooltip>
-
-        <CoreTooltip title= "Props Selector" arrow>
-          <CoreIconButton>
-            <CoreIcon icon="tune"/>
-          </CoreIconButton>
-        </CoreTooltip>
-
-        <CoreTooltip title= "Theme Selector" arrow>
-          <CoreIconButton>
-            <CoreIcon icon="palette"/>
-          </CoreIconButton>
-        </CoreTooltip>
-
-        <CoreTooltip title= "Event Selector" arrow>
-          <CoreIconButton>
-            <CoreIcon icon="event"/>
-          </CoreIconButton>
-        </CoreTooltip>
-
-        <CoreTooltip title= "Device Selector" arrow>
-          <CoreIconButton>
-            <CoreIcon icon="devices"/>
-          </CoreIconButton>
-        </CoreTooltip>
-      </CoreBox>
+      <IconSelector />
 
       <CoreBox styleClasses={[
         CoreClasses.DISPLAY.FLEX,
