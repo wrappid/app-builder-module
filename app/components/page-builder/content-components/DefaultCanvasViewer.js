@@ -147,7 +147,7 @@ export default function DefaultCanvasViewer() {
   };
 
   return (
-    <CoreBox styleClasses={[CoreClasses.BG.BG_DOT_GRID_1, CoreClasses.HEIGHT.VH_75, CoreClasses.OVERFLOW.OVERFLOW_AUTO, CoreClasses.PADDING.P2]}>
+    <CoreBox styleClasses={[CoreClasses.BG.BG_DOT_GRID_1, CoreClasses.PADDING.P2]}>
       <CoreBox styleClasses={[CoreClasses.BG.BG_GREY_100, CoreClasses.PADDING.P1, CoreClasses.SHADOW.NORMAL, CoreClasses.OVERFLOW.OVERFLOW_AUTO]}>
         {layoutPlaceholders && layoutPlaceholders.length > 0 && (
           <>

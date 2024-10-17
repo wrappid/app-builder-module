@@ -49,7 +49,7 @@ export default function ComponentSelector() {
 
   return (
     <CoreBox>
-      <CoreList variant="grid">
+      <CoreList>
         {componentList.map((comp) => (
           <CoreListItem
             onClick={() => handleComponentSelect(comp)}

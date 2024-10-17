@@ -1,4 +1,5 @@
 import { layoutData } from "../components/page-builder/content-components/DefaultCanvasViewer";
+import { GET_PAGE_DATA } from "../types/appBuilderTypes";
 import {
   SELECT_LAYOUT,
   SET_ACTIVE_BOX,
@@ -9,7 +10,9 @@ import {
   UPDATE_COMPONENT_PROPS,
   UPDATE_COMPONENT_STYLE_CLASSES,
   TOGGLE_LAYOUT_SELECTOR,
-  TOGGLE_COMPONENT_SELECTOR
+  TOGGLE_COMPONENT_SELECTOR,
+  TOGGLE_TOOLBOX_OPEN,
+  REORDER_TOOLBOX
 } from "../types/test.types";
 
 /**
@@ -23,7 +26,15 @@ const initialState = {
   isPropSelectorOpen   : false, // Boolean to track whether PropSelector is open
   propsComponentPath   : null, // Path to the component whose props are being edited
   selectedComponentPath: null, 
-  selectedLayout       : "BlankLayout"
+  selectedLayout       : "BlankLayout",
+  toolboxes            : {
+    1: { isOpenToolBox: true, order: 0 },
+    2: { isOpenToolBox: true, order: 1 },
+    3: { isOpenToolBox: true, order: 2 },
+    4: { isOpenToolBox: true, order: 3 },
+    5: { isOpenToolBox: true, order: 4 },
+    6: { isOpenToolBox: true, order: 5 }
+  }
 };
 
 /**
@@ -226,12 +237,70 @@ const testBuilderReducer = (state = initialState, action) => {
         isPropSelectorOpen: action.payload
       };
 
+    case TOGGLE_TOOLBOX_OPEN:
+      return {
+        ...state,
+        toolboxes: {
+          ...state.toolboxes,
+          [action.payload.toolboxId]: {
+            ...state.toolboxes[action.payload.toolboxId],
+            isOpenToolBox: action.payload.isOpenToolBox,
+            // Preserve existing order when toggling visibility
+            order        : state.toolboxes[action.payload.toolboxId]?.order ?? 0
+          }
+        }
+      };
+
+    case REORDER_TOOLBOX: {
+      const { toolboxId, direction } = action.payload;
+      const currentOrder = state.toolboxes[toolboxId].order;
+      const newOrder = direction === "up" ? currentOrder - 1 : currentOrder + 1;
+
+      // Don't reorder if we're at the edges
+      if (newOrder < 0 || newOrder >= Object.keys(state.toolboxes).length) {
+        return state;
+      }
+
+      // Find the toolbox that needs to swap positions
+      const swapToolboxId = Object.keys(state.toolboxes).find(
+        id => state.toolboxes[id].order === newOrder && 
+             state.toolboxes[id].isOpenToolBox === true
+      );
+
+      // If no valid toolbox to swap with, return current state
+      if (!swapToolboxId) {
+        return state;
+      }
+
+      // Perform the swap
+      return {
+        ...state,
+        toolboxes: {
+          ...state.toolboxes,
+          [swapToolboxId]: {
+            ...state.toolboxes[swapToolboxId],
+            order: currentOrder
+          },
+          [toolboxId]: {
+            ...state.toolboxes[toolboxId],
+            order: newOrder
+          }
+        }
+      };
+    }
+
     case UPDATE_COMPONENT_PROPS:
       return updateComponentProps(state, action.payload);
 
     case UPDATE_COMPONENT_STYLE_CLASSES:
       return updateComponentStyleClasses(state, action.payload);
       
+    case GET_PAGE_DATA:
+      return {
+        ...state,
+        pageData: action.payload,
+      };
+
     default:
       return state;
   }

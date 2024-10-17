@@ -37,7 +37,14 @@ export default function ViewerOption() {
 
   return (
     <CoreBox styleClasses={[CoreClasses.WIDTH.W_100]}>
-      <CoreBox styleClasses={[CoreClasses.BORDER.BORDER_BOTTOM, CoreClasses.BORDER.BORDER_GREY_300]}>
+      <CoreBox styleClasses={[
+        CoreClasses.BORDER.BORDER_BOTTOM,
+        CoreClasses.BORDER.BORDER_GREY_300,
+        CoreClasses.POSITION.POSITION_STICKY,
+        CoreClasses.POSITION.TOP_0,
+        CoreClasses.Z_INDEX.Z_3,
+        CoreClasses.BG.BG_WHITE
+      ]}>
         <CoreTabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <CoreTab label="Default" {...a11yProps(0)} />
 
