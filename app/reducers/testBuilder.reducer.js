@@ -1,4 +1,5 @@
 import { layoutData } from "../components/page-builder/content-components/DefaultCanvasViewer";
+import { GET_PAGE_DATA } from "../types/appBuilderTypes";
 import {
   SELECT_LAYOUT,
   SET_ACTIVE_BOX,
@@ -20,9 +21,12 @@ const initialState = {
   activeBox            : null,
   componentsInBoxes    : [],
   isLayoutSelectorOpen : true, 
-  isPropSelectorOpen   : false, // Boolean to track whether PropSelector is open
-  propsComponentPath   : null, // Path to the component whose props are being edited
-  selectedComponentPath: null, 
+  isPropSelectorOpen   : false, 
+  pageData             : {}, 
+  // Boolean to track whether PropSelector is open
+  propsComponentPath   : null, 
+  // Path to the component whose props are being edited
+  selectedComponentPath: null,
   selectedLayout       : "BlankLayout"
 };
 
@@ -232,6 +236,12 @@ const testBuilderReducer = (state = initialState, action) => {
     case UPDATE_COMPONENT_STYLE_CLASSES:
       return updateComponentStyleClasses(state, action.payload);
       
+    case GET_PAGE_DATA:
+      return {
+        ...state,
+        pageData: action.payload,
+      };
+
     default:
       return state;
   }
