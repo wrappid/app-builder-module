@@ -16,7 +16,7 @@ import {
   UPDATE_COMPONENT_PROPS,
   UPDATE_COMPONENT_STYLE_CLASSES,
   TOGGLE_TOOLBOX_OPEN,
-  MOVE_TOOLBOX
+  REORDER_TOOLBOX
 } from "../types/test.types";
 
 /**
@@ -141,9 +141,9 @@ export const toggleToolboxOpen = (toolboxId, isOpenToolBox) => ({
   type   : TOGGLE_TOOLBOX_OPEN,
 });
 
-export const moveToolbox = (id, direction) => ({
-  payload: { direction, id },
-  type   : MOVE_TOOLBOX
+export const reorderToolbox = (toolboxId, direction) => ({
+  payload: { direction, toolboxId },
+  type   : REORDER_TOOLBOX,
 });
 
 /**

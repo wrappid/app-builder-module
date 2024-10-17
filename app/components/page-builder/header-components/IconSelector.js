@@ -1,11 +1,10 @@
-/* eslint-disable etc/no-commented-out-code */
 import { CoreBox, CoreClasses, CoreIcon, CoreIconButton, CoreTooltip } from "@wrappid/core";
 import { useDispatch, useSelector } from "react-redux";
 
 import { toggleToolboxOpen } from "../../../actions/test.action"; 
+
 export default function IconSelector() {
   const dispatch = useDispatch();
-  //   const toolboxesState = useSelector((state) => state.testBuilderReducer?.toolboxes || {}); // Get the current OpenToolBox state from Redux
   const toolboxesState = useSelector((state) => 
     state.testBuilderReducer?.toolboxes || {
       1: { isOpenToolBox: true },
@@ -16,7 +15,7 @@ export default function IconSelector() {
       6: { isOpenToolBox: true }
     }
   );
-  // JSON-driven configuration for the icon buttons and corresponding toolbox IDs
+
   const iconSelectors = [
     { icon: "view_module", id: 1, title: "Layout" },
     { icon: "widgets", id: 2, title: "Component" },
@@ -24,7 +23,7 @@ export default function IconSelector() {
     { icon: "palette", id: 4, title: "Theme" },
     { icon: "event", id: 5, title: "Event" },
     { icon: "devices", id: 6, title: "Device" },
-    { icon: "layers", title: "Navigator" }
+    { icon: "layers", title: "Navigator" } // No ID for Navigator
   ];
 
   return (
@@ -32,14 +31,17 @@ export default function IconSelector() {
       styleClasses={[CoreClasses.DISPLAY.FLEX, CoreClasses.ALIGNMENT.JUSTIFY_CONTENT_CENTER, CoreClasses.ALIGNMENT.ALIGN_ITEMS_CENTER, CoreClasses.GAP.GAP_3]}
     >
       {iconSelectors.map((selector) => {
-        const isOpenToolBox = toolboxesState[selector.id]?.isOpenToolBox || false;
+        const isOpenToolBox = selector.id ? toolboxesState[selector.id]?.isOpenToolBox ?? true : false;
 
         return (
-          <CoreTooltip key={selector.id} title={selector.title} arrow>
+          <CoreTooltip key={selector.id || selector.title} title={selector.title} arrow>
             <CoreIconButton
-              onClick={() => dispatch(toggleToolboxOpen(selector.id, !isOpenToolBox))}
+              onClick={selector.id ? () => dispatch(toggleToolboxOpen(selector.id, !isOpenToolBox)) : undefined}
             >
-              <CoreIcon icon={selector.icon} color={isOpenToolBox === true ? "primary" : "default"}/>
+              <CoreIcon 
+                icon={selector.icon} 
+                color={selector.id && isOpenToolBox ? "primary" : "default"} // "Navigator" always gets "default"
+              />
             </CoreIconButton>
           </CoreTooltip>
         );
