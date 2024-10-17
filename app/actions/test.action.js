@@ -1,3 +1,4 @@
+/* eslint-disable etc/no-commented-out-code */
 import {
   ADD_COMPONENT,
   ADD_COMPONENT_PROP, 
@@ -13,7 +14,9 @@ import {
   TOGGLE_COMPONENT_SELECTOR,
   TOGGLE_PROP_SELECTOR,
   UPDATE_COMPONENT_PROPS,
-  UPDATE_COMPONENT_STYLE_CLASSES
+  UPDATE_COMPONENT_STYLE_CLASSES,
+  TOGGLE_TOOLBOX_OPEN,
+  MOVE_TOOLBOX
 } from "../types/test.types";
 
 /**
@@ -131,6 +134,16 @@ export const toggleComponentSelector = (isOpen) => ({
 export const togglePropSelector = (isOpen) => ({
   payload: isOpen,
   type   : TOGGLE_PROP_SELECTOR
+});
+
+export const toggleToolboxOpen = (toolboxId, isOpenToolBox) => ({
+  payload: { isOpenToolBox, toolboxId },
+  type   : TOGGLE_TOOLBOX_OPEN,
+});
+
+export const moveToolbox = (id, direction) => ({
+  payload: { direction, id },
+  type   : MOVE_TOOLBOX
 });
 
 /**

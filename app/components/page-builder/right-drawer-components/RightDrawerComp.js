@@ -2,21 +2,25 @@
 import {
   CoreBox, CoreButton, CoreClasses, CoreGrid, CoreIcon, CoreIconButton, CoreSelect, CoreStack, CoreToolBox, CoreTooltip, CoreTypographyBody1
 } from "@wrappid/core";
+import { useSelector, useDispatch } from "react-redux";
 
 import ComponentSelector from "./ComponentSelector";
 import LayoutSelector from "./LayoutSelector";
 import PropSelector from "./PropSelector";
+import { toggleToolboxOpen } from "../../../actions/test.action"; 
 
-/**
- * RightDrawerComp component
- * @returns {React.Component} The RightDrawerComp component
- */
 export default function RightDrawerComp() {
-  // const isPropSelectorOpen = useSelector((state) => state.testBuilderReducer?.isPropSelectorOpen); // Read from Redux
-  // const isComponentSelectorOpen = useSelector((state) => state.testBuilderReducer?.isComponentSelectorOpen); // Read from Redux
-  // const isLayoutSelectorOpen = useSelector((state) => state.testBuilderReducer?.isLayoutSelectorOpen); // Read from Redux
-
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
+  const toolboxesState = useSelector((state) => 
+    state.testBuilderReducer?.toolboxes || {
+      1: { isOpenToolBox: true },
+      2: { isOpenToolBox: true },
+      3: { isOpenToolBox: true },
+      4: { isOpenToolBox: true },
+      5: { isOpenToolBox: true },
+      6: { isOpenToolBox: true }
+    }
+  );
   const toolboxes = [
     {
       content  : <LayoutSelector />,
@@ -84,19 +88,13 @@ export default function RightDrawerComp() {
 
   return (
     <CoreStack
-      styleClasses={[CoreClasses.HEIGHT.VH_95, CoreClasses.OVERFLOW.OVERFLOW_Y_SCROLL, CoreClasses.BORDER.BORDER_START, CoreClasses.BORDER.BORDER_GREY_400]}
+      styleClasses={[CoreClasses.HEIGHT.VH_92, CoreClasses.OVERFLOW.OVERFLOW_Y_SCROLL, CoreClasses.BORDER.BORDER_START, CoreClasses.BORDER.BORDER_GREY_400]}
     >
       <CoreBox
-        styleClasses={[CoreClasses.DISPLAY.FLEX, CoreClasses.ALIGNMENT.JUSTIFY_CONTENT_SPACE_BETWEEN, CoreClasses.ALIGNMENT.ALIGN_ITEMS_CENTER]}
+        styleClasses={[CoreClasses.DISPLAY.FLEX, CoreClasses.ALIGNMENT.JUSTIFY_CONTENT_SPACE_BETWEEN, CoreClasses.ALIGNMENT.ALIGN_ITEMS_CENTER, CoreClasses.PADDING.P1]}
       >
         <CoreBox
-          styleClasses={[
-            CoreClasses.DISPLAY.FLEX,
-            CoreClasses.ALIGNMENT.JUSTIFY_CONTENT_CENTER,
-            CoreClasses.ALIGNMENT.ALIGN_ITEMS_CENTER,
-            CoreClasses.GAP.GAP_3,
-            CoreClasses.PADDING.P0_5,
-          ]}
+          styleClasses={[CoreClasses.DISPLAY.FLEX, CoreClasses.ALIGNMENT.JUSTIFY_CONTENT_CENTER, CoreClasses.ALIGNMENT.ALIGN_ITEMS_CENTER, CoreClasses.GAP.GAP_3]}
         >
           <CoreTooltip title="Collapse All Selector" arrow>
             <CoreButton label="Collapse" variant="text" styleClasses={[CoreClasses.COLOR.TEXT_BLACK_50]} />
@@ -122,30 +120,44 @@ export default function RightDrawerComp() {
         // Define the buttons based on the position (first, last, or in between)
         const buttons = [];
 
-        if (!isFirst) {
-          buttons.push("keyboard_double_arrow_up");
-        }
-        if (!isLast) {
-          buttons.push("keyboard_double_arrow_down");
-        }
-        buttons.push("visibility");
+        if (!isFirst) buttons.push("keyboard_double_arrow_up");
+        if (!isLast) buttons.push("keyboard_double_arrow_down");
+        buttons.push("remove_circle");
+
+        // Handle toolbox open/close state
+        // Default to true (visible) unless explicitly set in state
+        const isOpenToolBox = toolboxesState?.[toolbox.id]?.isOpenToolBox ?? true;
 
         return (
-          <CoreToolBox
-            key={toolbox.id}
-            toolTitle={toolbox.toolTitle}
-            resize={toolbox.resize}
-            toolboxActionButton={buttons.map((buttonIcon, buttonIndex) => (
-              <CoreIconButton key={buttonIndex}>
-                <CoreIcon icon={buttonIcon} />
-              </CoreIconButton>
-            ))}
-          >
-            {toolbox.content}
-          </CoreToolBox>
+          // Conditionally render based on isOpenToolBox
+          isOpenToolBox && (
+            <CoreToolBox
+              key={toolbox.id}
+              toolTitle={toolbox.toolTitle}
+              resize={toolbox.resize}
+              expandProp={true}
+              toolboxActionButton={buttons.map((buttonIcon, buttonIndex) => (
+                <CoreIconButton
+                  key={buttonIndex}
+                  onClick={() => {
+                    if (buttonIcon === "remove_circle") {
+                      dispatch(toggleToolboxOpen(toolbox.id, !isOpenToolBox));
+                    }
+                  }}
+                >
+                  <CoreIcon
+                    icon={buttonIcon}
+                    color={buttonIcon === "remove_circle" ? (isOpenToolBox === true ? "primary" : "default") : "inherit"}
+                  />
+
+                </CoreIconButton>
+              ))}
+            >
+              {toolbox.content}
+            </CoreToolBox>
+          )
         );
       })}
     </CoreStack>
   );
 }
-

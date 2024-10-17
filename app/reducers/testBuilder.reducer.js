@@ -9,7 +9,8 @@ import {
   UPDATE_COMPONENT_PROPS,
   UPDATE_COMPONENT_STYLE_CLASSES,
   TOGGLE_LAYOUT_SELECTOR,
-  TOGGLE_COMPONENT_SELECTOR
+  TOGGLE_COMPONENT_SELECTOR,
+  TOGGLE_TOOLBOX_OPEN
 } from "../types/test.types";
 
 /**
@@ -23,7 +24,15 @@ const initialState = {
   isPropSelectorOpen   : false, // Boolean to track whether PropSelector is open
   propsComponentPath   : null, // Path to the component whose props are being edited
   selectedComponentPath: null, 
-  selectedLayout       : "BlankLayout"
+  selectedLayout       : "BlankLayout",
+  toolboxes            : {
+    1: { isOpenToolBox: true, position: 0 },
+    2: { isOpenToolBox: true, position: 1 },
+    3: { isOpenToolBox: true, position: 2 },
+    4: { isOpenToolBox: true, position: 3 },
+    5: { isOpenToolBox: true, position: 4 },
+    6: { isOpenToolBox: true, position: 5 }
+  },
 };
 
 /**
@@ -224,6 +233,15 @@ const testBuilderReducer = (state = initialState, action) => {
       return {
         ...state,
         isPropSelectorOpen: action.payload
+      };
+
+    case TOGGLE_TOOLBOX_OPEN:
+      return {
+        ...state,
+        toolboxes: {
+          ...state.toolboxes,
+          [action.payload.toolboxId]: { isOpenToolBox: action.payload.isOpenToolBox },
+        },
       };
 
     case UPDATE_COMPONENT_PROPS:
