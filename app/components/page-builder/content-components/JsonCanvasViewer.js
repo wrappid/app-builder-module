@@ -16,7 +16,7 @@ export default function JsonCanvasViewer() {
     <>
       <CoreBox
         component="pre"
-        styleClasses={[CoreClasses.HEIGHT.VH_75, CoreClasses.OVERFLOW.OVERFLOW_AUTO, CoreClasses.PADDING.P2]}
+        styleClasses={[CoreClasses.OVERFLOW.OVERFLOW_AUTO, CoreClasses.PADDING.P1]}
       >
         {JSON.stringify(pageJson, null, 2)} 
       </CoreBox>

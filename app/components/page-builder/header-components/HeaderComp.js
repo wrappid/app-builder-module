@@ -5,11 +5,12 @@ import {
 export default function HeaderComp() {
   return (
     <CoreBox styleClasses={[
-      CoreClasses.PADDING.P2,
+      CoreClasses.HEIGHT.VH_5,
       CoreClasses.DISPLAY.FLEX,
       CoreClasses.ALIGNMENT.ALIGN_ITEMS_CENTER,
       CoreClasses.ALIGNMENT.JUSTIFY_CONTENT_SPACE_BETWEEN,
-      CoreClasses.BG.BG_GREY_100
+      CoreClasses.BG.BG_GREY_100,
+      CoreClasses.PADDING.PX1
     ]}>
       <CoreBox styleClasses={[CoreClasses.DISPLAY.FLEX, CoreClasses.ALIGNMENT.ALIGN_ITEMS_CENTER, CoreClasses.ALIGNMENT.JUSTIFY_CONTENT_CENTER, CoreClasses.GAP.GAP_2]}>
         <CoreButton
