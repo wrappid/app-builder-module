@@ -2,6 +2,35 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.15](https://https//github.com/wrappid/wrappid-module/compare/v0.0.14...v0.0.15) (2024-10-15)
+
+
+### Features
+
+* **core:** :sparkles: add defaultValidProps and styleClasses ([4ffb965](https://https//github.com/wrappid/wrappid-module/commit/4ffb9654debea73b9de965c25fc3c1215acb2f83)), closes [#54](https://https//github.com/wrappid/wrappid-module/issues/54)
+* **core:** :sparkles: component menu viewer via reducer ([c59779d](https://https//github.com/wrappid/wrappid-module/commit/c59779d928435abad13a3932dcb07dc5a9e11284)), closes [#54](https://https//github.com/wrappid/wrappid-module/issues/54)
+* **core:** :sparkles: edit page and local sync button ([4c0efcf](https://https//github.com/wrappid/wrappid-module/commit/4c0efcfe7d0fc86c7afe9e6945c87897c0f7b7f2)), closes [#54](https://https//github.com/wrappid/wrappid-module/issues/54)
+* **core:** :zap: add CoreComponentRenderer ([c66dd4a](https://https//github.com/wrappid/wrappid-module/commit/c66dd4a0b123b64a066d74d683ce18a5d6feb4be)), closes [#54](https://https//github.com/wrappid/wrappid-module/issues/54)
+* **core:** :zap: add CoreComponentRenderer ([f3c4535](https://https//github.com/wrappid/wrappid-module/commit/f3c453530cdca975d0cdbc8f819f76ac48a72748)), closes [#54](https://https//github.com/wrappid/wrappid-module/issues/54)
+* **core:** :zap: changes implemented to render component ([570d9b7](https://https//github.com/wrappid/wrappid-module/commit/570d9b75e6e68376599361e1b2df723b6bd567cd)), closes [#54](https://https//github.com/wrappid/wrappid-module/issues/54)
+* **global:** :lipstick: update ui ([8362aca](https://https//github.com/wrappid/wrappid-module/commit/8362aca94c49f1d675e07844c672fb4b73daadec)), closes [#54](https://https//github.com/wrappid/wrappid-module/issues/54)
+* **global:** :sparkles: add double click feature ([a834c23](https://https//github.com/wrappid/wrappid-module/commit/a834c23370aa9fdb0f496addb1668525446daf66)), closes [#54](https://https//github.com/wrappid/wrappid-module/issues/54)
+* **global:** :sparkles: add handle type ([ebc3f89](https://https//github.com/wrappid/wrappid-module/commit/ebc3f8930f981c22b0810de1d36ac190850517d0)), closes [#54](https://https//github.com/wrappid/wrappid-module/issues/54)
+* **global:** :sparkles: add prop selection toggle box ([f5c5122](https://https//github.com/wrappid/wrappid-module/commit/f5c512274054ae3ef7d67255fefbfb1ac5b024a7)), closes [#54](https://https//github.com/wrappid/wrappid-module/issues/54)
+* **global:** :sparkles: add style class in JSON ([e4d9381](https://https//github.com/wrappid/wrappid-module/commit/e4d9381890ffd085c2dde44fc3a68434bfc0a5e2)), closes [#54](https://https//github.com/wrappid/wrappid-module/issues/54)
+* **global:** :sparkles: add style with dialog added ([860fd85](https://https//github.com/wrappid/wrappid-module/commit/860fd85e80b3ae11e95309f3d71775d8b5dab3c1)), closes [#54](https://https//github.com/wrappid/wrappid-module/issues/54)
+* **global:** :sparkles: add toogle functionality ([07f2e1a](https://https//github.com/wrappid/wrappid-module/commit/07f2e1a2893ed9cfd66e7472c9ed55ce99d4e69e)), closes [#54](https://https//github.com/wrappid/wrappid-module/issues/54)
+* **global:** :sparkles: added layout selection ([cf03d38](https://https//github.com/wrappid/wrappid-module/commit/cf03d38881dc0c6a1ccaf593e48b3abc299352f5)), closes [#54](https://https//github.com/wrappid/wrappid-module/issues/54)
+* **global:** :sparkles: design ui of PageBuilder in app-builder module ([73e0c01](https://https//github.com/wrappid/wrappid-module/commit/73e0c01447f499f70e43594e9df76f83ab5c5a0c)), closes [#54](https://https//github.com/wrappid/wrappid-module/issues/54)
+* **global:** :sparkles: fully design dialog for styleclass selection ([ae47e11](https://https//github.com/wrappid/wrappid-module/commit/ae47e114c460efc3dc6154d71e279736e9340895)), closes [#54](https://https//github.com/wrappid/wrappid-module/issues/54)
+* **global:** :sparkles: props can be add by clicking icon ([e69accd](https://https//github.com/wrappid/wrappid-module/commit/e69accd65a20ede1d2ea868a8668378f5c45b776)), closes [#54](https://https//github.com/wrappid/wrappid-module/issues/54)
+* **global:** :sparkles: updated ([b33c113](https://https//github.com/wrappid/wrappid-module/commit/b33c1132cb9c93bdd3bf5454b30b597d3ac6311e)), closes [#54](https://https//github.com/wrappid/wrappid-module/issues/54)
+
+
+### Bug Fixes
+
+* **global:** :bug: fix bug of ui rendering ([a9bc524](https://https//github.com/wrappid/wrappid-module/commit/a9bc5244b60704f12923d1986fe131749ce7e1d1)), closes [#54](https://https//github.com/wrappid/wrappid-module/issues/54)
+
 ### [0.0.14](https://https//github.com/wrappid/wrappid-module/compare/v0.0.13...v0.0.14) (2024-07-11)
 
 
