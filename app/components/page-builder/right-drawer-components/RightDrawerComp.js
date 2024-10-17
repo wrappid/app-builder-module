@@ -1,22 +1,27 @@
-/* eslint-disable etc/no-commented-out-code */
 import {
-  CoreBox, CoreButton, CoreClasses, CoreGrid, CoreIcon, CoreIconButton, CoreSelect, CoreStack, CoreToolBox, CoreTooltip, CoreTypographyBody1
+  CoreBox, CoreButton, CoreClasses, CoreGrid, CoreIcon, CoreIconButton, CoreSelect,
+  CoreStack, CoreToolBox, CoreTooltip, CoreTypographyBody1
 } from "@wrappid/core";
+import { useSelector, useDispatch } from "react-redux";
 
 import ComponentSelector from "./ComponentSelector";
 import LayoutSelector from "./LayoutSelector";
 import PropSelector from "./PropSelector";
+import { reorderToolbox, toggleToolboxOpen } from "../../../actions/test.action";
 
-/**
- * RightDrawerComp component
- * @returns {React.Component} The RightDrawerComp component
- */
 export default function RightDrawerComp() {
-  // const isPropSelectorOpen = useSelector((state) => state.testBuilderReducer?.isPropSelectorOpen); // Read from Redux
-  // const isComponentSelectorOpen = useSelector((state) => state.testBuilderReducer?.isComponentSelectorOpen); // Read from Redux
-  // const isLayoutSelectorOpen = useSelector((state) => state.testBuilderReducer?.isLayoutSelectorOpen); // Read from Redux
+  const dispatch = useDispatch();
+  const toolboxesState = useSelector((state) => 
+    state.testBuilderReducer?.toolboxes || {
+      1: { isOpenToolBox: true, order: 0 },
+      2: { isOpenToolBox: true, order: 1 },
+      3: { isOpenToolBox: true, order: 2 },
+      4: { isOpenToolBox: true, order: 3 },
+      5: { isOpenToolBox: true, order: 4 },
+      6: { isOpenToolBox: true, order: 5 }
+    }
+  );
 
-  // const dispatch = useDispatch();
   const toolboxes = [
     {
       content  : <LayoutSelector />,
@@ -65,7 +70,10 @@ export default function RightDrawerComp() {
             options={[{ id: "", label: "25%" }, { id: "10", label: "50%" }, { id: "20", label: "75%" }, { id: "30", label: "100%" }]}
           />
 
-          <CoreBox gridProps={{ gridSize: { md: 4, xs: 4 }, styleClasses: [CoreClasses.ALIGNMENT.ALIGN_ITEMS_END] }}>
+          <CoreBox gridProps={{ 
+            gridSize    : { md: 4, xs: 4 }, 
+            styleClasses: [CoreClasses.ALIGNMENT.ALIGN_ITEMS_END] 
+          }}>
             <CoreIconButton>
               <CoreIcon>screen_rotation</CoreIcon>
             </CoreIconButton>
@@ -82,28 +90,40 @@ export default function RightDrawerComp() {
     },
   ];
 
+  // Sort toolboxes based on their order in the state
+  const sortedToolboxes = [...toolboxes].sort((boxA, boxB) => 
+    (toolboxesState[boxA.id]?.order ?? 0) - (toolboxesState[boxB.id]?.order ?? 0)
+  );
+
+  // Get only visible toolboxes
+  const visibleToolboxes = sortedToolboxes.filter(
+    toolbox => toolboxesState[toolbox.id]?.isOpenToolBox ?? true
+  );
+
   return (
     <CoreStack
-      styleClasses={[CoreClasses.HEIGHT.VH_95, CoreClasses.OVERFLOW.OVERFLOW_Y_SCROLL, CoreClasses.BORDER.BORDER_START, CoreClasses.BORDER.BORDER_GREY_400]}
+      styleClasses={[CoreClasses.HEIGHT.VH_92, CoreClasses.OVERFLOW.OVERFLOW_Y_SCROLL, CoreClasses.BORDER.BORDER_START, CoreClasses.BORDER.BORDER_GREY_400]}
     >
       <CoreBox
-        styleClasses={[CoreClasses.DISPLAY.FLEX, CoreClasses.ALIGNMENT.JUSTIFY_CONTENT_SPACE_BETWEEN, CoreClasses.ALIGNMENT.ALIGN_ITEMS_CENTER]}
+        styleClasses={[CoreClasses.DISPLAY.FLEX, CoreClasses.ALIGNMENT.JUSTIFY_CONTENT_SPACE_BETWEEN, CoreClasses.ALIGNMENT.ALIGN_ITEMS_CENTER, CoreClasses.PADDING.P1]}
       >
         <CoreBox
-          styleClasses={[
-            CoreClasses.DISPLAY.FLEX,
-            CoreClasses.ALIGNMENT.JUSTIFY_CONTENT_CENTER,
-            CoreClasses.ALIGNMENT.ALIGN_ITEMS_CENTER,
-            CoreClasses.GAP.GAP_3,
-            CoreClasses.PADDING.P0_5,
-          ]}
+          styleClasses={[CoreClasses.DISPLAY.FLEX, CoreClasses.ALIGNMENT.JUSTIFY_CONTENT_CENTER, CoreClasses.ALIGNMENT.ALIGN_ITEMS_CENTER, CoreClasses.GAP.GAP_3]}
         >
           <CoreTooltip title="Collapse All Selector" arrow>
-            <CoreButton label="Collapse" variant="text" styleClasses={[CoreClasses.COLOR.TEXT_BLACK_50]} />
+            <CoreButton 
+              label="Collapse" 
+              variant="text" 
+              styleClasses={[CoreClasses.COLOR.TEXT_BLACK_50]} 
+            />
           </CoreTooltip>
 
           <CoreTooltip title="Expand All Selector" arrow>
-            <CoreButton label="Expand" variant="text" styleClasses={[CoreClasses.COLOR.TEXT_BLACK_50]} />
+            <CoreButton 
+              label="Expand" 
+              variant="text" 
+              styleClasses={[CoreClasses.COLOR.TEXT_BLACK_50]} 
+            />
           </CoreTooltip>
         </CoreBox>
 
@@ -114,30 +134,49 @@ export default function RightDrawerComp() {
         </CoreTooltip>
       </CoreBox>
 
-      {/* Map over the toolboxes configuration array */}
-      {toolboxes.map((toolbox, index) => {
-        const isFirst = index === 0;
-        const isLast = index === toolboxes.length - 1;
+      {sortedToolboxes.map((toolbox) => {
+        const isOpenToolBox = toolboxesState[toolbox.id]?.isOpenToolBox ?? true;
+        
+        if (!isOpenToolBox) return null;
 
-        // Define the buttons based on the position (first, last, or in between)
+        // Find position in visible toolboxes array
+        const visibleIndex = visibleToolboxes.findIndex(toolBox => toolBox.id === toolbox.id);
+        const isFirst = visibleIndex === 0;
+        const isLast = visibleIndex === visibleToolboxes.length - 1;
+        
         const buttons = [];
 
-        if (!isFirst) {
-          buttons.push("keyboard_double_arrow_up");
-        }
-        if (!isLast) {
-          buttons.push("keyboard_double_arrow_down");
-        }
-        buttons.push("visibility");
+        if (!isFirst) buttons.push("keyboard_double_arrow_up");
+        if (!isLast) buttons.push("keyboard_double_arrow_down");
+        buttons.push("remove_circle");
 
         return (
           <CoreToolBox
             key={toolbox.id}
             toolTitle={toolbox.toolTitle}
             resize={toolbox.resize}
+            expandProp={true}
             toolboxActionButton={buttons.map((buttonIcon, buttonIndex) => (
-              <CoreIconButton key={buttonIndex}>
-                <CoreIcon icon={buttonIcon} />
+              <CoreIconButton
+                key={buttonIndex}
+                onClick={() => {
+                  if (buttonIcon === "remove_circle") {
+                    dispatch(toggleToolboxOpen(toolbox.id, !isOpenToolBox));
+                  } else if (buttonIcon === "keyboard_double_arrow_up") {
+                    dispatch(reorderToolbox(toolbox.id, "up"));
+                  } else if (buttonIcon === "keyboard_double_arrow_down") {
+                    dispatch(reorderToolbox(toolbox.id, "down"));
+                  }
+                }}
+              >
+                <CoreIcon
+                  icon={buttonIcon}
+                  color={
+                    buttonIcon === "remove_circle" 
+                      ? (isOpenToolBox ? "primary" : "default")
+                      : "inherit"
+                  }
+                />
               </CoreIconButton>
             ))}
           >
@@ -148,4 +187,3 @@ export default function RightDrawerComp() {
     </CoreStack>
   );
 }
-
