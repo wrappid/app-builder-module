@@ -5,14 +5,15 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 
 import ComponentSelector from "./ComponentSelector";
+import EventsSelector from "./EventsSelector";
 import LayoutSelector from "./LayoutSelector";
-import PropSelector from "./PropSelector";
-import { reorderToolbox, toggleToolboxOpen } from "../../../actions/test.action";
+import PropsSelector from "./PropsSelector";
+import { reorderToolbox, toggleToolboxOpen } from "../../../actions/app.action";
 
 export default function RightDrawerComp() {
   const dispatch = useDispatch();
   const toolboxesState = useSelector((state) => 
-    state.testBuilderReducer?.toolboxes || {
+    state.appBuilderReducer?.toolboxes || {
       1: { isOpenToolBox: true, order: 0 },
       2: { isOpenToolBox: true, order: 1 },
       3: { isOpenToolBox: true, order: 2 },
@@ -36,7 +37,7 @@ export default function RightDrawerComp() {
       toolTitle: "Select any Component",
     },
     {
-      content  : <PropSelector />,
+      content  : <PropsSelector />,
       id       : 3,
       resize   : "both",
       toolTitle: "Select Props for Component",
@@ -48,7 +49,7 @@ export default function RightDrawerComp() {
       toolTitle: "Select Theme",
     },
     {
-      content  : <CoreTypographyBody1>Event List</CoreTypographyBody1>,
+      content  : <EventsSelector />,
       id       : 5,
       resize   : "both",
       toolTitle: "Select Event",

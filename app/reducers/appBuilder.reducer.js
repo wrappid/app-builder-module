@@ -1,5 +1,4 @@
 import { layoutData } from "../components/page-builder/content-components/DefaultCanvasViewer";
-import { GET_PAGE_DATA } from "../types/appBuilderTypes";
 import {
   SELECT_LAYOUT,
   SET_ACTIVE_BOX,
@@ -13,7 +12,8 @@ import {
   TOGGLE_COMPONENT_SELECTOR,
   TOGGLE_TOOLBOX_OPEN,
   REORDER_TOOLBOX
-} from "../types/test.types";
+} from "../types/appBuilder.types";
+import { GET_PAGE_DATA } from "../types/appBuilderTypes";
 
 /**
  * Initial state for the test builder reducer
@@ -193,7 +193,7 @@ const updateComponentStyleClasses = (state, payload) => updateComponent(state, p
  * @param {Object} action - Action object
  * @returns {Object} New state
  */
-const testBuilderReducer = (state = initialState, action) => {
+const appBuilderReducer = (state = initialState, action) => {
   switch (action.type) {
     case SELECT_LAYOUT:
       return handleSelectLayout(state, action.payload);
@@ -306,4 +306,4 @@ const testBuilderReducer = (state = initialState, action) => {
   }
 };
 
-export default testBuilderReducer;
+export default appBuilderReducer;

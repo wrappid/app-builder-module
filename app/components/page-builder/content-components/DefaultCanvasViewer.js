@@ -11,7 +11,7 @@ import { useSelector, useDispatch } from "react-redux";
 import CoreComponentRenderer from "./CoreComponentRenderer";
 import {
   setActiveBox, setSelectedComponentPath, setPropsComponentPath, togglePropSelector, toggleComponentSelector, toggleLayoutSelector 
-} from "../../../actions/test.action";
+} from "../../../actions/app.action";
 
 /**
  * Layout data for different layout types
@@ -52,8 +52,8 @@ export const layoutData = {
  */
 export default function DefaultCanvasViewer() {
   const dispatch = useDispatch();
-  const selectedLayout = useSelector((state) => state.testBuilderReducer?.selectedLayout);
-  const componentsInBoxes = useSelector((state) => state.testBuilderReducer?.componentsInBoxes) || [];
+  const selectedLayout = useSelector((state) => state.appBuilderReducer?.selectedLayout);
+  const componentsInBoxes = useSelector((state) => state.appBuilderReducer?.componentsInBoxes) || [];
   const layoutPlaceholders = layoutData[selectedLayout] || [];
 
   // Dispatch layout selection when the component mounts

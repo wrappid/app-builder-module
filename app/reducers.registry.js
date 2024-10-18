@@ -1,3 +1,3 @@
-import testBuilderReducer from "./reducers/testBuilder.reducer";
+import appBuilderReducer from "./reducers/appBuilder.reducer";
 
-export const ReducersRegistry = { testBuilderReducer: testBuilderReducer };
+export const ReducersRegistry = { appBuilderReducer: appBuilderReducer };

@@ -3,8 +3,8 @@ import { useSelector } from "react-redux";
 
 export default function JsonCanvasViewer() {
   // Fetch the selected layout and placeholders from the Redux store
-  const selectedLayout = useSelector((state) => state.testBuilderReducer?.selectedLayout);
-  const componentsInBoxes = useSelector((state) => state.testBuilderReducer?.componentsInBoxes) || [];
+  const selectedLayout = useSelector((state) => state.appBuilderReducer?.selectedLayout);
+  const componentsInBoxes = useSelector((state) => state.appBuilderReducer?.componentsInBoxes) || [];
 
   // Create the pageJson structure based on the Redux data
   const pageJson = {

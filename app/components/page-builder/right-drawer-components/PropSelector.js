@@ -20,7 +20,7 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 
 import StyleSelector from "./StyleSelector";
-import { updateComponentProps } from "../../../actions/test.action";
+import { updateComponentProps } from "../../../actions/app.action";
 
 // Utility function to safely parse JSON
 const safeJSONParse = (value) => {
@@ -84,8 +84,8 @@ export default function PropSelector() {
   const [availableProps, setAvailableProps] = useState([]);
   const [selectedType, setSelectedType] = useState({});
 
-  const propsComponentPath = useSelector((state) => state.testBuilderReducer?.propsComponentPath);
-  const componentsInBoxes = useSelector((state) => state.testBuilderReducer?.componentsInBoxes);
+  const propsComponentPath = useSelector((state) => state.appBuilderReducer?.propsComponentPath);
+  const componentsInBoxes = useSelector((state) => state.appBuilderReducer?.componentsInBoxes);
   const activeBox = propsComponentPath?.placeholderIndex;
 
   const selectedComponent = getSelectedComponent(componentsInBoxes, activeBox, propsComponentPath?.componentPath);

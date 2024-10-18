@@ -35,7 +35,7 @@ export default function HeaderComp() {
     }
   }, [location.search]);
 
-  const pageData = useSelector((state) => state.testBuilderReducer?.pageData);
+  const pageData = useSelector((state) => state.appBuilderReducer?.pageData);
 
   const pageName = pageData?.data?.data?.name;
 

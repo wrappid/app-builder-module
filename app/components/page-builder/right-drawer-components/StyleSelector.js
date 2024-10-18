@@ -4,7 +4,7 @@ import { CoreButton, CoreDialogContext } from "@wrappid/core";
 import { useDispatch, useSelector } from "react-redux";
 
 import DialogDesign from "./DialogDesign";
-import { updateComponentStyleClasses } from "../../../actions/test.action";
+import { updateComponentStyleClasses } from "../../../actions/app.action";
 
 export default function StyleSelector() {
   // Dialog state
@@ -15,8 +15,8 @@ export default function StyleSelector() {
 
   // Redux selectors to retrieve component paths and structure
   const { propsComponentPath, componentsInBoxes } = useSelector((state) => ({
-    componentsInBoxes : state.testBuilderReducer?.componentsInBoxes,
-    propsComponentPath: state.testBuilderReducer?.propsComponentPath || null,
+    componentsInBoxes : state.appBuilderReducer?.componentsInBoxes,
+    propsComponentPath: state.appBuilderReducer?.propsComponentPath || null,
   }));
   
   /**

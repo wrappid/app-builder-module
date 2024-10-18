@@ -9,7 +9,7 @@ import {
 } from "@wrappid/core";
 import { useSelector, useDispatch } from "react-redux";
 
-import { addComponent, setActiveBox, setSelectedComponentPath } from "../../../actions/test.action";
+import { addComponent, setActiveBox, setSelectedComponentPath } from "../../../actions/app.action";
 
 /**
  * ComponentSelector component
@@ -17,8 +17,8 @@ import { addComponent, setActiveBox, setSelectedComponentPath } from "../../../a
  */
 export default function ComponentSelector() {
   const dispatch = useDispatch();
-  const activeBox = useSelector((state) => state.testBuilderReducer?.activeBox);
-  const selectedComponentPath = useSelector((state) => state.testBuilderReducer?.selectedComponentPath);
+  const activeBox = useSelector((state) => state.appBuilderReducer?.activeBox);
+  const selectedComponentPath = useSelector((state) => state.appBuilderReducer?.selectedComponentPath);
 
   // Filtering layout components from the CoreComponentsRegistry
   const layoutComponentRegistry = Object.fromEntries(

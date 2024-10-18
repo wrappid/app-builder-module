@@ -17,7 +17,7 @@ import {
   UPDATE_COMPONENT_STYLE_CLASSES,
   TOGGLE_TOOLBOX_OPEN,
   REORDER_TOOLBOX
-} from "../types/test.types";
+} from "../types/appBuilder.types";
 
 /**
  * Dispatches a successful test action.

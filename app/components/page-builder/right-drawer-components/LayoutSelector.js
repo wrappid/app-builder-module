@@ -3,7 +3,7 @@ import React from "react";
 import { ComponentRegistryContext, CoreMenu } from "@wrappid/core";
 import { useDispatch } from "react-redux";
 
-import { selectLayout } from "../../../actions/test.action";
+import { selectLayout } from "../../../actions/app.action";
 
 export default function LayoutSelector() {
   const componentRegistry = React.useContext(ComponentRegistryContext);

@@ -1,12 +1,12 @@
 import { CoreBox, CoreClasses, CoreIcon, CoreIconButton, CoreTooltip } from "@wrappid/core";
 import { useDispatch, useSelector } from "react-redux";
 
-import { toggleToolboxOpen } from "../../../actions/test.action"; 
+import { toggleToolboxOpen } from "../../../actions/app.action"; 
 
 export default function IconSelector() {
   const dispatch = useDispatch();
   const toolboxesState = useSelector((state) => 
-    state.testBuilderReducer?.toolboxes || {
+    state.appBuilderReducer?.toolboxes || {
       1: { isOpenToolBox: true },
       2: { isOpenToolBox: true },
       3: { isOpenToolBox: true },
