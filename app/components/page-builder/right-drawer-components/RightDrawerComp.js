@@ -1,6 +1,9 @@
+/* eslint-disable no-console */
+import { useState } from "react";
+
 import {
   CoreBox, CoreButton, CoreClasses, CoreGrid, CoreIcon, CoreIconButton, CoreSelect,
-  CoreStack, CoreToolBox, CoreTooltip, CoreTypographyBody1
+  CoreStack, CoreToolBox, CoreTooltip
 } from "@wrappid/core";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -9,6 +12,69 @@ import EventsSelector from "./EventsSelector";
 import LayoutSelector from "./LayoutSelector";
 import PropsSelector from "./PropsSelector";
 import { reorderToolbox, toggleToolboxOpen } from "../../../actions/app.action";
+import DraggableComponentNavigator from "../header-components/NavigatorCopy";
+
+const initialData = {
+  "layout"      : "ComplexLayout",
+  "placeholders": [
+    {
+      "children": [
+        {
+          "children": [
+            {
+              "children": [
+                {
+                  "children"    : [],
+                  "component"   : "CoreAlert",
+                  "props"       : { "onClick": "()=>{console.log(\"hello\");}" },
+                  "styleClasses": ["DEV_BORDER"]
+                }
+              ],
+              "component": "CoreButton",
+              "props"    : {
+                "label"  : "hola",
+                "onClick": "()=>{console.log(\"hello\");}"
+              },
+              "styleClasses": ["ALIGNMENT.ALIGN_CONTENT_START"]
+            }
+          ],
+          "component"   : "CoreBox",
+          "props"       : {},
+          "styleClasses": []
+        }
+      ],
+      "id": "CONTENT1"
+    },
+    {
+      "children": [],
+      "id"      : "CONTENT2"
+    },
+    {
+      "children": [],
+      "id"      : "CONTENT3"
+    },
+    {
+      "children": [],
+      "id"      : "CONTENT4"
+    },
+    {
+      "children": [],
+      "id"      : "CONTENT5"
+    },
+    {
+      "children": [],
+      "id"      : "CONTENT6"
+    },
+    {
+      "children": [],
+      "id"      : "CONTENT7"
+    },
+    {
+      "children": [],
+      "id"      : "CONTENT8"
+    }
+  ]
+};
 
 export default function RightDrawerComp() {
   const dispatch = useDispatch();
@@ -22,6 +88,19 @@ export default function RightDrawerComp() {
       6: { isOpenToolBox: true, order: 5 }
     }
   );
+  // eslint-disable-next-line no-unused-vars
+  const [currentData, setCurrentData] = useState(null);
+  const [resetTrigger, setResetTrigger] = useState(0);
+  
+  const handleDataChange = (newData) => {
+    setCurrentData(newData);
+    // Do something with the updated data
+    console.log(currentData, "Hola new data");
+  };
+
+  const handleReset = () => {
+    setResetTrigger(prev => prev + 1);
+  };
 
   const toolboxes = [
     {
@@ -43,7 +122,20 @@ export default function RightDrawerComp() {
       toolTitle: "Select Props for Component",
     },
     {
-      content  : <CoreTypographyBody1>Theme List</CoreTypographyBody1>,
+      content: <>
+        <CoreButton 
+          onClick={handleReset}
+          variant="contained"
+          styleClasses={[CoreClasses.MARGIN.MB2]}>
+        Reset
+        </CoreButton>
+
+        <DraggableComponentNavigator
+          initialData={initialData}
+          onDataChange={handleDataChange}
+          resetKey={resetTrigger}
+        />
+      </>,
       id       : 4,
       resize   : "both",
       toolTitle: "Select Theme",
