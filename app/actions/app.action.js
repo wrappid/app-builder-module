@@ -16,7 +16,8 @@ import {
   UPDATE_COMPONENT_PROPS,
   UPDATE_COMPONENT_STYLE_CLASSES,
   TOGGLE_TOOLBOX_OPEN,
-  REORDER_TOOLBOX
+  REORDER_TOOLBOX,
+  UPDATE_PAGE_JSON
 } from "../types/appBuilder.types";
 
 /**
@@ -177,4 +178,9 @@ export const updateComponentProps = (componentPath, props) => ({
 export const updateComponentStyleClasses = (componentPath, styleClasses) => ({
   payload: { componentPath, styleClasses },
   type   : UPDATE_COMPONENT_STYLE_CLASSES
+});
+
+export const updatePageJson = (pageJson) => ({
+  payload: pageJson,
+  type   : UPDATE_PAGE_JSON
 });

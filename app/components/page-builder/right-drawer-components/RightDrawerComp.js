@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   CoreBox, CoreButton, CoreClasses, CoreGrid, CoreIcon, CoreIconButton, CoreSelect,
@@ -11,73 +11,75 @@ import ComponentSelector from "./ComponentSelector";
 import EventsSelector from "./EventsSelector";
 import LayoutSelector from "./LayoutSelector";
 import PropsSelector from "./PropsSelector";
-import { reorderToolbox, toggleToolboxOpen } from "../../../actions/app.action";
+import { reorderToolbox, toggleToolboxOpen, updatePageJson } from "../../../actions/app.action";
 import DraggableComponentNavigator from "../header-components/NavigatorCopy";
 
-const initialData = {
-  "layout"      : "ComplexLayout",
-  "placeholders": [
-    {
-      "children": [
-        {
-          "children": [
-            {
-              "children": [
-                {
-                  "children"    : [],
-                  "component"   : "CoreAlert",
-                  "props"       : { "onClick": "()=>{console.log(\"hello\");}" },
-                  "styleClasses": ["DEV_BORDER"]
-                }
-              ],
-              "component": "CoreButton",
-              "props"    : {
-                "label"  : "hola",
-                "onClick": "()=>{console.log(\"hello\");}"
-              },
-              "styleClasses": ["ALIGNMENT.ALIGN_CONTENT_START"]
-            }
-          ],
-          "component"   : "CoreBox",
-          "props"       : {},
-          "styleClasses": []
-        }
-      ],
-      "id": "CONTENT1"
-    },
-    {
-      "children": [],
-      "id"      : "CONTENT2"
-    },
-    {
-      "children": [],
-      "id"      : "CONTENT3"
-    },
-    {
-      "children": [],
-      "id"      : "CONTENT4"
-    },
-    {
-      "children": [],
-      "id"      : "CONTENT5"
-    },
-    {
-      "children": [],
-      "id"      : "CONTENT6"
-    },
-    {
-      "children": [],
-      "id"      : "CONTENT7"
-    },
-    {
-      "children": [],
-      "id"      : "CONTENT8"
-    }
-  ]
-};
+// eslint-disable-next-line etc/no-commented-out-code
+// const initialData = {
+//   "layout"      : "ComplexLayout",
+//   "placeholders": [
+//     {
+//       "children": [
+//         {
+//           "children": [
+//             {
+//               "children": [
+//                 {
+//                   "children"    : [],
+//                   "component"   : "CoreAlert",
+//                   "props"       : { "onClick": "()=>{console.log(\"hello\");}" },
+//                   "styleClasses": ["DEV_BORDER"]
+//                 }
+//               ],
+//               "component": "CoreButton",
+//               "props"    : {
+//                 "label"  : "hola",
+//                 "onClick": "()=>{console.log(\"hello\");}"
+//               },
+//               "styleClasses": ["ALIGNMENT.ALIGN_CONTENT_START"]
+//             }
+//           ],
+//           "component"   : "CoreBox",
+//           "props"       : {},
+//           "styleClasses": []
+//         }
+//       ],
+//       "id": "CONTENT1"
+//     },
+//     {
+//       "children": [],
+//       "id"      : "CONTENT2"
+//     },
+//     {
+//       "children": [],
+//       "id"      : "CONTENT3"
+//     },
+//     {
+//       "children": [],
+//       "id"      : "CONTENT4"
+//     },
+//     {
+//       "children": [],
+//       "id"      : "CONTENT5"
+//     },
+//     {
+//       "children": [],
+//       "id"      : "CONTENT6"
+//     },
+//     {
+//       "children": [],
+//       "id"      : "CONTENT7"
+//     },
+//     {
+//       "children": [],
+//       "id"      : "CONTENT8"
+//     }
+//   ]
+// };
 
 export default function RightDrawerComp() {
   const dispatch = useDispatch();
+  const initialData = useSelector((state) => state.appBuilderReducer?.savedPageJson);
   const toolboxesState = useSelector((state) => 
     state.appBuilderReducer?.toolboxes || {
       1: { isOpenToolBox: true, order: 0 },
@@ -88,18 +90,34 @@ export default function RightDrawerComp() {
       6: { isOpenToolBox: true, order: 5 }
     }
   );
+
+  console.log("initialData:  ", initialData);
+  
   // eslint-disable-next-line no-unused-vars
-  const [currentData, setCurrentData] = useState(null);
+  const [currentData, setCurrentData] = useState(initialData);
   const [resetTrigger, setResetTrigger] = useState(0);
+
+  useEffect(() => {
+    if (initialData) {
+      setCurrentData(initialData);
+    }
+  }, [initialData]);
   
   const handleDataChange = (newData) => {
     setCurrentData(newData);
     // Do something with the updated data
     console.log(currentData, "Hola new data");
+    // eslint-disable-next-line etc/no-commented-out-code
+    dispatch(updatePageJson(newData));
   };
 
   const handleReset = () => {
     setResetTrigger(prev => prev + 1);
+    // Reset to initial data
+    if (initialData) {
+      setCurrentData(initialData);
+      dispatch(updatePageJson(initialData));
+    }
   };
 
   const toolboxes = [
@@ -124,15 +142,15 @@ export default function RightDrawerComp() {
     {
       content: <>
         <CoreButton 
-          onClick={handleReset}
+          onClick={()=>handleReset}
           variant="contained"
           styleClasses={[CoreClasses.MARGIN.MB2]}>
         Reset
         </CoreButton>
 
         <DraggableComponentNavigator
-          initialData={initialData}
-          onDataChange={handleDataChange}
+          initialData={currentData}
+          onDataChange={()=>handleDataChange}
           resetKey={resetTrigger}
         />
       </>,

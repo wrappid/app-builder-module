@@ -1,3 +1,5 @@
+import { getUUID } from "@wrappid/core/utils/appUtils";
+
 import { layoutData } from "../components/page-builder/content-components/DefaultCanvasViewer";
 import {
   SELECT_LAYOUT,
@@ -11,9 +13,18 @@ import {
   TOGGLE_LAYOUT_SELECTOR,
   TOGGLE_COMPONENT_SELECTOR,
   TOGGLE_TOOLBOX_OPEN,
-  REORDER_TOOLBOX
+  REORDER_TOOLBOX,
+  UPDATE_PAGE_JSON
 } from "../types/appBuilder.types";
 import { GET_PAGE_DATA } from "../types/appBuilderTypes";
+
+/**
+ * Generates a unique ID for components
+ * @returns {string} A unique identifier
+ */
+const generateComponentId = () => {
+  return "comp_" + getUUID();
+};
 
 /**
  * Initial state for the test builder reducer
@@ -25,6 +36,7 @@ const initialState = {
   isLayoutSelectorOpen : true, 
   isPropSelectorOpen   : false, // Boolean to track whether PropSelector is open
   propsComponentPath   : null, // Path to the component whose props are being edited
+  savedPageJson        : null,
   selectedComponentPath: null, 
   selectedLayout       : "BlankLayout",
   toolboxes            : {
@@ -79,7 +91,7 @@ const addComponentRecursively = (currentLevel, path, component) => {
   path.forEach((currentIndex) => {
     // Ensure current level has children array; initialize child if it does not exist
     currentLevel.children = currentLevel.children || [];
-    currentLevel.children[currentIndex] = currentLevel.children[currentIndex] || { children: [] };
+    currentLevel.children[currentIndex] = currentLevel.children[currentIndex] || { children: [], componentId: generateComponentId() };
 
     // Move down the tree to the next level
     currentLevel = currentLevel.children[currentIndex];
@@ -87,6 +99,7 @@ const addComponentRecursively = (currentLevel, path, component) => {
 
   currentLevel.children.push({
     component,
+    componentId : generateComponentId(),
     props       : {},
     styleClasses: [],
     // eslint-disable-next-line sort-keys-fix/sort-keys-fix
@@ -106,12 +119,13 @@ const handleAddComponent = (state, payload) => {
   const newComponentsInBoxes = [...state.componentsInBoxes]; 
 
   // Ensure boxIndex exists; initialize it if necessary
-  newComponentsInBoxes[boxIndex] = newComponentsInBoxes[boxIndex] || { children: [] };
+  newComponentsInBoxes[boxIndex] = newComponentsInBoxes[boxIndex] || { children: [], componentId: generateComponentId() };
 
   // If no path is provided, add the component at the root level (box)
   if (path === null) {
     newComponentsInBoxes[boxIndex].children.push({
       component,
+      componentId : generateComponentId(),
       props       : {},
       styleClasses: [],
       // eslint-disable-next-line sort-keys-fix/sort-keys-fix
@@ -299,6 +313,12 @@ const appBuilderReducer = (state = initialState, action) => {
       return {
         ...state,
         pageData: action.payload,
+      };
+
+    case UPDATE_PAGE_JSON:
+      return {
+        ...state,
+        savedPageJson: action.payload
       };
 
     default:
